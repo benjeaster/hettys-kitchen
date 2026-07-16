@@ -608,7 +608,7 @@
     transition: opacity 2s ease-in-out;
   }
 
-  .bg-slide.active { opacity: 0.18; }
+  .bg-slide.active { opacity: 0.25; }
 
   /* Placeholder slides with gradient until real images added */
   .bg-slide:nth-child(1) { background: linear-gradient(135deg, #c9a87c 0%, #8b5e3c 100%); }
@@ -649,9 +649,10 @@
   .chef-slide {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center top;
+    background-size: contain;
+    background-position: center center;
     background-repeat: no-repeat;
+    background-color: var(--beige-light);
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
   }
@@ -895,7 +896,7 @@
     transition: opacity 2s ease-in-out;
   }
 
-  .bg-slide.active { opacity: 0.18; }
+  .bg-slide.active { opacity: 0.25; }
 
   /* Placeholder slides with gradient until real images added */
   .bg-slide:nth-child(1) { background: linear-gradient(135deg, #c9a87c 0%, #8b5e3c 100%); }
@@ -936,9 +937,10 @@
   .chef-slide {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center top;
+    background-size: contain;
+    background-position: center center;
     background-repeat: no-repeat;
+    background-color: var(--beige-light);
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
   }
