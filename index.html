@@ -649,20 +649,27 @@
   .chef-slide {
     position: absolute;
     inset: 0;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: var(--beige-light);
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
+    background: var(--beige-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .chef-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
   }
 
   .chef-slide.active { opacity: 1; }
 
   /* Placeholder gradient slides until photos added */
-  .chef-slide:nth-child(1) { background: linear-gradient(160deg, var(--beige) 0%, var(--kraft) 100%); }
-  .chef-slide:nth-child(2) { background: linear-gradient(160deg, var(--kraft) 0%, var(--beige-dark) 100%); }
-  .chef-slide:nth-child(3) { background: linear-gradient(160deg, var(--beige-dark) 0%, var(--beige) 100%); }
+  /* gradient fallbacks removed — using real photos */
 
   /* Placeholder text shown until photos added */
   .chef-slide-placeholder {
@@ -937,20 +944,27 @@
   .chef-slide {
     position: absolute;
     inset: 0;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: var(--beige-light);
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
+    background: var(--beige-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .chef-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
   }
 
   .chef-slide.active { opacity: 1; }
 
   /* Placeholder gradient slides until photos added */
-  .chef-slide:nth-child(1) { background: linear-gradient(160deg, var(--beige) 0%, var(--kraft) 100%); }
-  .chef-slide:nth-child(2) { background: linear-gradient(160deg, var(--kraft) 0%, var(--beige-dark) 100%); }
-  .chef-slide:nth-child(3) { background: linear-gradient(160deg, var(--beige-dark) 0%, var(--beige) 100%); }
+  /* gradient fallbacks removed — using real photos */
 
   /* Placeholder text shown until photos added */
   .chef-slide-placeholder {
@@ -1540,9 +1554,15 @@
 
     <!-- Portrait Slideshow -->
     <div class="chef-slideshow" id="chefSlideshow">
-      <div class="chef-slide active" style="background-image: url('images/chef/chef1.jpg');"></div>
-      <div class="chef-slide" style="background-image: url('images/chef/chef2.jpg');"></div>
-      <div class="chef-slide" style="background-image: url('images/chef/chef3.jpg');"></div>
+      <div class="chef-slide active">
+        <img src="images/chef/chef1.jpg" alt="Chef Hetty" class="chef-img">
+      </div>
+      <div class="chef-slide">
+        <img src="images/chef/chef2.jpg" alt="Chef Hetty" class="chef-img">
+      </div>
+      <div class="chef-slide">
+        <img src="images/chef/chef3.jpg" alt="Chef Hetty" class="chef-img">
+      </div>
       <div class="chef-dots" id="chefDots"></div>
     </div>
 
