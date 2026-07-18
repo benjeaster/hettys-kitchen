@@ -1,0 +1,367 @@
+<title>Menu of the Day — Hetty's African Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #e8d5c0;
+    --beige-light: #f5ede3;
+    --beige-dark: #d4b896;
+    --kraft: #c9a87c;
+    --brown-dark: #7a4a2a;
+    --brown-mid: #a0683a;
+    --brown-warm: #b07c52;
+    --cream: #fdf8f3;
+    --white: #ffffff;
+    --gold: #b8892a;
+    --shadow: rgba(122, 74, 42, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--brown-dark);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 48px 16px 32px;
+  }
+
+  .medallion {
+    width: 104px;
+    height: 104px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--kraft);
+    box-shadow: 0 0 0 7px var(--white), 0 8px 24px var(--shadow);
+  }
+
+  .medallion img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .wordmark {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3rem, 13vw, 4.2rem);
+    line-height: 1;
+    color: var(--brown-dark);
+    text-wrap: balance;
+  }
+
+  .subline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-top: 10px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-top: 26px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 6px 18px;
+    border: 1px solid var(--kraft);
+    border-radius: 999px;
+  }
+
+  .heading {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 5vw, 1.85rem);
+    letter-spacing: 0.02em;
+    color: var(--brown-dark);
+    margin: 16px 0 4px;
+    text-wrap: balance;
+  }
+
+  .date {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--brown-mid);
+  }
+
+  section.group {
+    margin-top: 40px;
+  }
+
+  .group-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .group-line {
+    flex: 1;
+    height: 1px;
+    background: var(--beige-dark);
+  }
+
+  .group-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    white-space: nowrap;
+  }
+
+  .group-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--brown-mid);
+    margin: -6px 0 14px;
+  }
+
+  .dish {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--beige-dark);
+  }
+
+  .dish:last-child { border-bottom: none; }
+
+  .dish-name {
+    font-size: 1.12rem;
+    font-weight: 500;
+    color: var(--brown-dark);
+    flex: 1;
+    text-wrap: balance;
+  }
+
+  .dish-note {
+    display: block;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--brown-mid);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  .dish-price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--gold);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .drinks-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 480px) {
+    .drinks-grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 28px;
+    }
+  }
+
+  .drinks-grid .dish { padding: 7px 0; }
+  .drinks-grid .dish-name { font-size: 1.02rem; }
+  .drinks-grid .dish-price { font-size: 0.96rem; }
+
+  .spotlight {
+    margin-top: 44px;
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 10px 30px var(--shadow);
+  }
+
+  .spotlight-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+  }
+
+  .spotlight-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: var(--brown-dark);
+    margin-top: 8px;
+    text-wrap: balance;
+  }
+
+  .spotlight-prices {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 20px;
+  }
+
+  .spotlight-option .label {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-bottom: 4px;
+  }
+
+  .spotlight-option .price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--beige-dark);
+  }
+
+  .signoff {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--brown-mid);
+  }
+
+  .stamp {
+    margin-top: 10px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--kraft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="medallion"><img src="images/hetty-logo.jpg" alt="Hetty's African Kitchen"></div>
+    <div class="wordmark">Hetty's</div>
+    <div class="subline">African Kitchen</div>
+    <div class="eyebrow">Today Only</div>
+    <h1 class="heading">Menu of the Day</h1>
+    <div class="date">Saturday, 18 July 2026</div>
+  </div>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Fried Rice, Protein &amp; Coleslaw</span><span class="dish-price">€22</span></div>
+    <div class="dish"><span class="dish-name">Jollof Rice, Protein &amp; Plantain</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Village Rice, Protein &amp; Plantain</span><span class="dish-price">€22</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
+    <p class="group-note">Served with one swallow of your choice — Poundo Yam, Eba, Semo, Amala or Fufu</p>
+    <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Vegetable Soup</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Sides</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Plantain (Fried)</span><span class="dish-price">€5</span></div>
+    <div class="dish"><span class="dish-name">Moi Moi</span><span class="dish-price">€5</span></div>
+    <div class="dish"><span class="dish-name">Coleslaw</span><span class="dish-price">€4</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Small Chops</h2><div class="group-line"></div></div>
+    <div class="dish">
+      <span class="dish-name">Samosa, Puff Puff &amp; Spring Roll<span class="dish-note">With Sweet Chilli Sauce</span></span>
+      <span class="dish-price">€4</span>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Pepper Kpomo</span><span class="dish-price">€15</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Drinks</h2><div class="group-line"></div></div>
+    <div class="drinks-grid">
+      <div class="dish"><span class="dish-name">Malt</span><span class="dish-price">€3.00</span></div>
+      <div class="dish"><span class="dish-name">Coke</span><span class="dish-price">€2.50</span></div>
+      <div class="dish"><span class="dish-name">Fanta</span><span class="dish-price">€2.50</span></div>
+      <div class="dish"><span class="dish-name">Sprite</span><span class="dish-price">€2.50</span></div>
+      <div class="dish"><span class="dish-name">Schweppes</span><span class="dish-price">€2.50</span></div>
+      <div class="dish"><span class="dish-name">Water (50cl)</span><span class="dish-price">€1.50</span></div>
+      <div class="dish"><span class="dish-name">Water (1.5L)</span><span class="dish-price">€2.50</span></div>
+      <div class="dish"><span class="dish-name">Palmwine</span><span class="dish-price">€5.00</span></div>
+      <div class="dish"><span class="dish-name">Zobo</span><span class="dish-price">€4.00</span></div>
+      <div class="dish"><span class="dish-name">Kunu</span><span class="dish-price">€4.00</span></div>
+      <div class="dish"><span class="dish-name">Orijin</span><span class="dish-price">€10.00</span></div>
+      <div class="dish"><span class="dish-name">Fresh Juice (Seasonal)</span><span class="dish-price">€4.50</span></div>
+      <div class="dish"><span class="dish-name">Coca-Cola / Pepsi / Fanta / 7UP / Sumol</span><span class="dish-price">€2.20</span></div>
+      <div class="dish"><span class="dish-name">Red Bull</span><span class="dish-price">€3.50</span></div>
+      <div class="dish"><span class="dish-name">Somersby</span><span class="dish-price">€3.50</span></div>
+      <div class="dish"><span class="dish-name">Monte Velho</span><span class="dish-price">€15.00</span></div>
+      <div class="dish"><span class="dish-name">Papa Figos</span><span class="dish-price">€18.00</span></div>
+      <div class="dish"><span class="dish-name">Mateus Rosé</span><span class="dish-price">€12.00</span></div>
+      <div class="dish"><span class="dish-name">Fita Azul</span><span class="dish-price">€12.00</span></div>
+      <div class="dish"><span class="dish-name">Martini</span><span class="dish-price">€20.00</span></div>
+      <div class="dish"><span class="dish-name">Campari</span><span class="dish-price">€25.00</span></div>
+    </div>
+  </section>
+
+  <div class="spotlight">
+    <div class="spotlight-eyebrow">Signature Cocktail of the Day</div>
+    <div class="spotlight-name">Hibiscus Cocktail (Zobo Drink)</div>
+    <div class="spotlight-prices">
+      <div class="spotlight-option"><span class="label">Without Alcohol</span><span class="price">€4.00</span></div>
+      <div class="spotlight-option"><span class="label">With Alcohol</span><span class="price">€8.00</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="signoff">Come, eat, enjoy and feel at home.</div>
+    <div class="stamp">Hetty's African Kitchen · Today's Menu</div>
+  </footer>
+
+</div>
