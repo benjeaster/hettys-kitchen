@@ -191,61 +191,6 @@
   .drinks-grid .dish-name { font-size: 1.02rem; }
   .drinks-grid .dish-price { font-size: 0.96rem; }
 
-  .spotlight {
-    margin-top: 44px;
-    background: var(--white);
-    border: 1px solid var(--beige-dark);
-    border-radius: 4px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 10px 30px var(--shadow);
-  }
-
-  .spotlight-eyebrow {
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 0.68rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--brown-mid);
-  }
-
-  .spotlight-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: 1.7rem;
-    color: var(--brown-dark);
-    margin-top: 8px;
-    text-wrap: balance;
-  }
-
-  .spotlight-prices {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    margin-top: 20px;
-  }
-
-  .spotlight-option .label {
-    display: block;
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brown-mid);
-    margin-bottom: 4px;
-  }
-
-  .spotlight-option .price {
-    font-family: 'Jost', sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--gold);
-    font-variant-numeric: tabular-nums;
-  }
-
   footer {
     text-align: center;
     margin-top: 56px;
@@ -279,7 +224,7 @@
 <div class="wrap">
 
   <div class="hero">
-    <div class="medallion"><img src="images/hetty-logo.jpeg" alt="Hetty's African Kitchen"></div>
+    <div class="medallion"><img src="images/hetty-logo.jpg" alt="Hetty's African Kitchen"></div>
     <div class="wordmark">Hetty's</div>
     <div class="subline">African Kitchen</div>
     <div class="eyebrow">Today Only</div>
@@ -288,39 +233,22 @@
   </div>
 
   <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Fried Rice, Protein &amp; Coleslaw</span><span class="dish-price">€22</span></div>
-    <div class="dish"><span class="dish-name">Jollof Rice, Protein &amp; Plantain</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Village Rice, Protein &amp; Plantain</span><span class="dish-price">€22</span></div>
-  </section>
-
-  <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
-    <p class="group-note">Served with one swallow of your choice — Poundo Yam, Eba, Semo, Amala or Fufu</p>
+    <div class="dish"><span class="dish-name">Nsala Soup</span><span class="dish-price">€22</span></div>
+    <div class="dish"><span class="dish-name">Banga Soup</span><span class="dish-price">€22</span></div>
     <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Vegetable Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Sides</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Plantain (Fried)</span><span class="dish-price">€5</span></div>
-    <div class="dish"><span class="dish-name">Moi Moi</span><span class="dish-price">€5</span></div>
-    <div class="dish"><span class="dish-name">Coleslaw</span><span class="dish-price">€4</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Small Chops</h2><div class="group-line"></div></div>
-    <div class="dish">
-      <span class="dish-name">Samosa, Puff Puff &amp; Spring Roll<span class="dish-note">With Sweet Chilli Sauce</span></span>
-      <span class="dish-price">€4</span>
-    </div>
   </section>
 
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Pepper Kpomo</span><span class="dish-price">€15</span></div>
+    <div class="dish"><span class="dish-name">Nkwobi</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Abacha</span><span class="dish-price">€20</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Native Rice</span><span class="dish-price">€20</span></div>
   </section>
 
   <section class="group">
@@ -347,17 +275,9 @@
       <div class="dish"><span class="dish-name">Fita Azul</span><span class="dish-price">€12.00</span></div>
       <div class="dish"><span class="dish-name">Martini</span><span class="dish-price">€20.00</span></div>
       <div class="dish"><span class="dish-name">Campari</span><span class="dish-price">€25.00</span></div>
+      <div class="dish"><span class="dish-name">Pure Heaven</span><span class="dish-price">€4.00</span></div>
     </div>
   </section>
-
-  <div class="spotlight">
-    <div class="spotlight-eyebrow">Signature Cocktail of the Day</div>
-    <div class="spotlight-name">Hibiscus Cocktail (Zobo Drink)</div>
-    <div class="spotlight-prices">
-      <div class="spotlight-option"><span class="label">Without Alcohol</span><span class="price">€4.00</span></div>
-      <div class="spotlight-option"><span class="label">With Alcohol</span><span class="price">€8.00</span></div>
-    </div>
-  </div>
 
   <footer>
     <div class="signoff">Come, eat, enjoy and feel at home.</div>
