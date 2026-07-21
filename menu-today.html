@@ -191,6 +191,34 @@
   .drinks-grid .dish-name { font-size: 1.02rem; }
   .drinks-grid .dish-price { font-size: 0.96rem; }
 
+  .protein-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 18px;
+    padding: 16px;
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+  }
+
+  .protein-item {
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    font-weight: 500;
+  }
+
+  .protein-item .picon {
+    font-size: 1.7rem;
+    display: block;
+    margin-bottom: 4px;
+  }
+
   footer {
     text-align: center;
     margin-top: 56px;
@@ -224,7 +252,7 @@
 <div class="wrap">
 
   <div class="hero">
-    <div class="medallion"><img src="images/hetty-logo.jpeg" alt="Hetty's African Kitchen"></div>
+    <div class="medallion"><img src="images/hetty-logo.jpg" alt="Hetty's African Kitchen"></div>
     <div class="wordmark">Hetty's</div>
     <div class="subline">African Kitchen</div>
     <div class="eyebrow">Today Only</div>
@@ -233,22 +261,29 @@
   </div>
 
   <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
+    <p class="group-note">Served with a side of Plantain or Coleslaw, and your choice of protein</p>
+    <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Coconut Rice</span><span class="dish-price">€22</span></div>
+    <div class="protein-row">
+      <div class="protein-item"><span class="picon">🐟</span>Fish</div>
+      <div class="protein-item"><span class="picon">🐐</span>Goat Meat</div>
+      <div class="protein-item"><span class="picon">🍗</span>Chicken</div>
+      <div class="protein-item"><span class="picon">🐄</span>Beef</div>
+      <div class="protein-item"><span class="picon">🦃</span>Turkey</div>
+    </div>
+  </section>
+
+  <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Nsala Soup</span><span class="dish-price">€22</span></div>
+    <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
     <div class="dish"><span class="dish-name">Banga Soup</span><span class="dish-price">€22</span></div>
-    <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Eforiro</span><span class="dish-price">€22</span></div>
   </section>
 
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Nkwobi</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Abacha</span><span class="dish-price">€20</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Native Rice</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup</span><span class="dish-price">€20</span></div>
   </section>
 
   <section class="group">
@@ -275,7 +310,7 @@
       <div class="dish"><span class="dish-name">Fita Azul</span><span class="dish-price">€12.00</span></div>
       <div class="dish"><span class="dish-name">Martini</span><span class="dish-price">€20.00</span></div>
       <div class="dish"><span class="dish-name">Campari</span><span class="dish-price">€25.00</span></div>
-      <div class="dish"><span class="dish-name">Pure Heaven</span><span class="dish-price">€4.00</span></div>
+      <div class="dish"><span class="dish-name">Pure Heaven</span><span class="dish-price">€7.00</span></div>
     </div>
   </section>
 
