@@ -17,6 +17,10 @@
 
   * { box-sizing: border-box; }
 
+  html {
+    font-size: 25px;
+  }
+
   body {
     margin: 0;
     background: var(--cream);
@@ -27,9 +31,9 @@
   }
 
   .wrap {
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 0 20px 64px;
+    padding: 0 24px 72px;
   }
 
   .hero {
@@ -65,7 +69,7 @@
   .subline {
     font-family: 'Jost', sans-serif;
     font-weight: 600;
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--brown-mid);
@@ -77,11 +81,11 @@
     margin-top: 26px;
     font-family: 'Jost', sans-serif;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
-    padding: 6px 18px;
+    padding: 7px 20px;
     border: 1px solid var(--kraft);
     border-radius: 999px;
   }
@@ -89,7 +93,7 @@
   .heading {
     font-family: 'Jost', sans-serif;
     font-weight: 700;
-    font-size: clamp(1.5rem, 5vw, 1.85rem);
+    font-size: clamp(1.7rem, 5vw, 2.1rem);
     letter-spacing: 0.02em;
     color: var(--brown-dark);
     margin: 16px 0 4px;
@@ -99,7 +103,7 @@
   .date {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     color: var(--brown-mid);
   }
 
@@ -123,8 +127,8 @@
   .group-title {
     font-family: 'Jost', sans-serif;
     font-weight: 600;
-    font-size: 0.92rem;
-    letter-spacing: 0.16em;
+    font-size: 1.3rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--brown-dark);
     white-space: nowrap;
@@ -133,23 +137,23 @@
   .group-note {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1rem;
+    font-size: 1.3rem;
     color: var(--brown-mid);
-    margin: -6px 0 14px;
+    margin: -4px 0 16px;
   }
 
   .dish {
     display: flex;
     align-items: baseline;
-    gap: 10px;
-    padding: 9px 0;
+    gap: 12px;
+    padding: 12px 0;
     border-bottom: 1px solid var(--beige-dark);
   }
 
   .dish:last-child { border-bottom: none; }
 
   .dish-name {
-    font-size: 1.12rem;
+    font-size: 1.45rem;
     font-weight: 500;
     color: var(--brown-dark);
     flex: 1;
@@ -159,16 +163,16 @@
   .dish-note {
     display: block;
     font-style: italic;
-    font-size: 0.88rem;
+    font-size: 1.1rem;
     color: var(--brown-mid);
     font-weight: 400;
-    margin-top: 1px;
+    margin-top: 2px;
   }
 
   .dish-price {
     font-family: 'Jost', sans-serif;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1.4rem;
     color: var(--gold);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
@@ -180,16 +184,16 @@
     gap: 0;
   }
 
-  @media (min-width: 480px) {
+  @media (min-width: 820px) {
     .drinks-grid {
       grid-template-columns: 1fr 1fr;
-      column-gap: 28px;
+      column-gap: 32px;
     }
   }
 
-  .drinks-grid .dish { padding: 7px 0; }
-  .drinks-grid .dish-name { font-size: 1.02rem; }
-  .drinks-grid .dish-price { font-size: 0.96rem; }
+  .drinks-grid .dish { padding: 10px 0; }
+  .drinks-grid .dish-name { font-size: 1.25rem; }
+  .drinks-grid .dish-price { font-size: 1.2rem; }
 
   .protein-row {
     display: flex;
@@ -206,17 +210,17 @@
   .protein-item {
     text-align: center;
     font-family: 'Jost', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--brown-dark);
     font-weight: 500;
   }
 
   .protein-item .picon {
-    font-size: 1.7rem;
+    font-size: 2.5rem;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   footer {
