@@ -11,7 +11,7 @@
     --beige-light: #f5ede3;
     --beige-dark: #d4b896;
     --kraft: #c9a87c;
-    --brown-dark: #7a4a2a;
+    --brown-dark: #8c5a33;
     --brown-mid: #a0683a;
     --brown-warm: #b07c52;
     --cream: #fdf8f3;
@@ -20,6 +20,15 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 18px;
+  }
+
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 
   body {
     background: var(--cream);
@@ -36,7 +45,7 @@
     display: flex;
     justify-content: center;
     gap: 0;
-    box-shadow: 0 2px 16px rgba(122,74,42,0.3);
+    box-shadow: 0 2px 16px rgba(140,90,51,0.3);
   }
 
   .nav-tab {
@@ -178,7 +187,7 @@
 
   .cat-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -193,7 +202,7 @@
     text-align: center;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 0.88rem;
+    font-size: 1.05rem;
     color: var(--brown-warm);
     margin-bottom: 14px;
   }
@@ -239,15 +248,15 @@
 
   .row-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 500;
     color: var(--brown-dark);
-    white-space: nowrap;
+    min-width: 0;
   }
 
   .row-sub {
     font-family: 'Jost', sans-serif;
-    font-size: 0.68rem;
+    font-size: 0.82rem;
     font-weight: 300;
     color: var(--brown-warm);
     display: block;
@@ -256,7 +265,7 @@
 
   .row-price {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: var(--brown-mid);
     white-space: nowrap;
@@ -278,7 +287,7 @@
   .protein-icon-item {
     text-align: center;
     font-family: 'Jost', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--brown-dark);
@@ -357,7 +366,7 @@
     transition: box-shadow 0.2s;
   }
 
-  .pricing-card:hover { box-shadow: 0 6px 24px rgba(122,74,42,0.1); }
+  .pricing-card:hover { box-shadow: 0 6px 24px rgba(140,90,51,0.1); }
 
   .pricing-card-header {
     background: var(--brown-dark);
@@ -591,6 +600,32 @@
 
   .toast.show { display: block; }
 
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+
+  .form-error {
+    display: none;
+    color: #a33a2a;
+    background: rgba(163,58,42,0.08);
+    border: 1px solid rgba(163,58,42,0.3);
+    padding: 10px 12px;
+    border-radius: 2px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    margin-top: 12px;
+  }
+
+  .form-error.show { display: block; }
+
+  .form-group input:invalid.touched,
+  .form-group select:invalid.touched,
+  .form-group textarea:invalid.touched {
+    border-color: #a33a2a;
+  }
+
   /* ══ WATERMARK BACKGROUND SLIDESHOW ══ */
   .bg-slideshow {
     position: fixed;
@@ -643,7 +678,7 @@
     aspect-ratio: 3 / 4;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(122,74,42,0.18);
+    box-shadow: 0 12px 40px rgba(140,90,51,0.18);
     border: 3px solid var(--kraft);
   }
 
@@ -938,7 +973,7 @@
     aspect-ratio: 3 / 4;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(122,74,42,0.18);
+    box-shadow: 0 12px 40px rgba(140,90,51,0.18);
     border: 3px solid var(--kraft);
   }
 
@@ -1162,6 +1197,7 @@
           <div class="protein-icon-item"><span class="picon">🐄</span>Beef</div>
           <div class="protein-icon-item"><span class="picon">🍗</span>Chicken</div>
           <div class="protein-icon-item"><span class="picon">🐟</span>Fish</div>
+          <div class="protein-icon-item"><span class="picon">🐐</span>Goat Meat</div>
           <div class="protein-icon-item"><span class="picon">🦃</span>Turkey</div>
         </div>
       </div>
@@ -1398,20 +1434,22 @@
         </div>
         <p style="font-size:0.82rem;font-style:italic;color:var(--brown-warm);">Prices may vary based on selected items, quantity, and delivery requirements. Custom menus available on request.</p>
       </div>
-      <div class="form-wrap">
+      <form class="form-wrap" id="bulk-form" name="bulk-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return handleFormSubmit(event, 'bulk')" novalidate>
+        <input type="hidden" name="form-name" value="bulk-order">
+        <p class="hp-field"><label>Leave this field blank: <input name="bot-field"></label></p>
         <h3>Bulk Order Enquiry</h3>
         <div class="form-row">
-          <div class="form-group"><label>Your Name</label><input type="text" placeholder="Full name"></div>
-          <div class="form-group"><label>Phone / WhatsApp</label><input type="text" placeholder="+351 ..."></div>
+          <div class="form-group"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required></div>
+          <div class="form-group"><label>Phone / WhatsApp</label><input type="text" name="phone" placeholder="+351 ..." required></div>
         </div>
-        <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="your@email.com" required></div>
         <div class="form-row">
-          <div class="form-group"><label>Number of Portions</label><input type="number" placeholder="e.g. 50" min="1"></div>
-          <div class="form-group"><label>Required Date</label><input type="date"></div>
+          <div class="form-group"><label>Number of Portions</label><input type="number" name="portions" placeholder="e.g. 50" min="1" required></div>
+          <div class="form-group"><label>Required Date</label><input type="date" name="required_date" required></div>
         </div>
         <div class="form-group">
           <label>Package Interest</label>
-          <select>
+          <select name="package" required>
             <option value="">Select a package...</option>
             <option>Small Chops Platter</option>
             <option>Rice & Mains Bulk</option>
@@ -1419,10 +1457,11 @@
             <option>Custom / Mixed</option>
           </select>
         </div>
-        <div class="form-group"><label>Additional Notes</label><textarea placeholder="Dietary requirements, specific items, delivery address..."></textarea></div>
-        <button class="btn-submit" onclick="submitForm('bulk-toast')">Send Enquiry</button>
-        <div id="bulk-toast" class="toast">Thank you! We'll be in touch within 24 hours.</div>
-      </div>
+        <div class="form-group"><label>Additional Notes</label><textarea name="notes" placeholder="Dietary requirements, specific items, delivery address..." required></textarea></div>
+        <p class="form-error" id="bulk-error"></p>
+        <button class="btn-submit" type="submit">Send Enquiry</button>
+        <div id="bulk-toast" class="toast">Thank you! We'll be in touch within 24 hours. If WhatsApp didn't open automatically, please tap Send in the chat window that opened.</div>
+      </form>
     </div>
 
   </div>
@@ -1514,20 +1553,22 @@
         </div>
         <p style="font-size:0.82rem;font-style:italic;color:var(--brown-warm);">All event packages are fully customisable. A non-refundable deposit is required upon booking confirmation.</p>
       </div>
-      <div class="form-wrap">
+      <form class="form-wrap" id="events-form" name="event-booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return handleFormSubmit(event, 'events')" novalidate>
+        <input type="hidden" name="form-name" value="event-booking">
+        <p class="hp-field"><label>Leave this field blank: <input name="bot-field"></label></p>
         <h3>Event Booking Enquiry</h3>
         <div class="form-row">
-          <div class="form-group"><label>Your Name</label><input type="text" placeholder="Full name"></div>
-          <div class="form-group"><label>Phone / WhatsApp</label><input type="text" placeholder="+351 ..."></div>
+          <div class="form-group"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required></div>
+          <div class="form-group"><label>Phone / WhatsApp</label><input type="text" name="phone" placeholder="+351 ..." required></div>
         </div>
-        <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="your@email.com" required></div>
         <div class="form-row">
-          <div class="form-group"><label>Event Date</label><input type="date"></div>
-          <div class="form-group"><label>Number of Guests</label><input type="number" placeholder="e.g. 60" min="1"></div>
+          <div class="form-group"><label>Event Date</label><input type="date" name="event_date" required></div>
+          <div class="form-group"><label>Number of Guests</label><input type="number" name="guests" placeholder="e.g. 60" min="1" required></div>
         </div>
         <div class="form-group">
           <label>Event Type</label>
-          <select>
+          <select name="event_type" required>
             <option value="">Select event type...</option>
             <option>Birthday Party</option>
             <option>Wedding / Engagement</option>
@@ -1540,7 +1581,7 @@
         </div>
         <div class="form-group">
           <label>Preferred Package</label>
-          <select>
+          <select name="package" required>
             <option value="">Select a package...</option>
             <option>Intimate Gathering (up to 30)</option>
             <option>Celebration Package (30–80)</option>
@@ -1548,10 +1589,11 @@
             <option>Not sure — advise me</option>
           </select>
         </div>
-        <div class="form-group"><label>Tell Us More</label><textarea placeholder="Venue, theme, dietary needs, special requests..."></textarea></div>
-        <button class="btn-submit" onclick="submitForm('events-toast')">Send Booking Enquiry</button>
-        <div id="events-toast" class="toast">Thank you! We'll be in touch to plan your perfect event.</div>
-      </div>
+        <div class="form-group"><label>Tell Us More</label><textarea name="notes" placeholder="Venue, theme, dietary needs, special requests..." required></textarea></div>
+        <p class="form-error" id="events-error"></p>
+        <button class="btn-submit" type="submit">Send Booking Enquiry</button>
+        <div id="events-toast" class="toast">Thank you! We'll be in touch to plan your perfect event. If WhatsApp didn't open automatically, please tap Send in the chat window that opened.</div>
+      </form>
     </div>
 
   </div>
@@ -1631,10 +1673,83 @@
     event.target.classList.add('active');
   }
 
-  function submitForm(toastId) {
-    const toast = document.getElementById(toastId);
+  const WHATSAPP_NUMBER = '351913701632'; // Hetty's business line, no + or spaces
+
+  const FORM_FIELD_LABELS = {
+    bulk: {
+      title: 'Bulk Order Enquiry',
+      name: 'Name', phone: 'Phone / WhatsApp', email: 'Email',
+      portions: 'Number of Portions', required_date: 'Required Date',
+      package: 'Package Interest', notes: 'Additional Notes'
+    },
+    events: {
+      title: 'Event Booking Enquiry',
+      name: 'Name', phone: 'Phone / WhatsApp', email: 'Email',
+      event_date: 'Event Date', guests: 'Number of Guests',
+      event_type: 'Event Type', package: 'Preferred Package', notes: 'Tell Us More'
+    }
+  };
+
+  function handleFormSubmit(evt, kind) {
+    evt.preventDefault();
+    const form = evt.target;
+
+    // Honeypot: silently drop likely-bot submissions without any visible error
+    const bot = form.querySelector('[name="bot-field"]');
+    if (bot && bot.value) return false;
+
+    // Mark all fields as touched so invalid ones highlight, then check completeness
+    form.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.name !== 'bot-field') el.classList.add('touched');
+    });
+
+    const errorEl = document.getElementById(kind + '-error');
+
+    if (!form.checkValidity()) {
+      errorEl.textContent = 'Please fill in all fields before submitting — some details are missing or incomplete.';
+      errorEl.classList.add('show');
+      const firstInvalid = form.querySelector(':invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return false;
+    }
+
+    errorEl.classList.remove('show');
+
+    // Build a readable summary of the submission
+    const labels = FORM_FIELD_LABELS[kind];
+    const data = new FormData(form);
+    let lines = [labels.title + ' — Hetty\'s African Kitchen', ''];
+    Object.keys(labels).forEach(key => {
+      if (key === 'title') return;
+      const value = data.get(key);
+      if (value) lines.push(labels[key] + ': ' + value);
+    });
+    const message = lines.join('\n');
+
+    // Open a pre-filled WhatsApp chat to Hetty's business line — the visitor
+    // just needs to tap Send once WhatsApp opens (no backend/API can send
+    // WhatsApp messages silently from a static site without a paid
+    // WhatsApp Business API integration).
+    const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(waUrl, '_blank');
+
+    // Also submit to Netlify Forms in the background, so Hetty gets an
+    // email notification/dashboard record even if the WhatsApp message
+    // never gets tapped through.
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).catch(() => { /* non-fatal — WhatsApp path still covers delivery */ });
+
+    const toast = document.getElementById(kind + '-toast');
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
+    setTimeout(() => toast.classList.remove('show'), 6000);
+
+    form.reset();
+    form.querySelectorAll('.touched').forEach(el => el.classList.remove('touched'));
+
+    return false;
   }
 
   // ── CHEF PORTRAIT SLIDESHOW ──
