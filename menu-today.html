@@ -30,6 +30,25 @@
     overflow-x: hidden;
   }
 
+  .bg-slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+
+  .bg-slide.active { opacity: 0.16; }
+
   .wrap {
     max-width: 720px;
     margin: 0 auto;
@@ -253,6 +272,14 @@
   }
 </style>
 
+<div class="bg-slideshow" id="bgSlideshow">
+  <div class="bg-slide active" style="background-image: url('images/restaurant/rest0.jpeg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest1.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest4.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest2.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest8.jpg');"></div>
+</div>
+
 <div class="wrap">
 
   <div class="hero">
@@ -261,14 +288,13 @@
     <div class="subline">African Kitchen</div>
     <div class="eyebrow">Today Only</div>
     <h1 class="heading">Menu of the Day</h1>
-    <div class="date">Wednesday, 22 July 2026</div>
+    <div class="date">Thursday, 23 July 2026</div>
   </div>
 
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
     <p class="group-note">Served with a side of Plantain or Coleslaw, and your choice of protein</p>
     <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Coconut Rice</span><span class="dish-price">€22</span></div>
     <div class="dish"><span class="dish-name">Fried Rice</span><span class="dish-price">€22</span></div>
     <div class="protein-row">
       <div class="protein-item"><span class="picon">🐟</span>Fish</div>
@@ -282,15 +308,14 @@
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
     <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Banga Soup</span><span class="dish-price">€22</span></div>
     <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Eforiro</span><span class="dish-price">€22</span></div>
   </section>
 
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Grilled Fish with Coleslaw and Plantain</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">White Rice</span><span class="dish-price">€3</span></div>
+    <div class="dish"><span class="dish-name">Gizdodo</span><span class="dish-price">€15</span></div>
+    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup<span class="dish-note">Available in the evening</span></span><span class="dish-price">€20</span></div>
   </section>
 
   <section class="group">
@@ -327,3 +352,17 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    const slides = document.querySelectorAll('#bgSlideshow .bg-slide');
+    let current = 0;
+    if (slides.length > 1) {
+      setInterval(function () {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 6000);
+    }
+  })();
+</script>
