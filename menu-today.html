@@ -214,6 +214,31 @@
   .drinks-grid .dish-name { font-size: 1.25rem; }
   .drinks-grid .dish-price { font-size: 1.2rem; }
 
+  .wings-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px 24px;
+    margin-top: 6px;
+  }
+
+  @media (min-width: 820px) {
+    .wings-block {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .wings-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-bottom: 2px;
+  }
+
+  .wings-block .dish { padding: 7px 0; }
+
   .protein-row {
     display: flex;
     flex-wrap: wrap;
@@ -288,7 +313,7 @@
     <div class="subline">African Kitchen</div>
     <div class="eyebrow">Today Only</div>
     <h1 class="heading">Menu of the Day</h1>
-    <div class="date">Friday, 24 July 2026</div>
+    <div class="date">Sunday, 26 July 2026</div>
   </div>
 
   <section class="group">
@@ -301,7 +326,7 @@
     <p class="group-note">Served with a side of Plantain or Coleslaw, and your choice of protein</p>
     <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
     <div class="dish"><span class="dish-name">Fried Rice</span><span class="dish-price">€22</span></div>
-    <div class="dish"><span class="dish-name">Native Rice</span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">White Rice and Beans with Sauce</span><span class="dish-price">€22</span></div>
     <div class="protein-row">
       <div class="protein-item"><span class="picon">🐟</span>Fish</div>
       <div class="protein-item"><span class="picon">🐐</span>Goat Meat</div>
@@ -315,7 +340,6 @@
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
     <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Banga Soup</span><span class="dish-price">€22</span></div>
     <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
     <div class="dish"><span class="dish-name">Eforiro</span><span class="dish-price">€22</span></div>
     <p class="group-note" style="margin-top:14px;">+€2 if with Goat Meat</p>
@@ -324,7 +348,20 @@
   <section class="group">
     <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
     <div class="dish"><span class="dish-name">Gizdodo</span><span class="dish-price">€15</span></div>
-    <div class="dish"><span class="dish-name">Goat Meat Pepper Soup<span class="dish-note">Available in the evening</span></span><span class="dish-price">€20</span></div>
+    <div class="wings-block">
+      <div class="wings-col">
+        <div class="wings-title">Peppered Chicken Wings</div>
+        <div class="dish"><span class="dish-name">4 Pieces</span><span class="dish-price">€6</span></div>
+        <div class="dish"><span class="dish-name">6 Pieces</span><span class="dish-price">€10</span></div>
+        <div class="dish"><span class="dish-name">10 Pieces</span><span class="dish-price">€15</span></div>
+      </div>
+      <div class="wings-col">
+        <div class="wings-title">Suya Chicken Wings</div>
+        <div class="dish"><span class="dish-name">4 Pieces</span><span class="dish-price">€6</span></div>
+        <div class="dish"><span class="dish-name">6 Pieces</span><span class="dish-price">€10</span></div>
+        <div class="dish"><span class="dish-name">10 Pieces</span><span class="dish-price">€15</span></div>
+      </div>
+    </div>
   </section>
 
   <section class="group">
