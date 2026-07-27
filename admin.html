@@ -30,73 +30,6 @@
     font-family: 'Jost', sans-serif;
   }
 
-  /* ══ LOGIN GATE ══ */
-  #gate {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-
-  .gate-card {
-    background: var(--white);
-    border: 1px solid var(--beige-dark);
-    border-radius: 6px;
-    padding: 48px 40px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 16px 40px rgba(87,58,30,0.1);
-  }
-
-  .gate-card .wordmark {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2.8rem;
-    color: var(--brown-dark);
-  }
-
-  .gate-card p {
-    font-size: 0.85rem;
-    color: var(--brown-mid);
-    margin: 6px 0 24px;
-  }
-
-  .gate-card input[type="password"] {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--beige-dark);
-    border-radius: 4px;
-    font-size: 1rem;
-    font-family: 'Jost', sans-serif;
-    margin-bottom: 14px;
-  }
-
-  .gate-card button {
-    width: 100%;
-    padding: 12px 14px;
-    border: none;
-    border-radius: 4px;
-    background: var(--brown-dark);
-    color: var(--white);
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
-
-  .gate-card button:disabled { opacity: 0.6; cursor: default; }
-
-  .gate-error {
-    color: var(--error);
-    font-size: 0.82rem;
-    margin-top: 12px;
-    display: none;
-  }
-
-  .gate-error.show { display: block; }
-
   /* ══ BUILDER ══ */
   #builder { display: none; max-width: 1000px; margin: 0 auto; padding: 32px 24px 140px; }
 
@@ -379,21 +312,33 @@
 
   .submit-status.ok { color: var(--success); }
   .submit-status.err { color: var(--error); }
+
+  .instructions {
+    max-width: 1000px;
+    margin: 24px auto 140px;
+    padding: 0 24px;
+  }
+
+  .instructions p {
+    font-size: 0.85rem;
+    color: var(--brown-mid);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .instructions code {
+    font-family: monospace;
+    font-style: normal;
+    background: var(--beige-light);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
 </style>
 </head>
 <body>
 
-  <div id="gate">
-    <div class="gate-card">
-      <div class="wordmark">Hetty's</div>
-      <p>Admin access — enter your password to build today's menu.</p>
-      <input type="password" id="gate-password" placeholder="Password" autocomplete="off">
-      <button id="gate-submit">Unlock</button>
-      <div class="gate-error" id="gate-error"></div>
-    </div>
-  </div>
-
-  <div id="builder">
+  <div id="builder" class="show">
     <div class="top-bar">
       <div>
         <div class="wordmark">Hetty's</div>
@@ -416,8 +361,12 @@
   </div>
 
   <div class="submit-bar" id="submit-bar">
-    <button id="submit-btn">Publish Today's Menu</button>
+    <button id="submit-btn">Download Today's Menu</button>
     <div class="submit-status" id="submit-status"></div>
+  </div>
+
+  <div class="instructions" id="instructions">
+    <p>Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.</p>
   </div>
 
   <script src="menu-data.js"></script>
@@ -431,54 +380,12 @@
 
     // selection[category] = { note: '', noteAfter: '', items: [{name, price, note}] }
     const selection = {};
-    let sessionPassword = null;
 
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, function (c) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     }
-
-    // ── Gate ──
-    const gateEl = document.getElementById('gate');
-    const builderEl = document.getElementById('builder');
-    const gateError = document.getElementById('gate-error');
-
-    async function tryUnlock(password) {
-      gateError.classList.remove('show');
-      const btn = document.getElementById('gate-submit');
-      btn.disabled = true;
-      btn.textContent = 'Checking...';
-      try {
-        const res = await fetch('/.netlify/functions/admin-login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          sessionPassword = password;
-          gateEl.style.display = 'none';
-          builderEl.classList.add('show');
-        } else {
-          gateError.textContent = data.error || 'Incorrect password.';
-          gateError.classList.add('show');
-        }
-      } catch (e) {
-        gateError.textContent = 'Could not reach the server. Try again.';
-        gateError.classList.add('show');
-      }
-      btn.disabled = false;
-      btn.textContent = 'Unlock';
-    }
-
-    document.getElementById('gate-submit').addEventListener('click', function () {
-      const pw = document.getElementById('gate-password').value;
-      if (pw) tryUnlock(pw);
-    });
-    document.getElementById('gate-password').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') document.getElementById('gate-submit').click();
-    });
 
     // ── Date ──
     const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -677,12 +584,133 @@
       });
     }
 
-    submitBtn.addEventListener('click', async function () {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Publishing...';
-      submitStatus.textContent = '';
-      submitStatus.className = 'submit-status';
+    // ── Build the menu-today.html file content, client-side ──
+    function renderDish(item, indent) {
+      const name = escapeHtml(item.name);
+      const note = item.note ? '<span class="dish-note">' + escapeHtml(item.note) + '</span>' : '';
+      const price = escapeHtml(item.price);
+      return indent + '<div class="dish"><span class="dish-name">' + name + note + '</span><span class="dish-price">' + price + '</span></div>\n';
+    }
 
+    function renderCategory(cat) {
+      const title = escapeHtml(cat.name);
+      let html = '  <section class="group">\n';
+      html += '    <div class="group-header"><div class="group-line"></div><h2 class="group-title">' + title + '</h2><div class="group-line"></div></div>\n';
+      if (cat.note) html += '    <p class="group-note">' + escapeHtml(cat.note) + '</p>\n';
+
+      if (cat.isProteinRow) {
+        html += '    <div class="protein-row">\n';
+        cat.items.forEach(function (item) {
+          html += '      <div class="protein-item"><span class="picon">' + (item.icon || '🍽️') + '</span>' + escapeHtml(item.name) + '</div>\n';
+        });
+        html += '    </div>\n';
+      } else if (cat.name === 'Drinks') {
+        html += '    <div class="drinks-grid">\n';
+        cat.items.forEach(function (item) { html += renderDish(item, '      '); });
+        html += '    </div>\n';
+      } else {
+        cat.items.forEach(function (item) { html += renderDish(item, '    '); });
+      }
+
+      if (cat.noteAfter) html += '    <p class="group-note" style="margin-top:14px;">' + escapeHtml(cat.noteAfter) + '</p>\n';
+      html += '  </section>\n';
+      return html;
+    }
+
+    function buildMenuHtml(dateFormatted, categories) {
+      const sections = categories.map(renderCategory).join('\n');
+      return '<title>Menu of the Day — Hetty\'s African Kitchen</title>\n' +
+        '<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n' +
+        '<style>\n' +
+        '  :root {\n' +
+        '    --beige: #e8d5c0;\n' +
+        '    --beige-light: #f5ede3;\n' +
+        '    --beige-dark: #d4b896;\n' +
+        '    --kraft: #c9a87c;\n' +
+        '    --brown-dark: #7a4a2a;\n' +
+        '    --brown-mid: #a0683a;\n' +
+        '    --brown-warm: #b07c52;\n' +
+        '    --cream: #fdf8f3;\n' +
+        '    --white: #ffffff;\n' +
+        '    --gold: #b8892a;\n' +
+        '    --shadow: rgba(122, 74, 42, 0.12);\n' +
+        '  }\n' +
+        '  * { box-sizing: border-box; }\n' +
+        '  html { font-size: 25px; }\n' +
+        '  body { margin: 0; background: var(--cream); color: var(--brown-dark); font-family: \'Cormorant Garamond\', Georgia, serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }\n' +
+        '  .bg-slideshow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }\n' +
+        '  .bg-slide { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; transition: opacity 2s ease-in-out; }\n' +
+        '  .bg-slide.active { opacity: 0.16; }\n' +
+        '  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 72px; }\n' +
+        '  .hero { text-align: center; padding: 48px 16px 32px; }\n' +
+        '  .medallion { width: 104px; height: 104px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden; border: 3px solid var(--kraft); box-shadow: 0 0 0 7px var(--white), 0 8px 24px var(--shadow); }\n' +
+        '  .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }\n' +
+        '  .wordmark { font-family: \'Great Vibes\', cursive; font-size: clamp(3rem, 13vw, 4.2rem); line-height: 1; color: var(--brown-dark); text-wrap: balance; }\n' +
+        '  .subline { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--brown-mid); margin-top: 10px; }\n' +
+        '  .eyebrow { display: inline-block; margin-top: 26px; font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding: 7px 20px; border: 1px solid var(--kraft); border-radius: 999px; }\n' +
+        '  .heading { font-family: \'Jost\', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 5vw, 2.1rem); letter-spacing: 0.02em; color: var(--brown-dark); margin: 16px 0 4px; text-wrap: balance; }\n' +
+        '  .date { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); }\n' +
+        '  section.group { margin-top: 40px; }\n' +
+        '  .group-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }\n' +
+        '  .group-line { flex: 1; height: 1px; background: var(--beige-dark); }\n' +
+        '  .group-title { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-dark); white-space: nowrap; }\n' +
+        '  .group-note { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); margin: -4px 0 16px; }\n' +
+        '  .dish { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--beige-dark); }\n' +
+        '  .dish:last-child { border-bottom: none; }\n' +
+        '  .dish-name { font-size: 1.45rem; font-weight: 500; color: var(--brown-dark); flex: 1; text-wrap: balance; }\n' +
+        '  .dish-note { display: block; font-style: italic; font-size: 1.1rem; color: var(--brown-mid); font-weight: 400; margin-top: 2px; }\n' +
+        '  .dish-price { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.4rem; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }\n' +
+        '  .drinks-grid { display: grid; grid-template-columns: 1fr; gap: 0; }\n' +
+        '  @media (min-width: 820px) { .drinks-grid { grid-template-columns: 1fr 1fr; column-gap: 32px; } }\n' +
+        '  .drinks-grid .dish { padding: 10px 0; }\n' +
+        '  .drinks-grid .dish-name { font-size: 1.25rem; }\n' +
+        '  .drinks-grid .dish-price { font-size: 1.2rem; }\n' +
+        '  .protein-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; margin-top: 18px; padding: 16px; background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; }\n' +
+        '  .protein-item { text-align: center; font-family: \'Jost\', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown-dark); font-weight: 500; }\n' +
+        '  .protein-item .picon { font-size: 2.5rem; display: block; margin-bottom: 6px; }\n' +
+        '  footer { text-align: center; margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--beige-dark); }\n' +
+        '  .signoff { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.25rem; color: var(--brown-mid); }\n' +
+        '  .stamp { margin-top: 10px; font-family: \'Jost\', sans-serif; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kraft); }\n' +
+        '  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }\n' +
+        '</style>\n\n' +
+        '<div class="bg-slideshow" id="bgSlideshow">\n' +
+        '  <div class="bg-slide active" style="background-image: url(\'images/restaurant/rest0.jpeg\');"></div>\n' +
+        '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest1.jpg\');"></div>\n' +
+        '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest4.jpg\');"></div>\n' +
+        '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest2.jpg\');"></div>\n' +
+        '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest8.jpg\');"></div>\n' +
+        '</div>\n\n' +
+        '<div class="wrap">\n\n' +
+        '  <div class="hero">\n' +
+        '    <div class="medallion"><img src="images/hetty-logo.jpeg" alt="Hetty\'s African Kitchen"></div>\n' +
+        '    <div class="wordmark">Hetty\'s</div>\n' +
+        '    <div class="subline">African Kitchen</div>\n' +
+        '    <div class="eyebrow">Today Only</div>\n' +
+        '    <h1 class="heading">Menu of the Day</h1>\n' +
+        '    <div class="date">' + escapeHtml(dateFormatted) + '</div>\n' +
+        '  </div>\n\n' +
+        sections + '\n' +
+        '  <footer>\n' +
+        '    <div class="signoff">Come, eat, enjoy and feel at home.</div>\n' +
+        '    <div class="stamp">Hetty\'s African Kitchen · Today\'s Menu</div>\n' +
+        '  </footer>\n\n' +
+        '</div>\n\n' +
+        '<script>\n' +
+        '  (function () {\n' +
+        '    const slides = document.querySelectorAll(\'#bgSlideshow .bg-slide\');\n' +
+        '    let current = 0;\n' +
+        '    if (slides.length > 1) {\n' +
+        '      setInterval(function () {\n' +
+        '        slides[current].classList.remove(\'active\');\n' +
+        '        current = (current + 1) % slides.length;\n' +
+        '        slides[current].classList.add(\'active\');\n' +
+        '      }, 6000);\n' +
+        '    }\n' +
+        '  })();\n' +
+        '<' + '/script>\n';
+    }
+
+    submitBtn.addEventListener('click', function () {
       const categories = CATEGORY_ORDER
         .filter(function (cat) { return selection[cat].items.length > 0; })
         .map(function (cat) {
@@ -700,33 +728,21 @@
           };
         });
 
-      const payload = {
-        password: sessionPassword,
-        date: dateInput.value,
-        dateFormatted: formatDate(dateInput.value),
-        categories: categories
-      };
+      const dateFormatted = formatDate(dateInput.value);
+      const html = buildMenuHtml(dateFormatted, categories);
 
-      try {
-        const res = await fetch('/.netlify/functions/update-menu', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (data.ok) {
-          submitStatus.textContent = 'Published! Live in about a minute.';
-          submitStatus.className = 'submit-status ok';
-        } else {
-          submitStatus.textContent = data.error || 'Something went wrong.';
-          submitStatus.className = 'submit-status err';
-        }
-      } catch (e) {
-        submitStatus.textContent = 'Could not reach the server.';
-        submitStatus.className = 'submit-status err';
-      }
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Publish Today\'s Menu';
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'menu-today.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      submitStatus.textContent = 'Downloaded — see the instructions below to publish it.';
+      submitStatus.className = 'submit-status ok';
     });
   </script>
 </body>
