@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Hetty's Admin — Menu Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #e8d5c0;
+    --beige-light: #f5ede3;
+    --beige-dark: #d4b896;
+    --kraft: #c9a87c;
+    --brown-dark: #7a4a2a;
+    --brown-mid: #a0683a;
+    --cream: #fdf8f3;
+    --white: #ffffff;
+    --gold: #b8892a;
+    --error: #a33a2a;
+    --success: #3a7a4a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+  }
+
+  /* ══ LOGIN GATE ══ */
+  #gate {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .gate-card {
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 6px;
+    padding: 48px 40px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 16px 40px rgba(87,58,30,0.1);
+  }
+
+  .gate-card .wordmark {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem;
+    color: var(--brown-dark);
+  }
+
+  .gate-card p {
+    font-size: 0.85rem;
+    color: var(--brown-mid);
+    margin: 6px 0 24px;
+  }
+
+  .gate-card input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: 'Jost', sans-serif;
+    margin-bottom: 14px;
+  }
+
+  .gate-card button {
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 4px;
+    background: var(--brown-dark);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .gate-card button:disabled { opacity: 0.6; cursor: default; }
+
+  .gate-error {
+    color: var(--error);
+    font-size: 0.82rem;
+    margin-top: 12px;
+    display: none;
+  }
+
+  .gate-error.show { display: block; }
+
+  /* ══ BUILDER ══ */
+  #builder { display: none; max-width: 1000px; margin: 0 auto; padding: 32px 24px 140px; }
+
+  #builder.show { display: block; }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--beige-dark);
+    margin-bottom: 28px;
+  }
+
+  .top-bar .wordmark {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.2rem;
+    color: var(--brown-dark);
+  }
+
+  .top-bar .sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+  }
+
+  .date-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .date-field label {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+  }
+
+  .date-field input {
+    padding: 8px 10px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .date-preview {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--brown-mid);
+    font-size: 0.95rem;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tab-btn {
+    padding: 9px 16px;
+    border: 1px solid var(--kraft);
+    background: var(--white);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    border-radius: 999px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .tab-btn.active { background: var(--brown-dark); color: var(--white); border-color: var(--brown-dark); }
+
+  .tab-btn .count {
+    display: inline-block;
+    margin-left: 6px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    padding: 1px 7px;
+  }
+
+  .tab-btn.active .count { background: var(--white); color: var(--brown-dark); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .cat-note-field {
+    margin-bottom: 16px;
+  }
+
+  .cat-note-field label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-bottom: 6px;
+  }
+
+  .cat-note-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 40px;
+  }
+
+  .item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 0.92rem;
+    text-align: left;
+  }
+
+  .item-card .nm { flex: 1; }
+  .item-card .note-text {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--brown-mid);
+  }
+  .item-card .pr { font-weight: 600; color: var(--gold); white-space: nowrap; }
+
+  .item-card.selected {
+    background: var(--brown-dark);
+    border-color: var(--brown-dark);
+  }
+  .item-card.selected .nm, .item-card.selected .pr { color: var(--white); }
+  .item-card.selected .note-text { color: var(--beige); }
+
+  .custom-item-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px;
+    background: var(--beige-light);
+    border: 1px dashed var(--kraft);
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .custom-item-form input {
+    padding: 9px 10px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .custom-item-form input[name="name"] { flex: 2; min-width: 140px; }
+  .custom-item-form input[name="price"] { flex: 1; min-width: 80px; }
+  .custom-item-form input[name="note"] { flex: 2; min-width: 140px; }
+
+  .custom-item-form button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 4px;
+    background: var(--brown-mid);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Preview panel */
+  .preview-panel {
+    margin-top: 40px;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 6px;
+  }
+
+  .preview-panel h2 {
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    margin: 0 0 16px;
+  }
+
+  .preview-empty { color: var(--brown-mid); font-style: italic; font-size: 0.9rem; }
+
+  .preview-group { margin-bottom: 18px; }
+  .preview-group h3 {
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    border-bottom: 1px solid var(--beige-dark);
+    padding-bottom: 6px;
+    margin: 0 0 8px;
+  }
+
+  .preview-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 0.9rem;
+  }
+
+  .preview-row .remove-btn {
+    background: none;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 10px;
+  }
+
+  /* Submit bar */
+  .submit-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    border-top: 1px solid var(--beige-dark);
+    padding: 16px 24px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    box-shadow: 0 -8px 24px rgba(87,58,30,0.08);
+    z-index: 10;
+  }
+
+  .submit-bar.show { display: flex; }
+
+  .submit-bar button {
+    padding: 14px 36px;
+    border: none;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .submit-bar button:disabled { opacity: 0.6; cursor: default; }
+
+  .submit-status {
+    font-size: 0.85rem;
+  }
+
+  .submit-status.ok { color: var(--success); }
+  .submit-status.err { color: var(--error); }
+</style>
+</head>
+<body>
+
+  <div id="gate">
+    <div class="gate-card">
+      <div class="wordmark">Hetty's</div>
+      <p>Admin access — enter your password to build today's menu.</p>
+      <input type="password" id="gate-password" placeholder="Password" autocomplete="off">
+      <button id="gate-submit">Unlock</button>
+      <div class="gate-error" id="gate-error"></div>
+    </div>
+  </div>
+
+  <div id="builder">
+    <div class="top-bar">
+      <div>
+        <div class="wordmark">Hetty's</div>
+        <div class="sub">Menu of the Day Builder</div>
+      </div>
+      <div class="date-field">
+        <label for="menu-date">Date</label>
+        <input type="date" id="menu-date">
+        <div class="date-preview" id="date-preview"></div>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div id="tab-panels"></div>
+
+    <div class="preview-panel">
+      <h2>Today's Menu Preview</h2>
+      <div id="preview-content"><p class="preview-empty">Nothing selected yet — click items above to add them.</p></div>
+    </div>
+  </div>
+
+  <div class="submit-bar" id="submit-bar">
+    <button id="submit-btn">Publish Today's Menu</button>
+    <div class="submit-status" id="submit-status"></div>
+  </div>
+
+  <script src="menu-data.js"></script>
+  <script>
+    const CATEGORY_ORDER = ["Starters & Small Chops", "Rice Dishes", "Extra Proteins", "Soups & Swallow", "Hetty's Specials", "Pasta & Noodles", "Wings", "Sides", "Desserts", "Drinks"];
+    const PROTEIN_ICONS = {
+      "Fish": "🐟", "Goat Meat": "🐐", "Beef": "🐄", "Chicken": "🍗", "Turkey": "🦃",
+      "Small Turkey Wing": "🦃", "Large Turkey Wing": "🦃", "Assorted Meat": "🍖",
+      "Cow Leg": "🦴", "Snail": "🐌", "Lamb Chops": "🐑"
+    };
+
+    // selection[category] = { note: '', noteAfter: '', items: [{name, price, note}] }
+    const selection = {};
+    let sessionPassword = null;
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // ── Gate ──
+    const gateEl = document.getElementById('gate');
+    const builderEl = document.getElementById('builder');
+    const gateError = document.getElementById('gate-error');
+
+    async function tryUnlock(password) {
+      gateError.classList.remove('show');
+      const btn = document.getElementById('gate-submit');
+      btn.disabled = true;
+      btn.textContent = 'Checking...';
+      try {
+        const res = await fetch('/.netlify/functions/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          sessionPassword = password;
+          gateEl.style.display = 'none';
+          builderEl.classList.add('show');
+        } else {
+          gateError.textContent = data.error || 'Incorrect password.';
+          gateError.classList.add('show');
+        }
+      } catch (e) {
+        gateError.textContent = 'Could not reach the server. Try again.';
+        gateError.classList.add('show');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Unlock';
+    }
+
+    document.getElementById('gate-submit').addEventListener('click', function () {
+      const pw = document.getElementById('gate-password').value;
+      if (pw) tryUnlock(pw);
+    });
+    document.getElementById('gate-password').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') document.getElementById('gate-submit').click();
+    });
+
+    // ── Date ──
+    const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function formatDate(yyyy_mm_dd) {
+      const [y, m, d] = yyyy_mm_dd.split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      return WEEKDAYS[dt.getDay()] + ', ' + d + ' ' + MONTHS[m - 1] + ' ' + y;
+    }
+
+    const dateInput = document.getElementById('menu-date');
+    const datePreview = document.getElementById('date-preview');
+    function todayStr() {
+      const now = new Date();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      return now.getFullYear() + '-' + mm + '-' + dd;
+    }
+    dateInput.value = todayStr();
+    datePreview.textContent = formatDate(dateInput.value);
+    dateInput.addEventListener('change', function () {
+      datePreview.textContent = dateInput.value ? formatDate(dateInput.value) : '';
+    });
+
+    // ── Build tabs + panels ──
+    const tabsEl = document.getElementById('tabs');
+    const panelsEl = document.getElementById('tab-panels');
+
+    CATEGORY_ORDER.forEach(function (cat, idx) {
+      selection[cat] = { note: '', noteAfter: '', items: [] };
+
+      const tabBtn = document.createElement('button');
+      tabBtn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+      tabBtn.dataset.cat = cat;
+      tabBtn.innerHTML = '<span class="label">' + (cat === 'Extra Proteins' ? 'Proteins' : cat) + '</span><span class="count" style="display:none;">0</span>';
+      tabBtn.addEventListener('click', function () {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        tabBtn.classList.add('active');
+        document.getElementById('panel-' + idx).classList.add('active');
+      });
+      tabsEl.appendChild(tabBtn);
+
+      const panel = document.createElement('div');
+      panel.className = 'tab-panel' + (idx === 0 ? ' active' : '');
+      panel.id = 'panel-' + idx;
+
+      const noteField = document.createElement('div');
+      noteField.className = 'cat-note-field';
+      noteField.innerHTML =
+        '<label>Note before items (optional)</label>' +
+        '<textarea data-cat="' + cat + '" data-role="note" placeholder="e.g. Served with a side of Plantain or Coleslaw, and your choice of protein"></textarea>';
+      panel.appendChild(noteField);
+
+      const grid = document.createElement('div');
+      grid.className = 'item-grid';
+      (MENU_DATA[cat] || []).forEach(function (item) {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.dataset.cat = cat;
+        card.dataset.name = item.name;
+        card.dataset.price = item.price;
+        card.dataset.note = item.note || '';
+        card.innerHTML =
+          '<span class="nm">' + escapeHtml(item.name) + (item.note ? '<span class="note-text">' + escapeHtml(item.note) + '</span>' : '') + '</span>' +
+          '<span class="pr">' + escapeHtml(item.price) + '</span>';
+        card.addEventListener('click', function () { toggleItem(cat, item.name, item.price, item.note || '', card); });
+        grid.appendChild(card);
+      });
+      panel.appendChild(grid);
+
+      const customForm = document.createElement('div');
+      customForm.className = 'custom-item-form';
+      customForm.innerHTML =
+        '<input type="text" name="name" placeholder="Custom item name">' +
+        '<input type="text" name="price" placeholder="€ price">' +
+        '<input type="text" name="note" placeholder="Note (optional)">' +
+        '<button type="button">Add to ' + (cat === 'Extra Proteins' ? 'Proteins' : cat) + '</button>';
+      customForm.querySelector('button').addEventListener('click', function () {
+        const nameVal = customForm.querySelector('input[name="name"]').value.trim();
+        const priceVal = customForm.querySelector('input[name="price"]').value.trim();
+        const noteVal = customForm.querySelector('input[name="note"]').value.trim();
+        if (!nameVal) return;
+        const newCard = addCustomCard(cat, grid, nameVal, priceVal, noteVal);
+        toggleItem(cat, nameVal, priceVal, noteVal, newCard, true);
+        customForm.querySelector('input[name="name"]').value = '';
+        customForm.querySelector('input[name="price"]').value = '';
+        customForm.querySelector('input[name="note"]').value = '';
+      });
+      panel.appendChild(customForm);
+
+      noteField.querySelector('textarea').addEventListener('input', function (e) {
+        selection[cat].note = e.target.value;
+        renderPreview();
+      });
+
+      const noteAfterField = document.createElement('div');
+      noteAfterField.className = 'cat-note-field';
+      noteAfterField.innerHTML =
+        '<label>Note after items (optional — e.g. surcharges)</label>' +
+        '<textarea data-cat="' + cat + '" data-role="noteAfter" placeholder="e.g. +€2 if with Goat Meat"></textarea>';
+      noteAfterField.querySelector('textarea').addEventListener('input', function (e) {
+        selection[cat].noteAfter = e.target.value;
+        renderPreview();
+      });
+      panel.appendChild(noteAfterField);
+
+      panelsEl.appendChild(panel);
+    });
+
+    function addCustomCard(cat, grid, name, price, note) {
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.dataset.cat = cat;
+      card.dataset.name = name;
+      card.dataset.price = price;
+      card.dataset.note = note;
+      card.innerHTML =
+        '<span class="nm">' + escapeHtml(name) + (note ? '<span class="note-text">' + escapeHtml(note) + '</span>' : '') + '</span>' +
+        '<span class="pr">' + escapeHtml(price) + '</span>';
+      card.addEventListener('click', function () { toggleItem(cat, name, price, note, card); });
+      grid.insertBefore(card, grid.firstChild);
+      return card;
+    }
+
+    function toggleItem(cat, name, price, note, cardEl, forceSelect) {
+      const list = selection[cat].items;
+      const existingIdx = list.findIndex(function (i) { return i.name === name; });
+      if (existingIdx >= 0 && !forceSelect) {
+        list.splice(existingIdx, 1);
+        cardEl.classList.remove('selected');
+      } else if (existingIdx < 0) {
+        list.push({ name: name, price: price, note: note });
+        cardEl.classList.add('selected');
+      }
+      updateTabCounts();
+      renderPreview();
+    }
+
+    function updateTabCounts() {
+      document.querySelectorAll('.tab-btn').forEach(function (btn) {
+        const cat = btn.dataset.cat;
+        const n = selection[cat].items.length;
+        const countEl = btn.querySelector('.count');
+        countEl.textContent = n;
+        countEl.style.display = n > 0 ? 'inline-block' : 'none';
+      });
+    }
+
+    // ── Preview + submit ──
+    const previewEl = document.getElementById('preview-content');
+    const submitBar = document.getElementById('submit-bar');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitStatus = document.getElementById('submit-status');
+
+    function totalSelectedCount() {
+      return CATEGORY_ORDER.reduce(function (sum, cat) { return sum + selection[cat].items.length; }, 0);
+    }
+
+    function renderPreview() {
+      const total = totalSelectedCount();
+      if (total === 0) {
+        previewEl.innerHTML = '<p class="preview-empty">Nothing selected yet — click items above to add them.</p>';
+        submitBar.classList.remove('show');
+        return;
+      }
+      submitBar.classList.add('show');
+      let html = '';
+      CATEGORY_ORDER.forEach(function (cat) {
+        const grp = selection[cat];
+        if (grp.items.length === 0) return;
+        const label = cat === 'Extra Proteins' ? 'Proteins' : cat;
+        html += '<div class="preview-group"><h3>' + escapeHtml(label) + '</h3>';
+        if (grp.note) html += '<p class="preview-empty" style="margin:0 0 8px;">' + escapeHtml(grp.note) + '</p>';
+        grp.items.forEach(function (item) {
+          html += '<div class="preview-row"><span>' + escapeHtml(item.name) +
+            (item.note ? ' <em>(' + escapeHtml(item.note) + ')</em>' : '') + '</span>' +
+            '<span>' + escapeHtml(item.price) +
+            '<button type="button" class="remove-btn" data-cat="' + cat + '" data-name="' + escapeHtml(item.name) + '">remove</button></span></div>';
+        });
+        if (grp.noteAfter) html += '<p class="preview-empty" style="margin:8px 0 0;">' + escapeHtml(grp.noteAfter) + '</p>';
+        html += '</div>';
+      });
+      previewEl.innerHTML = html;
+      previewEl.querySelectorAll('.remove-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const cat = btn.dataset.cat, name = btn.dataset.name;
+          selection[cat].items = selection[cat].items.filter(function (i) { return i.name !== name; });
+          document.querySelectorAll('.item-card[data-cat="' + CSS.escape(cat) + '"]').forEach(function (card) {
+            if (card.dataset.name === name) card.classList.remove('selected');
+          });
+          updateTabCounts();
+          renderPreview();
+        });
+      });
+    }
+
+    submitBtn.addEventListener('click', async function () {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Publishing...';
+      submitStatus.textContent = '';
+      submitStatus.className = 'submit-status';
+
+      const categories = CATEGORY_ORDER
+        .filter(function (cat) { return selection[cat].items.length > 0; })
+        .map(function (cat) {
+          const isProteinRow = cat === 'Extra Proteins';
+          return {
+            name: isProteinRow ? 'Proteins' : cat,
+            isProteinRow: isProteinRow,
+            note: selection[cat].note,
+            noteAfter: selection[cat].noteAfter,
+            items: selection[cat].items.map(function (item) {
+              return isProteinRow
+                ? { name: item.name, price: item.price, note: item.note, icon: PROTEIN_ICONS[item.name] || '🍽️' }
+                : item;
+            })
+          };
+        });
+
+      const payload = {
+        password: sessionPassword,
+        date: dateInput.value,
+        dateFormatted: formatDate(dateInput.value),
+        categories: categories
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/update-menu', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          submitStatus.textContent = 'Published! Live in about a minute.';
+          submitStatus.className = 'submit-status ok';
+        } else {
+          submitStatus.textContent = data.error || 'Something went wrong.';
+          submitStatus.className = 'submit-status err';
+        }
+      } catch (e) {
+        submitStatus.textContent = 'Could not reach the server.';
+        submitStatus.className = 'submit-status err';
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Publish Today\'s Menu';
+    });
+  </script>
+</body>
+</html>
