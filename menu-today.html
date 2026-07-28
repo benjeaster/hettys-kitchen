@@ -14,287 +14,43 @@
     --gold: #b8892a;
     --shadow: rgba(122, 74, 42, 0.12);
   }
-
   * { box-sizing: border-box; }
-
-  html {
-    font-size: 25px;
-  }
-
-  body {
-    margin: 0;
-    background: var(--cream);
-    color: var(--brown-dark);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  .bg-slideshow {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .bg-slide {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-  }
-
+  html { font-size: 25px; }
+  body { margin: 0; background: var(--cream); color: var(--brown-dark); font-family: 'Cormorant Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  .bg-slideshow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .bg-slide { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; transition: opacity 2s ease-in-out; }
   .bg-slide.active { opacity: 0.16; }
-
-  .wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 24px 72px;
-  }
-
-  .hero {
-    text-align: center;
-    padding: 48px 16px 32px;
-  }
-
-  .medallion {
-    width: 104px;
-    height: 104px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid var(--kraft);
-    box-shadow: 0 0 0 7px var(--white), 0 8px 24px var(--shadow);
-  }
-
-  .medallion img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .wordmark {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(3rem, 13vw, 4.2rem);
-    line-height: 1;
-    color: var(--brown-dark);
-    text-wrap: balance;
-  }
-
-  .subline {
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--brown-mid);
-    margin-top: 10px;
-  }
-
-  .eyebrow {
-    display: inline-block;
-    margin-top: 26px;
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    padding: 7px 20px;
-    border: 1px solid var(--kraft);
-    border-radius: 999px;
-  }
-
-  .heading {
-    font-family: 'Jost', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.7rem, 5vw, 2.1rem);
-    letter-spacing: 0.02em;
-    color: var(--brown-dark);
-    margin: 16px 0 4px;
-    text-wrap: balance;
-  }
-
-  .date {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.3rem;
-    color: var(--brown-mid);
-  }
-
-  section.group {
-    margin-top: 40px;
-  }
-
-  .group-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-
-  .group-line {
-    flex: 1;
-    height: 1px;
-    background: var(--beige-dark);
-  }
-
-  .group-title {
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 1.3rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brown-dark);
-    white-space: nowrap;
-  }
-
-  .group-note {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.3rem;
-    color: var(--brown-mid);
-    margin: -4px 0 16px;
-  }
-
-  .dish {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--beige-dark);
-  }
-
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 72px; }
+  .hero { text-align: center; padding: 48px 16px 32px; }
+  .medallion { width: 104px; height: 104px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden; border: 3px solid var(--kraft); box-shadow: 0 0 0 7px var(--white), 0 8px 24px var(--shadow); }
+  .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wordmark { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 13vw, 4.2rem); line-height: 1; color: var(--brown-dark); text-wrap: balance; }
+  .subline { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--brown-mid); margin-top: 10px; }
+  .eyebrow { display: inline-block; margin-top: 26px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding: 7px 20px; border: 1px solid var(--kraft); border-radius: 999px; }
+  .heading { font-family: 'Jost', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 5vw, 2.1rem); letter-spacing: 0.02em; color: var(--brown-dark); margin: 16px 0 4px; text-wrap: balance; }
+  .date { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); }
+  section.group { margin-top: 40px; }
+  .group-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .group-line { flex: 1; height: 1px; background: var(--beige-dark); }
+  .group-title { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-dark); white-space: nowrap; }
+  .group-note { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); margin: -4px 0 16px; }
+  .dish { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--beige-dark); }
   .dish:last-child { border-bottom: none; }
-
-  .dish-name {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--brown-dark);
-    flex: 1;
-    text-wrap: balance;
-  }
-
-  .dish-note {
-    display: block;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: var(--brown-mid);
-    font-weight: 400;
-    margin-top: 2px;
-  }
-
-  .dish-price {
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 1.4rem;
-    color: var(--gold);
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .drinks-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  @media (min-width: 820px) {
-    .drinks-grid {
-      grid-template-columns: 1fr 1fr;
-      column-gap: 32px;
-    }
-  }
-
+  .dish-name { font-size: 1.45rem; font-weight: 500; color: var(--brown-dark); flex: 1; text-wrap: balance; }
+  .dish-note { display: block; font-style: italic; font-size: 1.1rem; color: var(--brown-mid); font-weight: 400; margin-top: 2px; }
+  .dish-price { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 1.4rem; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .drinks-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+  @media (min-width: 820px) { .drinks-grid { grid-template-columns: 1fr 1fr; column-gap: 32px; } }
   .drinks-grid .dish { padding: 10px 0; }
-  .drinks-grid .dish-name { font-size: 1.35rem; font-weight: 600; }
+  .drinks-grid .dish-name { font-size: 1.25rem; }
   .drinks-grid .dish-price { font-size: 1.2rem; }
-
-  .wings-block {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px 24px;
-    margin-top: 6px;
-  }
-
-  @media (min-width: 820px) {
-    .wings-block {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .wings-title {
-    font-family: 'Jost', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--brown-mid);
-    margin-bottom: 2px;
-  }
-
-  .wings-block .dish { padding: 7px 0; }
-
-  .protein-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 28px;
-    margin-top: 18px;
-    padding: 16px;
-    background: var(--white);
-    border: 1px solid var(--beige-dark);
-    border-radius: 4px;
-  }
-
-  .protein-item {
-    text-align: center;
-    font-family: 'Jost', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--brown-dark);
-    font-weight: 500;
-  }
-
-  .protein-item .picon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 6px;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 56px;
-    padding-top: 28px;
-    border-top: 1px solid var(--beige-dark);
-  }
-
-  .signoff {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--brown-mid);
-  }
-
-  .stamp {
-    margin-top: 10px;
-    font-family: 'Jost', sans-serif;
-    font-weight: 500;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--kraft);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-  }
+  .protein-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; margin-top: 18px; padding: 16px; background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; }
+  .protein-item { text-align: center; font-family: 'Jost', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown-dark); font-weight: 500; }
+  .protein-item .picon { font-size: 2.5rem; display: block; margin-bottom: 6px; }
+  footer { text-align: center; margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--beige-dark); }
+  .signoff { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.25rem; color: var(--brown-mid); }
+  .stamp { margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kraft); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </style>
 
 <div class="bg-slideshow" id="bgSlideshow">
@@ -313,79 +69,12 @@
     <div class="subline">African Kitchen</div>
     <div class="eyebrow">Today Only</div>
     <h1 class="heading">Menu of the Day</h1>
-    <div class="date">Sunday, 26 July 2026</div>
+    <div class="date">Tuesday, 28 July 2026</div>
   </div>
 
   <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Starters</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Puff Puff<span class="dish-note">10 pieces</span></span><span class="dish-price">€5.00</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Meals</h2><div class="group-line"></div></div>
-    <p class="group-note">Served with a side of Plantain or Coleslaw, and your choice of protein</p>
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Dishes</h2><div class="group-line"></div></div>
     <div class="dish"><span class="dish-name">Jollof Rice</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Fried Rice</span><span class="dish-price">€22</span></div>
-    <div class="dish"><span class="dish-name">White Rice and Beans with Sauce</span><span class="dish-price">€22</span></div>
-    <div class="protein-row">
-      <div class="protein-item"><span class="picon">🐟</span>Fish</div>
-      <div class="protein-item"><span class="picon">🐐</span>Goat Meat</div>
-      <div class="protein-item"><span class="picon">🍗</span>Chicken</div>
-      <div class="protein-item"><span class="picon">🐄</span>Beef</div>
-      <div class="protein-item"><span class="picon">🦃</span>Turkey</div>
-    </div>
-    <p class="group-note" style="margin-top:14px;">+€2 if with Goat Meat · Fish comes in 2 sizes — small is included, large is +€2</p>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Egusi Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Okro Soup</span><span class="dish-price">€20</span></div>
-    <div class="dish"><span class="dish-name">Eforiro</span><span class="dish-price">€22</span></div>
-    <p class="group-note" style="margin-top:14px;">+€2 if with Goat Meat</p>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Specials</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Gizdodo</span><span class="dish-price">€15</span></div>
-    <div class="dish"><span class="dish-name">Grilled Fish<span class="dish-note">With one side</span></span><span class="dish-price">€20</span></div>
-    <div class="wings-title">Suya Chicken Wings</div>
-    <div class="dish"><span class="dish-name">4 Pieces</span><span class="dish-price">€6</span></div>
-    <div class="dish"><span class="dish-name">6 Pieces</span><span class="dish-price">€10</span></div>
-    <div class="dish"><span class="dish-name">10 Pieces</span><span class="dish-price">€15</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Desserts</h2><div class="group-line"></div></div>
-    <div class="dish"><span class="dish-name">Banana Bread &amp; Coconut Ice Cream</span><span class="dish-price">€8</span></div>
-  </section>
-
-  <section class="group">
-    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Drinks</h2><div class="group-line"></div></div>
-    <div class="drinks-grid">
-      <div class="dish"><span class="dish-name">Malt</span><span class="dish-price">€3.00</span></div>
-      <div class="dish"><span class="dish-name">Coke</span><span class="dish-price">€2.50</span></div>
-      <div class="dish"><span class="dish-name">Fanta</span><span class="dish-price">€2.50</span></div>
-      <div class="dish"><span class="dish-name">Sprite</span><span class="dish-price">€2.50</span></div>
-      <div class="dish"><span class="dish-name">Schweppes</span><span class="dish-price">€2.50</span></div>
-      <div class="dish"><span class="dish-name">Water (50cl)</span><span class="dish-price">€1.50</span></div>
-      <div class="dish"><span class="dish-name">Water (1.5L)</span><span class="dish-price">€2.50</span></div>
-      <div class="dish"><span class="dish-name">Palmwine</span><span class="dish-price">€5.00</span></div>
-      <div class="dish"><span class="dish-name">Zobo</span><span class="dish-price">€4.00</span></div>
-      <div class="dish"><span class="dish-name">Kunu</span><span class="dish-price">€4.00</span></div>
-      <div class="dish"><span class="dish-name">Orijin</span><span class="dish-price">€10.00</span></div>
-      <div class="dish"><span class="dish-name">Fresh Juice (Seasonal)</span><span class="dish-price">€4.50</span></div>
-      <div class="dish"><span class="dish-name">Coca-Cola / Pepsi / Fanta / 7UP / Sumol</span><span class="dish-price">€2.20</span></div>
-      <div class="dish"><span class="dish-name">Red Bull</span><span class="dish-price">€3.50</span></div>
-      <div class="dish"><span class="dish-name">Somersby</span><span class="dish-price">€3.50</span></div>
-      <div class="dish"><span class="dish-name">Monte Velho</span><span class="dish-price">€15.00</span></div>
-      <div class="dish"><span class="dish-name">Papa Figos</span><span class="dish-price">€18.00</span></div>
-      <div class="dish"><span class="dish-name">Mateus Rosé</span><span class="dish-price">€12.00</span></div>
-      <div class="dish"><span class="dish-name">Fita Azul</span><span class="dish-price">€12.00</span></div>
-      <div class="dish"><span class="dish-name">Martini</span><span class="dish-price">€20.00</span></div>
-      <div class="dish"><span class="dish-name">Campari</span><span class="dish-price">€25.00</span></div>
-      <div class="dish"><span class="dish-name">Pure Heaven</span><span class="dish-price">€7.00</span></div>
-    </div>
   </section>
 
   <footer>
