@@ -11,7 +11,11 @@ const MENU_DATA = {
     { name: "Puff Puff (10 pieces)", price: "€5.00" },
     { name: "Chin Chin (Small)", price: "€3.00" },
     { name: "Chin Chin (Large)", price: "€5.00" },
-    { name: "Akara (15 pieces)", price: "€15.00" }
+    { name: "Akara (15 pieces)", price: "€15.00" },
+    { name: "Crispy Shrimp (1 piece)", price: "€1.50" },
+    { name: "Crispy Shrimp (6 pieces)", price: "€9.00" },
+    { name: "Snack Box", price: "€4.00", note: "1 Samosa, 1 Spring Roll, 3 Puff Puff" },
+    { name: "Deluxe Snack Box", price: "€7.00", note: "1 Samosa, 1 Spring Roll, 2 Crispy Shrimp, 3 Puff Puff" }
   ],
   "Rice Dishes": [
     { name: "Jollof Rice", price: "€20" },
@@ -76,28 +80,45 @@ const MENU_DATA = {
     { name: "Cinnamon Roll", price: "€6" },
     { name: "Cinnamon Roll & Coconut Ice Cream", price: "€8" }
   ],
-  "Drinks": [
-    { name: "Malt", price: "€3.00" },
-    { name: "Coke", price: "€2.50" },
-    { name: "Fanta", price: "€2.50" },
-    { name: "Sprite", price: "€2.50" },
-    { name: "Schweppes", price: "€2.50" },
-    { name: "Water (50cl)", price: "€1.50" },
-    { name: "Water (1.5L)", price: "€2.50" },
-    { name: "Palmwine", price: "€5.00" },
-    { name: "Zobo", price: "€4.00" },
-    { name: "Kunu", price: "€4.00" },
-    { name: "Orijin", price: "€10.00" },
-    { name: "Fresh Juice (Seasonal)", price: "€4.50" },
-    { name: "Coca-Cola / Pepsi / Fanta / 7UP / Sumol", price: "€2.20" },
-    { name: "Red Bull", price: "€3.50" },
-    { name: "Somersby", price: "€3.50" },
-    { name: "Monte Velho", price: "€15.00" },
-    { name: "Papa Figos", price: "€18.00" },
+  "Wines": [
+    { name: "Monte Velho", price: "€15.00", note: "Bottle" },
+    { name: "Monte Velho", price: "€4.00", note: "Glass" },
+    { name: "Papa Figos", price: "€18.00", note: "Bottle" },
+    { name: "Papa Figos", price: "€5.00", note: "Glass" },
+    { name: "Moscatel", price: "€5.00", note: "Glass" },
+    { name: "Port Wine", price: "€5.00", note: "Glass" },
     { name: "Mateus Rosé", price: "€12.00" },
-    { name: "Fita Azul", price: "€12.00" },
+    { name: "Fita Azul", price: "€12.00" }
+  ],
+  "Beer & Cider": [
+    { name: "Super Bock", price: "€3.00" },
+    { name: "Somersby", price: "€4.00" },
+    { name: "Palmwine", price: "€5.00" }
+  ],
+  "Spirits": [
+    { name: "Hennessy", price: "€6.00", note: "25ml shot" },
+    { name: "Jack Daniel's", price: "€5.00", note: "25ml shot" },
+    { name: "Smirnoff", price: "€5.00", note: "25ml shot" },
+    { name: "Tequila", price: "€5.00", note: "25ml shot" },
+    { name: "Amarula", price: "€5.00", note: "50ml serve" },
+    { name: "Orijin", price: "€10.00" },
     { name: "Martini", price: "€20.00" },
     { name: "Campari", price: "€25.00" }
+  ],
+  "Soft Drinks": [
+    { name: "Coca-Cola / Coke Zero / Pepsi / Fanta / 7UP / Sumol", price: "€2.50" },
+    { name: "Red Bull", price: "€3.50" },
+    { name: "Water (50cl)", price: "€1.50" },
+    { name: "Water (1.5L)", price: "€3.00" },
+    { name: "Sparkling Water", price: "€2.00" },
+    { name: "Malt", price: "€3.00" },
+    { name: "Zobo", price: "€4.00" },
+    { name: "Kunu", price: "€4.00" },
+    { name: "Fresh Juice (Seasonal)", price: "€4.50" }
+  ],
+  "Kids' Drinks": [
+    { name: "Bongo", price: "€2.50" },
+    { name: "Capri-Sun", price: "€2.50" }
   ],
   "Extra Proteins": [
     { name: "Small Turkey Wing", price: "€3" },

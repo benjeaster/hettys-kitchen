@@ -440,7 +440,8 @@
 
   <script src="menu-data.js"></script>
   <script>
-    const CATEGORY_ORDER = ["Starters & Small Chops", "Rice Dishes", "Extra Proteins", "Soups & Swallow", "Hetty's Specials", "Pasta & Noodles", "Wings", "Sides", "Desserts", "Drinks"];
+    const CATEGORY_ORDER = ["Starters & Small Chops", "Rice Dishes", "Extra Proteins", "Soups & Swallow", "Hetty's Specials", "Pasta & Noodles", "Wings", "Sides", "Desserts", "Wines", "Beer & Cider", "Spirits", "Soft Drinks", "Kids' Drinks"];
+    const DRINK_GRID_CATEGORIES = ["Wines", "Beer & Cider", "Spirits", "Soft Drinks", "Kids' Drinks"];
     const PROTEIN_ICONS = {
       "Fish": "🐟", "Goat Meat": "🐐", "Beef": "🐄", "Chicken": "🍗", "Turkey": "🦃",
       "Small Turkey Wing": "🦃", "Large Turkey Wing": "🦃", "Assorted Meat": "🍖",
@@ -764,7 +765,7 @@
           html += '      <div class="protein-item"><span class="picon">' + (item.icon || '🍽️') + '</span>' + escapeHtml(item.name) + '</div>\n';
         });
         html += '    </div>\n';
-      } else if (cat.name === 'Drinks') {
+      } else if (DRINK_GRID_CATEGORIES.indexOf(cat.name) !== -1) {
         html += '    <div class="drinks-grid">\n';
         cat.items.forEach(function (item) { html += renderDish(item, '      '); });
         html += '    </div>\n';
