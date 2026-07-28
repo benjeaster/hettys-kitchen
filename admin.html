@@ -86,6 +86,65 @@
     font-size: 0.95rem;
   }
 
+  .gh-panel {
+    background: var(--beige-light);
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+
+  .gh-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .gh-row label { font-size: 0.78rem; letter-spacing: 0.05em; color: var(--brown-mid); }
+
+  .gh-optional { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
+
+  #gh-token {
+    flex: 1;
+    min-width: 220px;
+    padding: 8px 10px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+
+  .gh-remember {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .gh-note {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--brown-mid);
+    margin: 8px 0 0;
+  }
+
+  .gh-note.connected { color: var(--success); font-style: normal; font-weight: 600; }
+  .gh-note.error { color: var(--error); font-style: normal; }
+
+  #download-instead-btn {
+    padding: 14px 24px;
+    border: 1px solid var(--kraft);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
   /* Tabs */
   .tabs {
     display: flex;
@@ -351,6 +410,15 @@
       </div>
     </div>
 
+    <div class="gh-panel" id="gh-panel">
+      <div class="gh-row">
+        <label for="gh-token">GitHub Token <span class="gh-optional">(optional — lets you publish with one click instead of downloading)</span></label>
+        <input type="password" id="gh-token" placeholder="github_pat_...">
+        <label class="gh-remember"><input type="checkbox" id="gh-remember" checked> Remember on this device</label>
+      </div>
+      <p class="gh-note" id="gh-note">Without a token, the Publish button below will just download the file instead — same as before.</p>
+    </div>
+
     <div class="tabs" id="tabs"></div>
     <div id="tab-panels"></div>
 
@@ -362,11 +430,12 @@
 
   <div class="submit-bar" id="submit-bar">
     <button id="submit-btn">Download Today's Menu</button>
+    <button id="download-instead-btn" type="button" style="display:none;">Download instead</button>
     <div class="submit-status" id="submit-status"></div>
   </div>
 
   <div class="instructions" id="instructions">
-    <p>Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.</p>
+    <p id="instructions-text">Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.</p>
   </div>
 
   <script src="menu-data.js"></script>
@@ -380,6 +449,97 @@
 
     // selection[category] = { note: '', noteAfter: '', items: [{name, price, note}] }
     const selection = {};
+
+    // ── GitHub token (kept only in this browser — never in the repo) ──
+    const GITHUB_OWNER = 'benjeaster';
+    const GITHUB_REPO_NAME = 'hettys-kitchen';
+    const GITHUB_BRANCH = 'main';
+    const GITHUB_FILE_PATH = 'menu-today.html';
+    const TOKEN_STORAGE_KEY = 'hettys_admin_gh_token';
+
+    const ghTokenInput = document.getElementById('gh-token');
+    const ghRemember = document.getElementById('gh-remember');
+    const ghNote = document.getElementById('gh-note');
+    const downloadInsteadBtn = document.getElementById('download-instead-btn');
+    const instructionsText = document.getElementById('instructions-text');
+
+    const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (savedToken) ghTokenInput.value = savedToken;
+
+    function updateGhUi() {
+      const hasToken = ghTokenInput.value.trim().length > 0;
+      submitBtn.textContent = hasToken ? 'Publish to GitHub' : 'Download Today\'s Menu';
+      downloadInsteadBtn.style.display = hasToken ? 'inline-block' : 'none';
+      if (hasToken) {
+        ghNote.textContent = 'Token entered — Publish will push straight to GitHub. Goes live in about a minute.';
+        ghNote.className = 'gh-note connected';
+        instructionsText.textContent = 'Prefer to do it yourself? Use "Download instead" to save the file, then upload it on GitHub as before.';
+      } else {
+        ghNote.textContent = 'Without a token, the button below will just download the file instead — same as before.';
+        ghNote.className = 'gh-note';
+        instructionsText.innerHTML = 'Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.';
+      }
+    }
+
+    ghTokenInput.addEventListener('input', function () {
+      if (ghRemember.checked) {
+        localStorage.setItem(TOKEN_STORAGE_KEY, ghTokenInput.value);
+      }
+      updateGhUi();
+    });
+
+    ghRemember.addEventListener('change', function () {
+      if (ghRemember.checked) {
+        localStorage.setItem(TOKEN_STORAGE_KEY, ghTokenInput.value);
+      } else {
+        localStorage.removeItem(TOKEN_STORAGE_KEY);
+      }
+    });
+
+    function utf8ToBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      bytes.forEach(function (b) { binary += String.fromCharCode(b); });
+      return btoa(binary);
+    }
+
+    async function publishToGithub(token, html, dateFormatted) {
+      const base = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO_NAME + '/contents/' + GITHUB_FILE_PATH;
+      const headers = { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' };
+
+      const getRes = await fetch(base + '?ref=' + GITHUB_BRANCH, { headers: headers });
+      if (!getRes.ok) {
+        throw new Error('Could not read the current file from GitHub (' + getRes.status + '). Check the token is valid and scoped to this repo.');
+      }
+      const getData = await getRes.json();
+
+      const putRes = await fetch(base, {
+        method: 'PUT',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+        body: JSON.stringify({
+          message: 'Update menu-today.html via Admin (' + dateFormatted + ')',
+          content: utf8ToBase64(html),
+          sha: getData.sha,
+          branch: GITHUB_BRANCH
+        })
+      });
+      if (!putRes.ok) {
+        const errText = await putRes.text();
+        throw new Error('GitHub rejected the update (' + putRes.status + '). ' + errText.slice(0, 200));
+      }
+    }
+
+    function downloadHtmlFile(html) {
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'menu-today.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
 
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, function (c) {
@@ -710,7 +870,7 @@
         '<' + '/script>\n';
     }
 
-    submitBtn.addEventListener('click', function () {
+    function buildPayload() {
       const categories = CATEGORY_ORDER
         .filter(function (cat) { return selection[cat].items.length > 0; })
         .map(function (cat) {
@@ -727,23 +887,45 @@
             })
           };
         });
-
       const dateFormatted = formatDate(dateInput.value);
-      const html = buildMenuHtml(dateFormatted, categories);
+      return { html: buildMenuHtml(dateFormatted, categories), dateFormatted: dateFormatted };
+    }
 
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'menu-today.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+    submitBtn.addEventListener('click', async function () {
+      const token = ghTokenInput.value.trim();
+      const built = buildPayload();
 
-      submitStatus.textContent = 'Downloaded — see the instructions below to publish it.';
+      if (!token) {
+        downloadHtmlFile(built.html);
+        submitStatus.textContent = 'Downloaded — see the instructions below to publish it.';
+        submitStatus.className = 'submit-status ok';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Publishing...';
+      submitStatus.textContent = '';
+      submitStatus.className = 'submit-status';
+      try {
+        await publishToGithub(token, built.html, built.dateFormatted);
+        submitStatus.textContent = 'Published! Live in about a minute.';
+        submitStatus.className = 'submit-status ok';
+      } catch (e) {
+        submitStatus.textContent = e.message || 'Something went wrong.';
+        submitStatus.className = 'submit-status err';
+      }
+      submitBtn.disabled = false;
+      updateGhUi();
+    });
+
+    downloadInsteadBtn.addEventListener('click', function () {
+      const built = buildPayload();
+      downloadHtmlFile(built.html);
+      submitStatus.textContent = 'Downloaded.';
       submitStatus.className = 'submit-status ok';
     });
+
+    updateGhUi();
   </script>
 </body>
 </html>
