@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Hetty's Admin — Quotation Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #e8d5c0;
+    --beige-light: #f5ede3;
+    --beige-dark: #d4b896;
+    --kraft: #c9a87c;
+    --brown-dark: #7a4a2a;
+    --brown-mid: #a0683a;
+    --cream: #fdf8f3;
+    --white: #ffffff;
+    --gold: #b8892a;
+    --error: #a33a2a;
+    --success: #3a7a4a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+  }
+
+  #builder { max-width: 1080px; margin: 0 auto; padding: 32px 24px 140px; }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--beige-dark);
+    margin-bottom: 28px;
+  }
+
+  .top-bar .wordmark { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--brown-dark); }
+  .top-bar .sub { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brown-mid); }
+  .top-bar a { color: var(--brown-mid); font-size: 0.78rem; text-decoration: none; border-bottom: 1px dotted var(--brown-mid); }
+
+  .client-panel {
+    background: var(--beige-light);
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .client-panel .field label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-bottom: 4px;
+  }
+
+  .client-panel input, .client-panel textarea {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .client-panel .field.full { grid-column: 1 / -1; }
+
+  .source-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .source-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--kraft);
+    background: var(--white);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .source-btn.active { background: var(--brown-dark); color: var(--white); border-color: var(--brown-dark); }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+
+  .tab-btn {
+    padding: 9px 16px;
+    border: 1px solid var(--kraft);
+    background: var(--white);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .tab-btn.active { background: var(--brown-dark); color: var(--white); border-color: var(--brown-dark); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .item-card .nm { flex: 1; }
+  .item-card .note-text { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.78rem; color: var(--brown-mid); }
+  .item-card .pr { font-weight: 600; color: var(--gold); white-space: nowrap; font-size: 0.85rem; }
+
+  .custom-item-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px;
+    background: var(--beige-light);
+    border: 1px dashed var(--kraft);
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .custom-item-form input {
+    padding: 9px 10px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .custom-item-form input[name="name"] { flex: 2; min-width: 140px; }
+  .custom-item-form input[name="price"] { flex: 1; min-width: 90px; }
+  .custom-item-form input[name="qty"] { flex: 1; min-width: 70px; }
+
+  .custom-item-form button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 4px;
+    background: var(--brown-mid);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .quote-panel {
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 6px;
+    padding: 24px;
+  }
+
+  .quote-panel h2 {
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    margin: 0 0 16px;
+  }
+
+  .quote-empty { color: var(--brown-mid); font-style: italic; font-size: 0.9rem; }
+
+  table.line-table { width: 100%; border-collapse: collapse; }
+  table.line-table th {
+    text-align: left;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    border-bottom: 1px solid var(--beige-dark);
+    padding: 6px 6px;
+  }
+  table.line-table td { padding: 8px 6px; border-bottom: 1px solid var(--beige-light); font-size: 0.9rem; vertical-align: middle; }
+  table.line-table td.num, table.line-table th.num { text-align: right; }
+
+  .line-table select, .line-table input[type="number"] {
+    width: 100%;
+    min-width: 60px;
+    padding: 6px 8px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .remove-btn { background: none; border: none; color: var(--error); cursor: pointer; font-size: 0.8rem; }
+
+  .grand-total-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 14px;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 2px solid var(--brown-dark);
+  }
+
+  .grand-total-row .label { font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown-mid); }
+  .grand-total-row .amount { font-size: 1.6rem; font-weight: 700; color: var(--gold); font-family: 'Jost', sans-serif; }
+
+  .submit-bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: var(--white);
+    border-top: 1px solid var(--beige-dark);
+    padding: 16px 24px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    box-shadow: 0 -8px 24px rgba(87,58,30,0.08);
+    z-index: 10;
+  }
+
+  .submit-bar.show { display: flex; }
+
+  .submit-bar button {
+    padding: 14px 36px;
+    border: none;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  /* ══ PRINT VIEW (hidden on screen, shown when printing) ══ */
+  #print-view { display: none; }
+
+  @media print {
+    #builder, .submit-bar { display: none !important; }
+    #print-view { display: block !important; }
+
+    body { background: #fff; color: #2a1c10; font-family: Georgia, 'Cormorant Garamond', serif; }
+
+    .pv-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid #7a4a2a;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .pv-brand { display: flex; align-items: center; gap: 14px; }
+    .pv-logo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid #c9a87c; }
+    .pv-wordmark { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #7a4a2a; line-height: 1; }
+    .pv-sub { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: #a0683a; margin-top: 2px; }
+
+    .pv-title-block { text-align: right; }
+    .pv-title { font-family: Georgia, serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #7a4a2a; }
+    .pv-meta { font-size: 0.8rem; color: #a0683a; margin-top: 4px; }
+
+    .pv-client {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      background: #f5ede3;
+      border: 1px solid #d4b896;
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+    }
+
+    .pv-client .pv-label { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #a0683a; display: block; }
+
+    table.pv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    table.pv-table th {
+      text-align: left;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: #7a4a2a;
+      padding: 8px 10px;
+    }
+    table.pv-table th.num, table.pv-table td.num { text-align: right; }
+    table.pv-table td { padding: 8px 10px; border-bottom: 1px solid #e8d5c0; font-size: 0.92rem; }
+    table.pv-table tr:nth-child(even) td { background: #fbf6ee; }
+    .pv-item-note { display: block; font-style: italic; font-size: 0.78rem; color: #a0683a; }
+
+    .pv-total-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      align-items: baseline;
+      border-top: 3px solid #7a4a2a;
+      padding-top: 12px;
+    }
+    .pv-total-row .pv-total-label { font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: #7a4a2a; }
+    .pv-total-row .pv-total-amount { font-size: 1.8rem; font-weight: 700; color: #b8892a; }
+
+    .pv-footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid #d4b896;
+      text-align: center;
+      font-style: italic;
+      color: #a0683a;
+      font-size: 0.9rem;
+    }
+
+    .pv-footer .pv-contact { font-style: normal; font-size: 0.78rem; letter-spacing: 0.05em; margin-top: 6px; color: #7a4a2a; }
+  }
+</style>
+</head>
+<body>
+
+  <div id="builder">
+    <div class="top-bar">
+      <div>
+        <div class="wordmark">Hetty's</div>
+        <div class="sub">Quotation Builder</div>
+      </div>
+      <a href="admin.html">← Menu of the Day Builder</a>
+    </div>
+
+    <div class="client-panel">
+      <div class="field"><label>Client Name</label><input type="text" id="q-client-name" placeholder="Full name"></div>
+      <div class="field"><label>Phone / Email</label><input type="text" id="q-client-contact" placeholder="+351 ... or email"></div>
+      <div class="field"><label>Event / Delivery Date</label><input type="date" id="q-event-date"></div>
+      <div class="field full"><label>Notes (optional)</label><input type="text" id="q-notes" placeholder="Delivery address, dietary notes, etc."></div>
+    </div>
+
+    <div class="source-toggle">
+      <button class="source-btn active" id="src-menu-btn">Main Menu</button>
+      <button class="source-btn" id="src-bulk-btn">Bulk Order (Per Litre)</button>
+    </div>
+
+    <div id="src-menu-panel">
+      <div class="tabs" id="menu-tabs"></div>
+      <div id="menu-tab-panels"></div>
+    </div>
+
+    <div id="src-bulk-panel" style="display:none;">
+      <div class="tabs" id="bulk-tabs"></div>
+      <div id="bulk-tab-panels"></div>
+    </div>
+
+    <div class="custom-item-form">
+      <input type="text" name="name" placeholder="Custom item name">
+      <input type="text" name="price" placeholder="€ unit price">
+      <input type="text" name="qty" placeholder="Qty" value="1">
+      <button type="button" id="add-custom-line">Add Custom Line</button>
+    </div>
+
+    <div class="quote-panel">
+      <h2>Quotation Summary</h2>
+      <div id="quote-content"><p class="quote-empty">No items added yet — click items above to build the quote.</p></div>
+    </div>
+  </div>
+
+  <div class="submit-bar" id="submit-bar">
+    <button id="print-btn">Download PDF</button>
+  </div>
+
+  <!-- ══ PRINT-ONLY DOCUMENT (populated just before printing) ══ -->
+  <div id="print-view">
+    <div class="pv-header">
+      <div class="pv-brand">
+        <img class="pv-logo" src="images/hetty-logo.jpeg" alt="">
+        <div>
+          <div class="pv-wordmark">Hetty's</div>
+          <div class="pv-sub">African Kitchen</div>
+        </div>
+      </div>
+      <div class="pv-title-block">
+        <div class="pv-title">Quotation</div>
+        <div class="pv-meta" id="pv-quote-number"></div>
+        <div class="pv-meta" id="pv-quote-date"></div>
+      </div>
+    </div>
+
+    <div class="pv-client" id="pv-client"></div>
+
+    <table class="pv-table">
+      <thead>
+        <tr><th>Item</th><th class="num">Qty</th><th class="num">Unit Price</th><th class="num">Total</th></tr>
+      </thead>
+      <tbody id="pv-line-items"></tbody>
+    </table>
+
+    <div class="pv-total-row">
+      <div class="pv-total-label">Total</div>
+      <div class="pv-total-amount" id="pv-grand-total"></div>
+    </div>
+
+    <div class="pv-footer">
+      <div>Thank you for choosing Hetty's African Kitchen.</div>
+      <div class="pv-contact">Rua Monte Cativo 426A, Porto · @hettysafricankitchen</div>
+    </div>
+  </div>
+
+  <script src="menu-data.js"></script>
+  <script src="bulk-data.js"></script>
+  <script>
+    const MENU_CATEGORY_ORDER = Object.keys(MENU_DATA);
+    const BULK_CATEGORY_ORDER = Object.keys(BULK_MENU_DATA);
+
+    let lineItems = []; // { id, name, note, unitPrice, qty, tierLabel, tiers }
+    let lineIdCounter = 0;
+
+    function escapeHtml(str) {
+      return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function parsePrice(str) {
+      const n = parseFloat(String(str).replace('€', '').replace(',', '.'));
+      return isNaN(n) ? 0 : n;
+    }
+
+    // ── Source toggle ──
+    const srcMenuBtn = document.getElementById('src-menu-btn');
+    const srcBulkBtn = document.getElementById('src-bulk-btn');
+    const srcMenuPanel = document.getElementById('src-menu-panel');
+    const srcBulkPanel = document.getElementById('src-bulk-panel');
+
+    srcMenuBtn.addEventListener('click', function () {
+      srcMenuBtn.classList.add('active'); srcBulkBtn.classList.remove('active');
+      srcMenuPanel.style.display = ''; srcBulkPanel.style.display = 'none';
+    });
+    srcBulkBtn.addEventListener('click', function () {
+      srcBulkBtn.classList.add('active'); srcMenuBtn.classList.remove('active');
+      srcBulkPanel.style.display = ''; srcMenuPanel.style.display = 'none';
+    });
+
+    // ── Build tab sets for a given data source ──
+    function buildTabs(categoryOrder, dataObj, tabsEl, panelsEl, isBulk) {
+      categoryOrder.forEach(function (cat, idx) {
+        const tabBtn = document.createElement('button');
+        tabBtn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+        tabBtn.textContent = cat.replace(' (Bulk)', '');
+        tabBtn.addEventListener('click', function () {
+          tabsEl.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+          panelsEl.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+          tabBtn.classList.add('active');
+          panel.classList.add('active');
+        });
+        tabsEl.appendChild(tabBtn);
+
+        const panel = document.createElement('div');
+        panel.className = 'tab-panel' + (idx === 0 ? ' active' : '');
+
+        const grid = document.createElement('div');
+        grid.className = 'item-grid';
+        dataObj[cat].forEach(function (item) {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          const priceLabel = isBulk
+            ? (item.tiers.length === 1 ? (item.tiers[0].label + ' €' + item.tiers[0].price.toFixed(2)) : (item.tiers.length + ' options'))
+            : item.price;
+          card.innerHTML =
+            '<span class="nm">' + escapeHtml(item.name) + (item.note ? '<span class="note-text">' + escapeHtml(item.note) + '</span>' : '') + '</span>' +
+            '<span class="pr">' + escapeHtml(priceLabel) + '</span>';
+          card.addEventListener('click', function () {
+            if (isBulk) {
+              addLine({ name: item.name, note: item.note || '', tiers: item.tiers, tierLabel: item.tiers[0].label, unitPrice: item.tiers[0].price, qty: 1 });
+            } else {
+              addLine({ name: item.name, note: item.note || '', tiers: null, tierLabel: null, unitPrice: parsePrice(item.price), qty: 1 });
+            }
+          });
+          grid.appendChild(card);
+        });
+        panel.appendChild(grid);
+        panelsEl.appendChild(panel);
+      });
+    }
+
+    buildTabs(MENU_CATEGORY_ORDER, MENU_DATA, document.getElementById('menu-tabs'), document.getElementById('menu-tab-panels'), false);
+    buildTabs(BULK_CATEGORY_ORDER, BULK_MENU_DATA, document.getElementById('bulk-tabs'), document.getElementById('bulk-tab-panels'), true);
+
+    // ── Custom line ──
+    document.getElementById('add-custom-line').addEventListener('click', function () {
+      const name = document.querySelector('.custom-item-form input[name="name"]').value.trim();
+      const price = parsePrice(document.querySelector('.custom-item-form input[name="price"]').value);
+      const qty = parseFloat(document.querySelector('.custom-item-form input[name="qty"]').value) || 1;
+      if (!name) return;
+      addLine({ name: name, note: '', tiers: null, tierLabel: null, unitPrice: price, qty: qty });
+      document.querySelector('.custom-item-form input[name="name"]').value = '';
+      document.querySelector('.custom-item-form input[name="price"]').value = '';
+      document.querySelector('.custom-item-form input[name="qty"]').value = '1';
+    });
+
+    // ── Line management ──
+    function addLine(line) {
+      line.id = ++lineIdCounter;
+      lineItems.push(line);
+      renderQuote();
+    }
+
+    function removeLine(id) {
+      lineItems = lineItems.filter(function (l) { return l.id !== id; });
+      renderQuote();
+    }
+
+    const quoteContent = document.getElementById('quote-content');
+    const submitBar = document.getElementById('submit-bar');
+
+    function grandTotal() {
+      return lineItems.reduce(function (sum, l) { return sum + (l.unitPrice * l.qty); }, 0);
+    }
+
+    function renderQuote() {
+      if (lineItems.length === 0) {
+        quoteContent.innerHTML = '<p class="quote-empty">No items added yet — click items above to build the quote.</p>';
+        submitBar.classList.remove('show');
+        return;
+      }
+      submitBar.classList.add('show');
+
+      let html = '<table class="line-table"><thead><tr><th>Item</th><th>Tier</th><th class="num">Qty</th><th class="num">Unit Price</th><th class="num">Total</th><th></th></tr></thead><tbody>';
+      lineItems.forEach(function (l) {
+        let tierCell;
+        if (l.tiers && l.tiers.length > 1) {
+          tierCell = '<select data-id="' + l.id + '" class="tier-select">' +
+            l.tiers.map(function (t) { return '<option value="' + t.label + '" ' + (t.label === l.tierLabel ? 'selected' : '') + '>' + t.label + ' (€' + t.price.toFixed(2) + ')</option>'; }).join('') +
+            '</select>';
+        } else {
+          tierCell = escapeHtml(l.tierLabel || '—');
+        }
+        html += '<tr>' +
+          '<td>' + escapeHtml(l.name) + (l.note ? '<span class="note-text" style="display:block;font-size:0.78rem;color:var(--brown-mid);font-style:italic;">' + escapeHtml(l.note) + '</span>' : '') + '</td>' +
+          '<td>' + tierCell + '</td>' +
+          '<td class="num"><input type="number" min="1" step="1" value="' + l.qty + '" data-id="' + l.id + '" class="qty-input"></td>' +
+          '<td class="num">€' + l.unitPrice.toFixed(2) + '</td>' +
+          '<td class="num">€' + (l.unitPrice * l.qty).toFixed(2) + '</td>' +
+          '<td><button type="button" class="remove-btn" data-id="' + l.id + '">remove</button></td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+      html += '<div class="grand-total-row"><div class="label">Total</div><div class="amount">€' + grandTotal().toFixed(2) + '</div></div>';
+      quoteContent.innerHTML = html;
+
+      quoteContent.querySelectorAll('.qty-input').forEach(function (input) {
+        input.addEventListener('input', function () {
+          const id = parseInt(input.dataset.id, 10);
+          const line = lineItems.find(function (l) { return l.id === id; });
+          if (line) { line.qty = Math.max(1, parseFloat(input.value) || 1); renderQuote(); }
+        });
+      });
+      quoteContent.querySelectorAll('.tier-select').forEach(function (sel) {
+        sel.addEventListener('change', function () {
+          const id = parseInt(sel.dataset.id, 10);
+          const line = lineItems.find(function (l) { return l.id === id; });
+          if (line) {
+            const chosen = line.tiers.find(function (t) { return t.label === sel.value; });
+            line.tierLabel = chosen.label; line.unitPrice = chosen.price;
+            renderQuote();
+          }
+        });
+      });
+      quoteContent.querySelectorAll('.remove-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { removeLine(parseInt(btn.dataset.id, 10)); });
+      });
+    }
+
+    // ── Print / PDF ──
+    const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function todayFormatted() {
+      const d = new Date();
+      return WEEKDAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    document.getElementById('print-btn').addEventListener('click', function () {
+      const name = document.getElementById('q-client-name').value.trim() || '—';
+      const contact = document.getElementById('q-client-contact').value.trim() || '—';
+      const eventDate = document.getElementById('q-event-date').value;
+      const notes = document.getElementById('q-notes').value.trim();
+
+      document.getElementById('pv-quote-number').textContent = 'Quote #' + Date.now().toString().slice(-8);
+      document.getElementById('pv-quote-date').textContent = todayFormatted();
+
+      let clientHtml = '<div><span class="pv-label">Client</span>' + escapeHtml(name) + '</div>';
+      clientHtml += '<div><span class="pv-label">Contact</span>' + escapeHtml(contact) + '</div>';
+      clientHtml += '<div><span class="pv-label">Event / Delivery Date</span>' + (eventDate || '—') + '</div>';
+      clientHtml += '<div><span class="pv-label">Notes</span>' + (notes ? escapeHtml(notes) : '—') + '</div>';
+      document.getElementById('pv-client').innerHTML = clientHtml;
+
+      let rows = '';
+      lineItems.forEach(function (l) {
+        rows += '<tr><td>' + escapeHtml(l.name) + (l.tierLabel ? ' <em>(' + escapeHtml(l.tierLabel) + ')</em>' : '') +
+          (l.note ? '<span class="pv-item-note">' + escapeHtml(l.note) + '</span>' : '') + '</td>' +
+          '<td class="num">' + l.qty + '</td>' +
+          '<td class="num">€' + l.unitPrice.toFixed(2) + '</td>' +
+          '<td class="num">€' + (l.unitPrice * l.qty).toFixed(2) + '</td></tr>';
+      });
+      document.getElementById('pv-line-items').innerHTML = rows;
+      document.getElementById('pv-grand-total').textContent = '€' + grandTotal().toFixed(2);
+
+      window.print();
+    });
+  </script>
+</body>
+</html>

@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Hetty's Admin — Menu Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
     --beige: #e8d5c0;
@@ -403,6 +404,7 @@
         <div class="wordmark">Hetty's</div>
         <div class="sub">Menu of the Day Builder</div>
       </div>
+      <a href="quotation.html" style="color:var(--brown-mid);font-size:0.78rem;text-decoration:none;border-bottom:1px dotted var(--brown-mid);">Quotation Builder →</a>
       <div class="date-field">
         <label for="menu-date">Date</label>
         <input type="date" id="menu-date">
@@ -412,11 +414,11 @@
 
     <div class="gh-panel" id="gh-panel">
       <div class="gh-row">
-        <label for="gh-token">GitHub Token <span class="gh-optional">(optional — lets you publish with one click instead of downloading)</span></label>
+        <label for="gh-token">GitHub Token <span class="gh-optional">(required to publish the live menu)</span></label>
         <input type="password" id="gh-token" placeholder="github_pat_...">
         <label class="gh-remember"><input type="checkbox" id="gh-remember" checked> Remember on this device</label>
       </div>
-      <p class="gh-note" id="gh-note">Without a token, the Publish button below will just download the file instead — same as before.</p>
+      <p class="gh-note" id="gh-note">Enter a token to enable Publish. Download Instagram Image works either way.</p>
     </div>
 
     <div class="tabs" id="tabs"></div>
@@ -429,13 +431,13 @@
   </div>
 
   <div class="submit-bar" id="submit-bar">
-    <button id="submit-btn">Download Today's Menu</button>
-    <button id="download-instead-btn" type="button" style="display:none;">Download instead</button>
+    <button id="submit-btn" disabled>Publish to GitHub</button>
+    <button id="download-instead-btn" type="button">Download Instagram Image</button>
     <div class="submit-status" id="submit-status"></div>
   </div>
 
   <div class="instructions" id="instructions">
-    <p id="instructions-text">Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.</p>
+    <p id="instructions-text"><strong>Publish to GitHub</strong> pushes the real priced menu straight to the live site (needs a GitHub token above). <strong>Download Instagram Image</strong> saves a price-free image (or two, if the menu is long) ready to post.</p>
   </div>
 
   <script src="menu-data.js"></script>
@@ -469,16 +471,13 @@
 
     function updateGhUi() {
       const hasToken = ghTokenInput.value.trim().length > 0;
-      submitBtn.textContent = hasToken ? 'Publish to GitHub' : 'Download Today\'s Menu';
-      downloadInsteadBtn.style.display = hasToken ? 'inline-block' : 'none';
+      submitBtn.disabled = !hasToken;
       if (hasToken) {
         ghNote.textContent = 'Token entered — Publish will push straight to GitHub. Goes live in about a minute.';
         ghNote.className = 'gh-note connected';
-        instructionsText.textContent = 'Prefer to do it yourself? Use "Download instead" to save the file, then upload it on GitHub as before.';
       } else {
-        ghNote.textContent = 'Without a token, the button below will just download the file instead — same as before.';
+        ghNote.textContent = 'Enter a token to enable Publish. Download Instagram Image works either way.';
         ghNote.className = 'gh-note';
-        instructionsText.innerHTML = 'Save the downloaded file as <code>menu-today.html</code>, then on GitHub go to your repo → open <code>menu-today.html</code> → the pencil (edit) icon → select all, delete, paste the new content (or use "Upload files" to drag the downloaded file in directly) → commit to <code>main</code>. It goes live within a minute.';
       }
     }
 
@@ -530,16 +529,155 @@
       }
     }
 
-    function downloadHtmlFile(html) {
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'menu-today.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+    // ── Instagram image export (no prices), 1 or 2 pages depending on length ──
+    const INSTA_STYLES = '\n' +
+      '.insta-page { width: 1080px; background: #fdf8f3; font-family: \'Cormorant Garamond\', Georgia, serif; color: #7a4a2a; }\n' +
+      '.insta-wrap { padding: 56px 64px 64px; }\n' +
+      '.insta-hero { text-align: center; padding-bottom: 28px; }\n' +
+      '.insta-medallion { width: 130px; height: 130px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; border: 4px solid #c9a87c; box-shadow: 0 0 0 8px #ffffff; }\n' +
+      '.insta-medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }\n' +
+      '.insta-wordmark { font-family: \'Great Vibes\', cursive; font-size: 4.6rem; color: #7a4a2a; line-height: 1; }\n' +
+      '.insta-subline { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.05rem; letter-spacing: 0.3em; text-transform: uppercase; color: #a0683a; margin-top: 10px; }\n' +
+      '.insta-eyebrow { display: inline-block; margin-top: 22px; font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.28em; text-transform: uppercase; color: #b8892a; padding: 8px 22px; border: 1px solid #c9a87c; border-radius: 999px; }\n' +
+      '.insta-heading { font-family: \'Jost\', sans-serif; font-weight: 700; font-size: 2.3rem; color: #7a4a2a; margin: 18px 0 4px; }\n' +
+      '.insta-date { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.4rem; color: #a0683a; }\n' +
+      '.insta-cont-tag { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: #a0683a; text-align: center; padding-bottom: 24px; }\n' +
+      '.insta-group { margin-top: 36px; }\n' +
+      '.insta-group:first-child { margin-top: 0; }\n' +
+      '.insta-group-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }\n' +
+      '.insta-group-line { flex: 1; height: 2px; background: #d4b896; }\n' +
+      '.insta-group-title { font-family: \'Jost\', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: #7a4a2a; white-space: nowrap; }\n' +
+      '.insta-note { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.1rem; color: #a0683a; margin: -6px 0 12px; text-align: center; }\n' +
+      '.insta-dish-list { text-align: center; }\n' +
+      '.insta-dish { font-size: 1.5rem; font-weight: 500; color: #7a4a2a; padding: 5px 0; }\n' +
+      '.insta-dish .sub { display: block; font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1rem; color: #a0683a; }\n' +
+      '.insta-protein-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px; }\n' +
+      '.insta-protein-item { text-align: center; font-family: \'Jost\', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a4a2a; font-weight: 500; }\n' +
+      '.insta-protein-item .picon { font-size: 2.4rem; display: block; margin-bottom: 6px; }\n' +
+      '.insta-footer { text-align: center; margin-top: 44px; padding-top: 22px; border-top: 2px solid #d4b896; }\n' +
+      '.insta-signoff { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.5rem; color: #a0683a; }\n';
+
+    function instaGroupHtml(cat) {
+      let html = '<div class="insta-group">';
+      html += '<div class="insta-group-header"><div class="insta-group-line"></div><div class="insta-group-title">' + escapeHtml(cat.name) + '</div><div class="insta-group-line"></div></div>';
+      if (cat.note) html += '<div class="insta-note">' + escapeHtml(cat.note) + '</div>';
+      if (cat.isProteinRow) {
+        html += '<div class="insta-protein-row">';
+        cat.items.forEach(function (item) {
+          html += '<div class="insta-protein-item"><span class="picon">' + (item.icon || '🍽️') + '</span>' + escapeHtml(item.name) + '</div>';
+        });
+        html += '</div>';
+      } else {
+        html += '<div class="insta-dish-list">';
+        cat.items.forEach(function (item) {
+          html += '<div class="insta-dish">' + escapeHtml(item.name) + (item.note ? '<span class="sub">' + escapeHtml(item.note) + '</span>' : '') + '</div>';
+        });
+        html += '</div>';
+      }
+      if (cat.noteAfter) html += '<div class="insta-note" style="margin-top:10px;">' + escapeHtml(cat.noteAfter) + '</div>';
+      html += '</div>';
+      return html;
+    }
+
+    function heroHtml(dateFormatted) {
+      return '<div class="insta-hero">' +
+        '<div class="insta-medallion"><img src="images/hetty-logo.jpeg" alt=""></div>' +
+        '<div class="insta-wordmark">Hetty\'s</div>' +
+        '<div class="insta-subline">African Kitchen</div>' +
+        '<div class="insta-eyebrow">Today Only</div>' +
+        '<div class="insta-heading">Menu of the Day</div>' +
+        '<div class="insta-date">' + escapeHtml(dateFormatted) + '</div>' +
+        '</div>';
+    }
+
+    async function downloadInstagramImages(categories, dateFormatted) {
+      const measureRoot = document.createElement('div');
+      measureRoot.style.position = 'fixed';
+      measureRoot.style.left = '-10000px';
+      measureRoot.style.top = '0';
+      measureRoot.innerHTML = '<style>' + INSTA_STYLES + '</style><div class="insta-page"><div class="insta-wrap" id="__measure"></div></div>';
+      document.body.appendChild(measureRoot);
+      const measureWrap = measureRoot.querySelector('#__measure');
+      measureWrap.innerHTML = heroHtml(dateFormatted);
+      await new Promise(function (resolve) {
+        const img = measureWrap.querySelector('img');
+        if (img.complete) resolve(); else { img.onload = resolve; img.onerror = resolve; }
+      });
+      const heroHeight = measureWrap.getBoundingClientRect().height;
+
+      const groupHeights = categories.map(function (cat) {
+        measureWrap.innerHTML = instaGroupHtml(cat);
+        return measureWrap.getBoundingClientRect().height;
+      });
+      const footerDiv = document.createElement('div');
+      footerDiv.className = 'insta-footer';
+      footerDiv.innerHTML = '<div class="insta-signoff">Come, eat, enjoy and feel at home.</div>';
+      measureWrap.innerHTML = '';
+      measureWrap.appendChild(footerDiv);
+      const footerHeight = measureWrap.getBoundingClientRect().height;
+      document.body.removeChild(measureRoot);
+
+      const totalHeight = heroHeight + groupHeights.reduce(function (a, b) { return a + b; }, 0) + footerHeight;
+      const MAX_SINGLE_PAGE = 1900;
+
+      let pages;
+      if (totalHeight <= MAX_SINGLE_PAGE) {
+        pages = [{ groups: categories, hero: true, footer: true }];
+      } else {
+        const half = (totalHeight - heroHeight - footerHeight) / 2;
+        let running = 0, splitIdx = categories.length;
+        for (let i = 0; i < groupHeights.length; i++) {
+          running += groupHeights[i];
+          if (running >= half) { splitIdx = i + 1; break; }
+        }
+        splitIdx = Math.max(1, Math.min(splitIdx, categories.length - 1));
+        pages = [
+          { groups: categories.slice(0, splitIdx), hero: true, footer: false },
+          { groups: categories.slice(splitIdx), hero: false, footer: true }
+        ];
+      }
+
+      for (let p = 0; p < pages.length; p++) {
+        const page = pages[p];
+        const pageEl = document.createElement('div');
+        pageEl.style.position = 'fixed';
+        pageEl.style.left = '-10000px';
+        pageEl.style.top = '0';
+        let inner = '<style>' + INSTA_STYLES + '</style><div class="insta-page"><div class="insta-wrap">';
+        if (page.hero) inner += heroHtml(dateFormatted);
+        if (pages.length > 1 && !page.hero) inner += '<div class="insta-cont-tag">Menu of the Day — continued</div>';
+        inner += page.groups.map(instaGroupHtml).join('');
+        if (page.footer) inner += '<div class="insta-footer"><div class="insta-signoff">Come, eat, enjoy and feel at home.</div></div>';
+        inner += '</div></div>';
+        pageEl.innerHTML = inner;
+        document.body.appendChild(pageEl);
+
+        const img = pageEl.querySelector('img');
+        if (img) {
+          await new Promise(function (resolve) {
+            if (img.complete) resolve(); else { img.onload = resolve; img.onerror = resolve; }
+          });
+        }
+
+        const canvas = await html2canvas(pageEl.querySelector('.insta-page'), { scale: 2, useCORS: true, backgroundColor: '#fdf8f3' });
+        document.body.removeChild(pageEl);
+
+        await new Promise(function (resolve) {
+          canvas.toBlob(function (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = pages.length > 1 ? ('menu-instagram-' + (p + 1) + '.png') : 'menu-instagram.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            resolve();
+          }, 'image/png');
+        });
+      }
+
+      return pages.length;
     }
 
     function escapeHtml(str) {
@@ -871,8 +1009,8 @@
         '<' + '/script>\n';
     }
 
-    function buildPayload() {
-      const categories = CATEGORY_ORDER
+    function getSelectedCategories() {
+      return CATEGORY_ORDER
         .filter(function (cat) { return selection[cat].items.length > 0; })
         .map(function (cat) {
           const isProteinRow = cat === 'Extra Proteins';
@@ -888,20 +1026,18 @@
             })
           };
         });
+    }
+
+    function buildPayload() {
+      const categories = getSelectedCategories();
       const dateFormatted = formatDate(dateInput.value);
       return { html: buildMenuHtml(dateFormatted, categories), dateFormatted: dateFormatted };
     }
 
     submitBtn.addEventListener('click', async function () {
       const token = ghTokenInput.value.trim();
+      if (!token) return;
       const built = buildPayload();
-
-      if (!token) {
-        downloadHtmlFile(built.html);
-        submitStatus.textContent = 'Downloaded — see the instructions below to publish it.';
-        submitStatus.className = 'submit-status ok';
-        return;
-      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Publishing...';
@@ -919,11 +1055,27 @@
       updateGhUi();
     });
 
-    downloadInsteadBtn.addEventListener('click', function () {
-      const built = buildPayload();
-      downloadHtmlFile(built.html);
-      submitStatus.textContent = 'Downloaded.';
-      submitStatus.className = 'submit-status ok';
+    downloadInsteadBtn.addEventListener('click', async function () {
+      const categories = getSelectedCategories();
+      if (categories.length === 0) {
+        submitStatus.textContent = 'Select some items first.';
+        submitStatus.className = 'submit-status err';
+        return;
+      }
+      downloadInsteadBtn.disabled = true;
+      downloadInsteadBtn.textContent = 'Rendering...';
+      submitStatus.textContent = '';
+      submitStatus.className = 'submit-status';
+      try {
+        const pageCount = await downloadInstagramImages(categories, formatDate(dateInput.value));
+        submitStatus.textContent = pageCount === 1 ? 'Downloaded 1 image.' : 'Downloaded ' + pageCount + ' images.';
+        submitStatus.className = 'submit-status ok';
+      } catch (e) {
+        submitStatus.textContent = 'Could not render the image: ' + e.message;
+        submitStatus.className = 'submit-status err';
+      }
+      downloadInsteadBtn.disabled = false;
+      downloadInsteadBtn.textContent = 'Download Instagram Image';
     });
 
     updateGhUi();
