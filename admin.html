@@ -200,21 +200,15 @@
     text-align: left;
   }
 
-  .gh-toggle-label {
+  .gh-toggle-status {
     font-size: 0.78rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     font-weight: 600;
     color: var(--brown-mid);
   }
 
-  .gh-toggle-status {
-    font-size: 0.76rem;
-    font-style: italic;
-    color: var(--brown-mid);
-  }
-
-  .gh-toggle-status.connected { color: var(--success); font-weight: 600; font-style: normal; }
+  .gh-toggle-status.connected { color: var(--success); }
 
   .gh-toggle-arrow {
     margin-left: auto;
@@ -682,7 +676,6 @@
 
     <div class="gh-panel" id="gh-panel">
       <button type="button" class="gh-toggle" id="gh-toggle" aria-expanded="false">
-        <span class="gh-toggle-label">Advanced: GitHub Connection</span>
         <span class="gh-toggle-status" id="gh-toggle-status">Not connected</span>
         <span class="gh-toggle-arrow" id="gh-toggle-arrow">&#9662;</span>
       </button>
