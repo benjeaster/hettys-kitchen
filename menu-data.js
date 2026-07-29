@@ -1,4 +1,4 @@
-// Shared menu data — used by admin.html to build the daily menu.
+// Shared menu data - used by admin.html to build the daily menu.
 // Keep this in sync with index.html's Restaurant Menu tab if the main menu ever changes.
 const MENU_DATA = {
   "Starters & Small Chops": [

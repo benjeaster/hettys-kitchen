@@ -1,12 +1,12 @@
 // English → Portuguese (PT-PT) dictionary for the EN/PT toggle used on
 // index.html and every generated menu-today.html (see i18n.js). Keys are
-// matched against the *trimmed, whitespace-normalized* text of each element —
+// matched against the *trimmed, whitespace-normalized* text of each element -
 // anything not listed here is simply left in English rather than breaking
 // the page, so this can be extended gradually as new copy is added.
 //
 // Brand names, dish names that are themselves Nigerian/Portuguese proper
 // nouns (Nkwobi, Suya, Monte Velho, Hennessy...) and addresses are
-// deliberately left untranslated — they read the same in both languages.
+// deliberately left untranslated - they read the same in both languages.
 const PT_TRANSLATIONS = {
   // ── Nav / hero ──
   "African Kitchen · Authentic Nigerian Cuisine": "African Kitchen · Culinária Nigeriana Autêntica",
@@ -21,17 +21,17 @@ const PT_TRANSLATIONS = {
   "Main Dishes": "Pratos Principais",
   "Proteins & Extras": "Proteínas e Extras",
   "Small Chops & Snacks": "Salgadinhos & Lanches",
-  "Small Chops & Snacks — Pricing": "Salgadinhos & Lanches — Preços",
+  "Small Chops & Snacks: Pricing": "Salgadinhos & Lanches: Preços",
   "To Begin": "Para Começar",
-  "Freshly made for every order — perfect for sharing": "Feito na hora para cada encomenda — perfeito para partilhar",
+  "Freshly made for every order, perfect for sharing": "Feito na hora para cada encomenda, perfeito para partilhar",
   "The Heart of the Kitchen": "O Coração da Cozinha",
   "Authentic Nigerian flavours, cooked with love": "Sabores autênticos da Nigéria, cozinhados com amor",
   "Add to Your Meal": "Adicione à Sua Refeição",
   "Enhance any dish with your choice of protein": "Realce qualquer prato com a proteína à sua escolha",
   "Pricing Guide": "Guia de Preços",
   "Bulk Order Menu": "Menu de Encomendas em Quantidade",
-  "Priced by Plate / 1L / 2L / 4L for easy bulk ordering — everything on our menu, made for a crowd. Minimum order and advance notice apply.":
-    "Com preços por Prato / 1L / 2L / 4L para facilitar encomendas em quantidade — tudo o que temos no menu, feito para muita gente. Aplicam-se pedido mínimo e aviso prévio.",
+  "Priced by Plate / 1L / 2L / 4L for easy bulk ordering: everything on our menu, made for a crowd. Minimum order and advance notice apply.":
+    "Com preços por Prato / 1L / 2L / 4L para facilitar encomendas em quantidade: tudo o que temos no menu, feito para muita gente. Aplicam-se pedido mínimo e aviso prévio.",
   "Catering Packages": "Pacotes de Catering",
   "Fully customisable menus for every occasion": "Menus totalmente personalizáveis para qualquer ocasião",
   "Feeding a crowd? We specialise in large pre-orders for families, offices, and community gatherings. Order in advance and enjoy authentic African flavours at scale.":
@@ -69,17 +69,17 @@ const PT_TRANSLATIONS = {
 
   // ── Category notes ──
   "Served with 1 protein + fried plantain": "Servido com 1 proteína + banana-da-terra frita",
-  "Served with one swallow of your choice — Poundo Yam, Eba, Semo, Amala or Fufu · Extra swallow €4":
-    "Servido com um swallow à sua escolha — Poundo Yam, Eba, Semo, Amala ou Fufu · Swallow extra €4",
-  "Priced per platter, based on your selection and guest count — ask us for a quote": "Preço por travessa, consoante a sua seleção e número de convidados — peça-nos um orçamento",
-  "Priced per litre, includes one swallow — Poundo Yam, Eba, Semo, Amala or Fufu": "Preço por litro, inclui um swallow — Poundo Yam, Eba, Semo, Amala ou Fufu",
+  "Served with one swallow of your choice: Poundo Yam, Eba, Semo, Amala or Fufu · Extra swallow €4":
+    "Servido com um swallow à sua escolha: Poundo Yam, Eba, Semo, Amala ou Fufu · Swallow extra €4",
+  "Priced per platter, based on your selection and guest count. Ask us for a quote": "Preço por travessa, consoante a sua seleção e número de convidados. Peça-nos um orçamento",
+  "Priced per litre, includes one swallow: Poundo Yam, Eba, Semo, Amala or Fufu": "Preço por litro, inclui um swallow: Poundo Yam, Eba, Semo, Amala ou Fufu",
   "Served with 1 protein + fried plantain · estimated bulk pricing, please confirm": "Servido com 1 proteína + banana-da-terra frita · preços estimados para quantidade, por favor confirme",
   "Estimated bulk pricing, please confirm": "Preços estimados para quantidade, por favor confirme",
   "Base price shown; totals below include the protein": "Preço base indicado; os totais abaixo já incluem a proteína",
   "Suya, Peppered, BBQ, Peri-Peri or Honey Glaze": "Suya, Apimentadas, BBQ, Peri-Peri ou com Cobertura de Mel",
   "Egg Sauce, Boiled Yam and Fried Yam bulk prices are estimated, please confirm": "Os preços em quantidade de Molho de Ovo, Inhame Cozido e Inhame Frito são estimados, por favor confirme",
   "Add to any soup, rice or porridge order": "Adicione a qualquer pedido de sopa, arroz ou papa",
-  "Priced per unit as on our restaurant menu — ask about bulk tray or case pricing for large orders": "Preço por unidade, igual ao do nosso menu — pergunte sobre preços por tabuleiro ou caixa para encomendas grandes",
+  "Priced per unit as on our restaurant menu. Ask about bulk tray or case pricing for large orders": "Preço por unidade, igual ao do nosso menu. Pergunte sobre preços por tabuleiro ou caixa para encomendas grandes",
 
   // ── Starters & Small Chops ──
   "Mini Meat Pie (1 piece)": "Mini Empada de Carne (1 unidade)",
@@ -291,8 +291,8 @@ const PT_TRANSLATIONS = {
   "Mini Croissants (Savory Fillings)": "Mini Croissants (Recheios Salgados)",
 
   // ── Event Bookings ──
-  "From intimate dinners to large celebrations — let Hetty's African Kitchen bring the authentic taste of Nigeria to your special occasion.":
-    "De jantares íntimos a grandes celebrações — deixe a Hetty's African Kitchen trazer o sabor autêntico da Nigéria à sua ocasião especial.",
+  "From intimate dinners to large celebrations, let Hetty's African Kitchen bring the authentic taste of Nigeria to your special occasion.":
+    "De jantares íntimos a grandes celebrações, deixe a Hetty's African Kitchen trazer o sabor autêntico da Nigéria à sua ocasião especial.",
   "Event Packages": "Pacotes para Eventos",
   "Intimate Gathering": "Encontro Íntimo",
   "Up to 30 guests": "Até 30 convidados",
@@ -377,22 +377,22 @@ const PT_TRANSLATIONS = {
   "Intimate Gathering (up to 30)": "Encontro Íntimo (até 30)",
   "Celebration Package (30–80)": "Pacote de Celebração (30–80)",
   "Grand Event (80+)": "Evento Grandioso (mais de 80)",
-  "Not sure — advise me": "Não tenho a certeza — aconselhem-me",
+  "Not sure, advise me": "Não tenho a certeza, aconselhem-me",
   "Tell Us More": "Conte-nos Mais",
   "Venue, theme, dietary needs, special requests...": "Local, tema, restrições alimentares, pedidos especiais...",
   "Send Booking Enquiry": "Enviar Pedido de Reserva",
   "Thank you! We'll be in touch to plan your perfect event. If WhatsApp didn't open automatically, please tap Send in the chat window that opened.":
     "Obrigado! Entraremos em contacto para planear o seu evento perfeito. Se o WhatsApp não abriu automaticamente, toque em Enviar na janela de conversa que abriu.",
-  "Please fill in all fields before submitting — some details are missing or incomplete.":
-    "Por favor preencha todos os campos antes de enviar — faltam alguns detalhes ou estão incompletos.",
+  "Please fill in all fields before submitting: some details are missing or incomplete.":
+    "Por favor preencha todos os campos antes de enviar: faltam alguns detalhes ou estão incompletos.",
 
   // ── Chef bio ──
   "The Story Behind the Kitchen": "A História Por Trás da Cozinha",
   "Chef & Founder · Hetty's African Kitchen": "Chefe & Fundadora · Hetty's African Kitchen",
   "Born with a deep love for food and culture, Hetty brings the": "Nascida com um profundo amor pela comida e pela cultura, Hetty traz a",
   "authentic soul of Nigerian cuisine": "alma autêntica da culinária nigeriana",
-  "to the heart of Porto. Every dish she creates is a love letter to her roots — crafted from recipes passed down through generations, elevated with fresh, quality ingredients.":
-    "para o coração do Porto. Cada prato que cria é uma carta de amor às suas raízes — feito a partir de receitas passadas de geração em geração, valorizadas com ingredientes frescos e de qualidade.",
+  "to the heart of Porto. Every dish she creates is a love letter to her roots, crafted from recipes passed down through generations, elevated with fresh, quality ingredients.":
+    "para o coração do Porto. Cada prato que cria é uma carta de amor às suas raízes, feito a partir de receitas passadas de geração em geração, valorizadas com ingredientes frescos e de qualidade.",
   "After years of cooking for family and community, Hetty turned her passion into a mission: to share the warmth, flavour, and joy of African food with the world.":
     "Depois de anos a cozinhar para a família e a comunidade, Hetty transformou a sua paixão numa missão: partilhar o calor, o sabor e a alegria da comida africana com o mundo.",
   "From her kitchen to your table,": "Da sua cozinha para a sua mesa,",
@@ -413,7 +413,7 @@ const PT_TRANSLATIONS = {
 
 // Word-level fallback for compact price strings that mix a translatable
 // label with numbers (e.g. "Plate €20 · 1L €30"), applied only when a text
-// node has no exact match above. Keep this list short — anything ambiguous
+// node has no exact match above. Keep this list short - anything ambiguous
 // belongs in PT_TRANSLATIONS as a full-phrase entry instead.
 const PT_WORD_REPLACEMENTS = [
   [/\bPlate\b/g, 'Prato']

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Hetty's Admin — Menu Builder</title>
+<title>Hetty's Admin - Menu Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -60,6 +60,98 @@
     color: var(--brown-mid);
   }
 
+  /* Hamburger nav */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--beige-dark);
+    border-radius: 6px;
+    background: var(--white);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .hamburger-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--brown-dark);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .nav-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(40,24,12,0.45);
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .nav-drawer-overlay.show { display: block; opacity: 1; }
+
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 82vw;
+    background: var(--cream);
+    box-shadow: 8px 0 32px rgba(0,0,0,0.25);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+  }
+
+  .nav-drawer-overlay.show .nav-drawer { transform: translateX(0); }
+
+  .nav-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--beige-dark);
+    margin-bottom: 8px;
+  }
+
+  .nav-drawer-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.5rem;
+    color: var(--brown-dark);
+  }
+
+  .nav-drawer-close {
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--brown-mid);
+    cursor: pointer;
+  }
+
+  .nav-drawer-link {
+    display: block;
+    padding: 14px 20px;
+    color: var(--brown-dark);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--beige-light);
+  }
+
+  .nav-drawer-link:hover { background: var(--beige-light); }
+
   .date-field {
     display: flex;
     align-items: center;
@@ -91,8 +183,58 @@
     background: var(--beige-light);
     border: 1px solid var(--beige-dark);
     border-radius: 4px;
-    padding: 14px 16px;
     margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .gh-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    text-align: left;
+  }
+
+  .gh-toggle-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--brown-mid);
+  }
+
+  .gh-toggle-status {
+    font-size: 0.76rem;
+    font-style: italic;
+    color: var(--brown-mid);
+  }
+
+  .gh-toggle-status.connected { color: var(--success); font-weight: 600; font-style: normal; }
+
+  .gh-toggle-arrow {
+    margin-left: auto;
+    color: var(--brown-mid);
+    transition: transform 0.2s ease;
+    font-size: 0.9rem;
+  }
+
+  .gh-panel.open .gh-toggle-arrow { transform: rotate(180deg); }
+
+  .gh-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    padding: 0 16px;
+  }
+
+  .gh-panel.open .gh-body {
+    max-height: 220px;
+    padding: 0 16px 14px;
   }
 
   .gh-row {
@@ -262,6 +404,7 @@
     cursor: pointer;
     font-size: 0.92rem;
     text-align: left;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
   .item-card .nm { flex: 1; }
@@ -277,9 +420,26 @@
   .item-card.selected {
     background: var(--brown-dark);
     border-color: var(--brown-dark);
+    animation: cardPop 0.28s ease;
   }
   .item-card.selected .nm, .item-card.selected .pr { color: var(--white); }
   .item-card.selected .note-text { color: var(--beige); }
+
+  @keyframes cardPop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .item-card.selected { animation: none; }
+    .preview-row { animation: none !important; }
+  }
 
   .custom-item-form {
     display: flex;
@@ -353,6 +513,7 @@
     align-items: center;
     padding: 6px 0;
     font-size: 0.9rem;
+    animation: dropIn 0.3s ease;
   }
 
   .preview-row .remove-btn {
@@ -405,28 +566,6 @@
 
   .submit-status.ok { color: var(--success); }
   .submit-status.err { color: var(--error); }
-
-  .instructions {
-    max-width: 1000px;
-    margin: 24px auto 140px;
-    padding: 0 24px;
-  }
-
-  .instructions p {
-    font-size: 0.85rem;
-    color: var(--brown-mid);
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    line-height: 1.6;
-  }
-
-  .instructions code {
-    font-family: monospace;
-    font-style: normal;
-    background: var(--beige-light);
-    padding: 1px 6px;
-    border-radius: 3px;
-  }
 
   /* Insta image preview/save modal */
   .insta-modal-overlay {
@@ -514,11 +653,13 @@
 
   <div id="builder" class="show">
     <div class="top-bar">
+      <button class="hamburger-btn" id="hamburger-btn" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div>
         <div class="wordmark">Hetty's</div>
         <div class="sub">Menu of the Day Builder</div>
       </div>
-      <a href="quotation.html" style="color:var(--brown-mid);font-size:0.78rem;text-decoration:none;border-bottom:1px dotted var(--brown-mid);">Quotation Builder →</a>
       <div class="date-field">
         <label for="menu-date">Date</label>
         <input type="date" id="menu-date">
@@ -526,13 +667,33 @@
       </div>
     </div>
 
+    <div class="nav-drawer-overlay" id="nav-drawer-overlay">
+      <nav class="nav-drawer" id="nav-drawer">
+        <div class="nav-drawer-header">
+          <span class="nav-drawer-title">Hetty's Tools</span>
+          <button class="nav-drawer-close" id="nav-drawer-close" type="button" aria-label="Close navigation">&times;</button>
+        </div>
+        <a class="nav-drawer-link" href="index.html">Main Menu (Website)</a>
+        <a class="nav-drawer-link" href="menu-today.html">Menu of the Day</a>
+        <a class="nav-drawer-link" href="quotation.html">Quotation Builder</a>
+        <a class="nav-drawer-link" href="images/qr/menu-qr.png" target="_blank" rel="noopener">QR Code (Menu of the Day)</a>
+      </nav>
+    </div>
+
     <div class="gh-panel" id="gh-panel">
+      <button type="button" class="gh-toggle" id="gh-toggle" aria-expanded="false">
+        <span class="gh-toggle-label">Advanced: GitHub Connection</span>
+        <span class="gh-toggle-status" id="gh-toggle-status">Not connected</span>
+        <span class="gh-toggle-arrow" id="gh-toggle-arrow">&#9662;</span>
+      </button>
+      <div class="gh-body" id="gh-body">
       <div class="gh-row">
         <label for="gh-token">GitHub Token <span class="gh-optional">(required to publish the live menu)</span></label>
         <input type="password" id="gh-token" placeholder="github_pat_...">
         <label class="gh-remember"><input type="checkbox" id="gh-remember" checked> Remember on this device</label>
       </div>
       <p class="gh-note" id="gh-note">Enter a token to enable Publish. Download Instagram Image works either way.</p>
+      </div>
     </div>
 
     <div class="quick-actions">
@@ -546,18 +707,14 @@
 
     <div class="preview-panel">
       <h2>Today's Menu Preview</h2>
-      <div id="preview-content"><p class="preview-empty">Nothing selected yet — click items above to add them.</p></div>
+      <div id="preview-content"><p class="preview-empty">Nothing selected yet - click items above to add them.</p></div>
     </div>
   </div>
 
   <div class="submit-bar" id="submit-bar">
-    <button id="submit-btn" disabled>Publish to GitHub</button>
+    <button id="submit-btn" disabled>Generate Menu for Today</button>
     <button id="download-instead-btn" type="button">Download Instagram Image</button>
     <div class="submit-status" id="submit-status"></div>
-  </div>
-
-  <div class="instructions" id="instructions">
-    <p id="instructions-text"><strong>Publish to GitHub</strong> pushes the real priced menu straight to the live site (needs a GitHub token above). <strong>Download Instagram Image</strong> renders a price-free image (or two, if the menu is long) and opens a Save window for it.</p>
   </div>
 
   <div class="insta-modal-overlay" id="insta-modal-overlay">
@@ -584,7 +741,7 @@
     // selection[category] = { note: '', noteAfter: '', items: [{name, price, note}] }
     const selection = {};
 
-    // ── GitHub token (kept only in this browser — never in the repo) ──
+    // GitHub token (kept only in this browser - never in the repo)
     const GITHUB_OWNER = 'benjeaster';
     const GITHUB_REPO_NAME = 'hettys-kitchen';
     const GITHUB_BRANCH = 'main';
@@ -596,7 +753,37 @@
     const ghRemember = document.getElementById('gh-remember');
     const ghNote = document.getElementById('gh-note');
     const downloadInsteadBtn = document.getElementById('download-instead-btn');
-    const instructionsText = document.getElementById('instructions-text');
+    const ghPanel = document.getElementById('gh-panel');
+    const ghToggle = document.getElementById('gh-toggle');
+    const ghToggleStatus = document.getElementById('gh-toggle-status');
+
+    ghToggle.addEventListener('click', function () {
+      const willOpen = !ghPanel.classList.contains('open');
+      ghPanel.classList.toggle('open', willOpen);
+      ghToggle.setAttribute('aria-expanded', String(willOpen));
+    });
+
+    // ── Hamburger nav drawer ──
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navDrawerOverlay = document.getElementById('nav-drawer-overlay');
+    const navDrawerClose = document.getElementById('nav-drawer-close');
+
+    function openNavDrawer() {
+      navDrawerOverlay.classList.add('show');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeNavDrawer() {
+      navDrawerOverlay.classList.remove('show');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    }
+    hamburgerBtn.addEventListener('click', openNavDrawer);
+    navDrawerClose.addEventListener('click', closeNavDrawer);
+    navDrawerOverlay.addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) closeNavDrawer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeNavDrawer();
+    });
 
     const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
     if (savedToken) ghTokenInput.value = savedToken;
@@ -605,11 +792,15 @@
       const hasToken = ghTokenInput.value.trim().length > 0;
       submitBtn.disabled = !hasToken;
       if (hasToken) {
-        ghNote.textContent = 'Token entered — Publish will push straight to GitHub. Goes live in about a minute.';
+        ghNote.textContent = 'Token entered - Generate will push straight to GitHub. Goes live in about a minute.';
         ghNote.className = 'gh-note connected';
+        ghToggleStatus.textContent = 'Connected';
+        ghToggleStatus.className = 'gh-toggle-status connected';
       } else {
         ghNote.textContent = 'Enter a token to enable Publish. Download Instagram Image works either way.';
         ghNote.className = 'gh-note';
+        ghToggleStatus.textContent = 'Not connected';
+        ghToggleStatus.className = 'gh-toggle-status';
       }
     }
 
@@ -778,7 +969,7 @@
         pageEl.style.top = '0';
         let inner = '<style>' + INSTA_STYLES + '</style><div class="insta-page"><div class="insta-wrap">';
         if (page.hero) inner += heroHtml(dateFormatted);
-        if (pages.length > 1 && !page.hero) inner += '<div class="insta-cont-tag">Menu of the Day — continued</div>';
+        if (pages.length > 1 && !page.hero) inner += '<div class="insta-cont-tag">Menu of the Day (continued)</div>';
         inner += page.groups.map(instaGroupHtml).join('');
         if (page.footer) inner += '<div class="insta-footer"><div class="insta-signoff">Come, eat, enjoy and feel at home.</div></div>';
         inner += '</div></div>';
@@ -951,7 +1142,7 @@
       const noteAfterField = document.createElement('div');
       noteAfterField.className = 'cat-note-field';
       noteAfterField.innerHTML =
-        '<label>Note after items (optional — e.g. surcharges)</label>' +
+        '<label>Note after items (optional - e.g. surcharges)</label>' +
         '<textarea data-cat="' + cat + '" data-role="noteAfter" placeholder="e.g. +€2 if with Goat Meat"></textarea>';
       noteAfterField.querySelector('textarea').addEventListener('input', function (e) {
         selection[cat].noteAfter = e.target.value;
@@ -982,18 +1173,68 @@
     function saveState() {
       try {
         localStorage.setItem(MENU_STATE_KEY, JSON.stringify({ selection: selection }));
-      } catch (e) { /* storage unavailable — not critical */ }
+      } catch (e) { /* storage unavailable - not critical */ }
     }
 
-    function restoreState() {
-      const raw = localStorage.getItem(MENU_STATE_KEY);
-      if (!raw) return;
-      let parsed;
-      try { parsed = JSON.parse(raw); } catch (e) { return; }
-      if (!parsed || !parsed.selection) return;
+    // Reads the file straight off the live site (same origin, cache-busted)
+    // and reconstructs a selection-shaped object from its rendered HTML, so
+    // the builder defaults to whatever is actually live right now rather
+    // than a possibly-stale local memory of some earlier editing session.
+    async function fetchLiveMenuSelection() {
+      const res = await fetch('menu-today.html?_=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const data = {};
 
+      doc.querySelectorAll('section.group').forEach(function (section) {
+        const titleEl = section.querySelector('.group-title');
+        if (!titleEl) return;
+        const title = titleEl.textContent.trim();
+        const cat = title === 'Proteins' ? 'Extra Proteins' : title;
+        if (CATEGORY_ORDER.indexOf(cat) === -1) return;
+
+        const dishContainer = section.querySelector('.protein-row') || section.querySelector('.drinks-grid') || section;
+        let note = '', noteAfter = '';
+        section.querySelectorAll('.group-note').forEach(function (p) {
+          const precedesDishes = !!(dishContainer.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_PRECEDING);
+          if (precedesDishes) note = p.textContent.trim(); else noteAfter = p.textContent.trim();
+        });
+
+        const items = [];
+        if (section.querySelector('.protein-row')) {
+          section.querySelectorAll('.protein-item').forEach(function (el) {
+            const clone = el.cloneNode(true);
+            const iconEl = clone.querySelector('.picon');
+            if (iconEl) iconEl.remove();
+            const name = clone.textContent.trim();
+            if (name) items.push({ name: name, price: '', note: '' });
+          });
+        } else {
+          section.querySelectorAll('.dish').forEach(function (el) {
+            const nameEl = el.querySelector('.dish-name');
+            const priceEl = el.querySelector('.dish-price');
+            if (!nameEl) return;
+            const noteEl = nameEl.querySelector('.dish-note');
+            const noteText = noteEl ? noteEl.textContent.trim() : '';
+            const nameClone = nameEl.cloneNode(true);
+            const innerNote = nameClone.querySelector('.dish-note');
+            if (innerNote) innerNote.remove();
+            const name = nameClone.textContent.trim();
+            const price = priceEl ? priceEl.textContent.trim() : '';
+            if (name) items.push({ name: name, price: price, note: noteText });
+          });
+        }
+
+        data[cat] = { note: note, noteAfter: noteAfter, items: items };
+      });
+
+      return data;
+    }
+
+    function applySelectionData(data) {
       CATEGORY_ORDER.forEach(function (cat) {
-        const saved = parsed.selection[cat];
+        const saved = data[cat];
         if (!saved) return;
         selection[cat].note = saved.note || '';
         selection[cat].noteAfter = saved.noteAfter || '';
@@ -1005,21 +1246,51 @@
 
         (saved.items || []).forEach(function (item) {
           let card = findItemCard(cat, item.name, item.note || '');
-          if (!card) {
+          let price = item.price;
+          if (card) {
+            price = card.dataset.price;
+          } else {
             const grid = categoryGrids[cat];
             if (!grid) return;
             card = addCustomCard(cat, grid, item.name, item.price, item.note || '');
           }
-          selection[cat].items.push({ name: item.name, price: item.price, note: item.note || '' });
+          selection[cat].items.push({ name: item.name, price: price, note: item.note || '' });
           card.classList.add('selected');
         });
       });
 
       updateTabCounts();
       renderPreview();
+    }
+
+    async function restoreState() {
+      const hintEl = document.getElementById('quick-hint');
+      hintEl.textContent = "Loading today's live menu...";
+      let data = null;
+      let source = null;
+
+      try {
+        data = await fetchLiveMenuSelection();
+        source = 'live';
+      } catch (e) {
+        const raw = localStorage.getItem(MENU_STATE_KEY);
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.selection) { data = parsed.selection; source = 'local'; }
+          } catch (e2) { /* corrupt local cache - ignore */ }
+        }
+      }
+
+      if (!data) { hintEl.textContent = ''; return; }
+      applySelectionData(data);
 
       if (totalSelectedCount() > 0) {
-        document.getElementById('quick-hint').textContent = 'Loaded your last saved selections — edit as needed, or Start New Menu for a blank one.';
+        hintEl.textContent = source === 'live'
+          ? "Showing today's live menu - edit as needed, or Start New Menu for a blank one."
+          : "Couldn't reach the live menu - showing your last local session instead.";
+      } else {
+        hintEl.textContent = '';
       }
     }
 
@@ -1093,7 +1364,7 @@
       saveState();
       const total = totalSelectedCount();
       if (total === 0) {
-        previewEl.innerHTML = '<p class="preview-empty">Nothing selected yet — click items above to add them.</p>';
+        previewEl.innerHTML = '<p class="preview-empty">Nothing selected yet - click items above to add them.</p>';
         submitBar.classList.remove('show');
         return;
       }
@@ -1164,7 +1435,7 @@
     function buildMenuHtml(dateFormatted, categories) {
       const sections = categories.map(renderCategory).join('\n');
       return '<meta charset="UTF-8">\n' +
-        '<title>Menu of the Day — Hetty\'s African Kitchen</title>\n' +
+        '<title>Menu of the Day - Hetty\'s African Kitchen</title>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n' +
         '<style>\n' +
         '  :root {\n' +
@@ -1181,7 +1452,7 @@
         '    --shadow: rgba(122, 74, 42, 0.12);\n' +
         '  }\n' +
         '  * { box-sizing: border-box; }\n' +
-        '  html { font-size: 25px; }\n' +
+        '  html { font-size: 30px; }\n' +
         '  body { margin: 0; background: var(--cream); color: var(--brown-dark); font-family: \'Cormorant Garamond\', Georgia, serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }\n' +
         '  .bg-slideshow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }\n' +
         '  .bg-slide { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; transition: opacity 2s ease-in-out; }\n' +
@@ -1198,7 +1469,8 @@
         '  section.group { margin-top: 40px; }\n' +
         '  .group-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }\n' +
         '  .group-line { flex: 1; height: 1px; background: var(--beige-dark); }\n' +
-        '  .group-title { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-dark); white-space: nowrap; }\n' +
+        '  .group-title { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-dark); text-align: center; max-width: 100%; }\n' +
+        '  @media (max-width: 400px) { .group-title { font-size: 1.05rem; letter-spacing: 0.08em; } }\n' +
         '  .group-note { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); margin: -4px 0 16px; }\n' +
         '  .dish { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--beige-dark); }\n' +
         '  .dish:last-child { border-bottom: none; }\n' +
@@ -1217,10 +1489,11 @@
         '  .signoff { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.25rem; color: var(--brown-mid); }\n' +
         '  .stamp { margin-top: 10px; font-family: \'Jost\', sans-serif; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kraft); }\n' +
         '  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }\n' +
-        '  .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 20; padding: 8px 16px; border: 1px solid var(--kraft); border-radius: 999px; background: var(--white); color: var(--brown-dark); font-family: \'Jost\', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 4px 14px rgba(122,74,42,0.14); }\n' +
+        '  .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 20; padding: 12px 22px; border: 2px solid var(--kraft); border-radius: 999px; background: var(--white); color: var(--brown-dark); font-family: \'Jost\', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 4px 14px rgba(122,74,42,0.18); white-space: nowrap; }\n' +
         '  .lang-toggle:hover { background: var(--beige-light); }\n' +
+        '  @media (max-width: 480px) { .lang-toggle { top: 10px; right: 10px; padding: 9px 16px; font-size: 0.82rem; } }\n' +
         '</style>\n\n' +
-        '<button class="lang-toggle" id="lang-toggle" type="button">PT</button>\n\n' +
+        '<button class="lang-toggle" id="lang-toggle" type="button">Português</button>\n\n' +
         '<div class="bg-slideshow" id="bgSlideshow">\n' +
         '  <div class="bg-slide active" style="background-image: url(\'images/restaurant/rest0.jpeg\');"></div>\n' +
         '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest1.jpg\');"></div>\n' +
@@ -1292,17 +1565,18 @@
       const built = buildPayload();
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Publishing...';
+      submitBtn.textContent = 'Generating...';
       submitStatus.textContent = '';
       submitStatus.className = 'submit-status';
       try {
         await publishToGithub(token, built.html, built.dateFormatted);
-        submitStatus.textContent = 'Published! Live in about a minute.';
+        submitStatus.textContent = 'Generated! Live in about a minute.';
         submitStatus.className = 'submit-status ok';
       } catch (e) {
         submitStatus.textContent = e.message || 'Something went wrong.';
         submitStatus.className = 'submit-status err';
       }
+      submitBtn.textContent = 'Generate Menu for Today';
       submitBtn.disabled = false;
       updateGhUi();
     });
@@ -1320,7 +1594,7 @@
       submitStatus.className = 'submit-status';
       try {
         const pageCount = await downloadInstagramImages(categories, formatDate(dateInput.value));
-        submitStatus.textContent = pageCount === 1 ? 'Image ready — tap Save in the window above.' : pageCount + ' images ready — tap Save in the window above.';
+        submitStatus.textContent = pageCount === 1 ? 'Image ready - tap Save in the window above.' : pageCount + ' images ready - tap Save in the window above.';
         submitStatus.className = 'submit-status ok';
       } catch (e) {
         submitStatus.textContent = 'Could not render the image: ' + e.message;

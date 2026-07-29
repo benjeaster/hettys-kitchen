@@ -34,6 +34,16 @@
     background: var(--cream);
     font-family: 'Jost', sans-serif;
     color: var(--brown-dark);
+    animation: pageFadeIn 0.8s ease-out;
+  }
+
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body { animation: none; }
   }
 
   /* ══ NAV TABS ══ */
@@ -43,6 +53,7 @@
     z-index: 100;
     background: var(--brown-dark);
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 0;
     box-shadow: 0 2px 16px rgba(140,90,51,0.3);
@@ -53,19 +64,30 @@
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
-    padding: 7px 14px;
-    border: 1px solid rgba(255,255,255,0.4);
+    padding: 12px 22px;
+    border: 2px solid rgba(255,255,255,0.55);
     border-radius: 999px;
-    background: transparent;
+    background: rgba(255,255,255,0.06);
     color: var(--beige-light);
     font-family: 'Jost', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     cursor: pointer;
+    white-space: nowrap;
   }
 
-  .lang-toggle:hover { background: rgba(255,255,255,0.12); }
+  .lang-toggle:hover { background: rgba(255,255,255,0.16); }
+
+  @media (max-width: 640px) {
+    .lang-toggle {
+      position: static;
+      transform: none;
+      margin: 0 auto;
+      display: block;
+      width: max-content;
+    }
+  }
 
   .nav-tab {
     padding: 16px 32px;
@@ -211,10 +233,16 @@
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--brown-dark);
-    white-space: nowrap;
+    text-align: center;
+    max-width: 100%;
     padding: 5px 18px;
     border: 1px solid var(--beige-dark);
     background: var(--cream);
+  }
+
+  @media (max-width: 480px) {
+    .cat-title { font-size: 1.02rem; letter-spacing: 0.07em; padding: 5px 10px; }
+    .cat-header { gap: 8px; }
   }
 
   .cat-note {
@@ -729,7 +757,7 @@
   .chef-slide.active { opacity: 1; }
 
   /* Placeholder gradient slides until photos added */
-  /* gradient fallbacks removed — using real photos */
+  /* gradient fallbacks removed - using real photos */
 
   /* Placeholder text shown until photos added */
   .chef-slide-placeholder {
@@ -914,7 +942,7 @@
 
 
 <!-- ════════════════════════════════
-     SECTION 1 — RESTAURANT MENU
+     SECTION 1 - RESTAURANT MENU
 ════════════════════════════════ -->
 <div id="restaurant" class="section active">
   <div class="page">
@@ -1025,7 +1053,7 @@
   .chef-slide.active { opacity: 1; }
 
   /* Placeholder gradient slides until photos added */
-  /* gradient fallbacks removed — using real photos */
+  /* gradient fallbacks removed - using real photos */
 
   /* Placeholder text shown until photos added */
   .chef-slide-placeholder {
@@ -1179,11 +1207,11 @@
       <div class="section-intro">
         <p class="section-eyebrow">To Begin</p>
         <h2 class="section-heading">Small Chops & Snacks</h2>
-        <p class="section-desc">Freshly made for every order — perfect for sharing</p>
+        <p class="section-desc">Freshly made for every order, perfect for sharing</p>
       </div>
 
       <div class="cat-block">
-        <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Small Chops & Snacks — Pricing</h3><div class="cat-line r"></div></div>
+        <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Small Chops & Snacks: Pricing</h3><div class="cat-line r"></div></div>
         <div class="menu-grid">
           <div class="menu-row"><span class="row-name">Mini Meat Pie (1 piece)</span><span class="row-dots"></span><span class="row-price">€3.99</span></div>
           <div class="menu-row"><span class="row-name">Large Meat Pie (1 piece)</span><span class="row-dots"></span><span class="row-price">€5.00</span></div>
@@ -1233,7 +1261,7 @@
 
       <div class="cat-block">
         <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Soups & Swallow</h3><div class="cat-line r"></div></div>
-        <p class="cat-note">Served with one swallow of your choice — Poundo Yam, Eba, Semo, Amala or Fufu &nbsp;·&nbsp; Extra swallow €4</p>
+        <p class="cat-note">Served with one swallow of your choice: Poundo Yam, Eba, Semo, Amala or Fufu &nbsp;·&nbsp; Extra swallow €4</p>
         <div class="menu-grid">
           <div class="menu-row"><span class="row-name">Egusi Soup</span><span class="row-dots"></span><span class="row-price">€20</span></div>
           <div class="menu-row"><span class="row-name">Ogbono Soup</span><span class="row-dots"></span><span class="row-price">€20</span></div>
@@ -1415,7 +1443,7 @@
 
 
 <!-- ════════════════════════════════
-     SECTION 2 — BULK ORDERS
+     SECTION 2 - BULK ORDERS
 ════════════════════════════════ -->
 <div id="bulk" class="section">
   <div class="page">
@@ -1428,12 +1456,12 @@
     <div class="section-intro">
       <p class="section-eyebrow">Pricing Guide</p>
       <h2 class="section-heading">Bulk Order Menu</h2>
-      <p class="section-desc">Priced by Plate / 1L / 2L / 4L for easy bulk ordering — everything on our menu, made for a crowd. Minimum order and advance notice apply.</p>
+      <p class="section-desc">Priced by Plate / 1L / 2L / 4L for easy bulk ordering: everything on our menu, made for a crowd. Minimum order and advance notice apply.</p>
     </div>
 
     <div class="cat-block">
       <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Starters &amp; Small Chops</h3><div class="cat-line r"></div></div>
-      <p class="cat-note">Priced per platter, based on your selection and guest count — ask us for a quote</p>
+      <p class="cat-note">Priced per platter, based on your selection and guest count. Ask us for a quote</p>
       <div class="menu-grid three">
         <div class="menu-row"><span class="row-name">Samosa (Beef, Chicken, Vegetable)</span></div>
         <div class="menu-row"><span class="row-name">Spring Rolls (Chicken, Vegetable)</span></div>
@@ -1498,7 +1526,7 @@
 
     <div class="cat-block">
       <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Soups &amp; Swallow (Bulk)</h3><div class="cat-line r"></div></div>
-      <p class="cat-note">Priced per litre, includes one swallow — Poundo Yam, Eba, Semo, Amala or Fufu</p>
+      <p class="cat-note">Priced per litre, includes one swallow: Poundo Yam, Eba, Semo, Amala or Fufu</p>
       <div class="menu-grid single">
         <div class="menu-row"><span class="row-name">Egusi Soup</span><span class="row-dots"></span><span class="row-price">1L €25</span></div>
         <div class="menu-row"><span class="row-name">Ogbono Soup</span><span class="row-dots"></span><span class="row-price">1L €25</span></div>
@@ -1634,7 +1662,7 @@
 
     <div class="cat-block">
       <div class="cat-header"><div class="cat-line"></div><h3 class="cat-title">Desserts &amp; Drinks</h3><div class="cat-line r"></div></div>
-      <p class="cat-note">Priced per unit as on our restaurant menu — ask about bulk tray or case pricing for large orders</p>
+      <p class="cat-note">Priced per unit as on our restaurant menu. Ask about bulk tray or case pricing for large orders</p>
       <div class="menu-grid three">
         <div class="menu-row"><span class="row-name">Banana Bread</span><span class="row-dots"></span><span class="row-price">€6</span></div>
         <div class="menu-row"><span class="row-name">Cinnamon Roll</span><span class="row-dots"></span><span class="row-price">€6</span></div>
@@ -1700,14 +1728,14 @@
 
 
 <!-- ════════════════════════════════
-     SECTION 3 — EVENT BOOKINGS
+     SECTION 3 - EVENT BOOKINGS
 ════════════════════════════════ -->
 <div id="events" class="section">
   <div class="page">
 
     <div class="info-band">
       <h2>Event Bookings</h2>
-      <p>From intimate dinners to large celebrations — let Hetty's African Kitchen bring the authentic taste of Nigeria to your special occasion.</p>
+      <p>From intimate dinners to large celebrations, let Hetty's African Kitchen bring the authentic taste of Nigeria to your special occasion.</p>
     </div>
 
     <div class="section-intro">
@@ -1817,7 +1845,7 @@
             <option>Intimate Gathering (up to 30)</option>
             <option>Celebration Package (30–80)</option>
             <option>Grand Event (80+)</option>
-            <option>Not sure — advise me</option>
+            <option>Not sure, advise me</option>
           </select>
         </div>
         <div class="form-group"><label>Tell Us More</label><textarea name="notes" placeholder="Venue, theme, dietary needs, special requests..." required></textarea></div>
@@ -1835,7 +1863,7 @@
 <!-- ══ MEET THE CHEF ══ -->
 <!-- To add your photos: replace the background-image URL on each .chef-slide div
      e.g. style="background-image: url('images/chef/chef1.jpg');"
-     Add as many .chef-slide divs as you like — the JS will auto-detect them -->
+     Add as many .chef-slide divs as you like - the JS will auto-detect them -->
 <section class="chef-section">
   <div class="chef-inner">
 
@@ -1860,7 +1888,7 @@
       <p class="chef-title">Chef & Founder · Hetty's African Kitchen</p>
       <div class="chef-rule"></div>
       <p class="chef-story">
-        Born with a deep love for food and culture, Hetty brings the <em>authentic soul of Nigerian cuisine</em> to the heart of Porto. Every dish she creates is a love letter to her roots — crafted from recipes passed down through generations, elevated with fresh, quality ingredients.
+        Born with a deep love for food and culture, Hetty brings the <em>authentic soul of Nigerian cuisine</em> to the heart of Porto. Every dish she creates is a love letter to her roots, crafted from recipes passed down through generations, elevated with fresh, quality ingredients.
       </p>
       <p class="chef-story">
         After years of cooking for family and community, Hetty turned her passion into a mission: to share the warmth, flavour, and joy of African food with the world. <em>From her kitchen to your table,</em> every meal is made with intention, pride, and an abundance of love.
@@ -1937,7 +1965,7 @@
     const errorEl = document.getElementById(kind + '-error');
 
     if (!form.checkValidity()) {
-      errorEl.textContent = 'Please fill in all fields before submitting — some details are missing or incomplete.';
+      errorEl.textContent = 'Please fill in all fields before submitting: some details are missing or incomplete.';
       errorEl.classList.add('show');
       const firstInvalid = form.querySelector(':invalid');
       if (firstInvalid) firstInvalid.focus();
@@ -1949,7 +1977,7 @@
     // Build a readable summary of the submission
     const labels = FORM_FIELD_LABELS[kind];
     const data = new FormData(form);
-    let lines = [labels.title + ' — Hetty\'s African Kitchen', ''];
+    let lines = [labels.title + ' - Hetty\'s African Kitchen', ''];
     Object.keys(labels).forEach(key => {
       if (key === 'title') return;
       const value = data.get(key);
@@ -1957,7 +1985,7 @@
     });
     const message = lines.join('\n');
 
-    // Open a pre-filled WhatsApp chat to Hetty's business line — the visitor
+    // Open a pre-filled WhatsApp chat to Hetty's business line - the visitor
     // just needs to tap Send once WhatsApp opens (no backend/API can send
     // WhatsApp messages silently from a static site without a paid
     // WhatsApp Business API integration).
@@ -1971,7 +1999,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(data).toString()
-    }).catch(() => { /* non-fatal — WhatsApp path still covers delivery */ });
+    }).catch(() => { /* non-fatal - WhatsApp path still covers delivery */ });
 
     const toast = document.getElementById(kind + '-toast');
     toast.classList.add('show');

@@ -2,7 +2,7 @@
 // menu-today.html. Walks visible text nodes (and input placeholders) and
 // swaps them using the PT_TRANSLATIONS / PT_WORD_REPLACEMENTS dictionary
 // from translations.js. Anything not in the dictionary is left in English
-// rather than breaking the page — this lets the toggle cover the whole site
+// rather than breaking the page - this lets the toggle cover the whole site
 // without needing every string translated up front.
 (function () {
   const LANG_KEY = 'hettys_lang';
@@ -89,7 +89,7 @@
     function setLang(next) {
       lang = next;
       translatePage(lang);
-      btn.textContent = lang === 'en' ? 'PT' : 'EN';
+      btn.textContent = lang === 'en' ? 'Português' : 'English';
       btn.setAttribute('aria-label', lang === 'en' ? 'Ver em Português' : 'View in English');
       try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* storage unavailable */ }
     }

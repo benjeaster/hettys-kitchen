@@ -1,6 +1,6 @@
 // Bulk Order pricing (per litre / per plate), structured for the Quotation
 // builder. Keep in sync with the Bulk Orders section of index.html.
-// Each item has a `tiers` array of { label, price } — price is a plain number (euros).
+// Each item has a `tiers` array of { label, price } - price is a plain number (euros).
 const BULK_MENU_DATA = {
   "Soups & Swallow (Bulk)": [
     { name: "Egusi Soup", note: "Includes one swallow", tiers: [{ label: "1L", price: 25 }] },
