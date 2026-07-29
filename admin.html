@@ -146,6 +146,39 @@
     cursor: pointer;
   }
 
+  .quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .quick-btn {
+    padding: 9px 18px;
+    border: 1px solid var(--kraft);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--brown-dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .quick-btn-danger {
+    border-color: var(--error);
+    color: var(--error);
+  }
+
+  .quick-hint {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--brown-mid);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
   /* Tabs */
   .tabs {
     display: flex;
@@ -394,6 +427,87 @@
     padding: 1px 6px;
     border-radius: 3px;
   }
+
+  /* Insta image preview/save modal */
+  .insta-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(40,24,12,0.72);
+    z-index: 1000;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 40px 16px;
+  }
+
+  .insta-modal-overlay.show { display: flex; }
+
+  .insta-modal {
+    background: var(--cream);
+    border-radius: 8px;
+    max-width: 640px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+
+  .insta-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .insta-modal-header h3 {
+    margin: 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+  }
+
+  .insta-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--brown-mid);
+    line-height: 1;
+  }
+
+  .insta-modal-hint {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--brown-mid);
+    font-size: 0.95rem;
+    margin: 0 0 18px;
+  }
+
+  .insta-modal-page { margin-bottom: 22px; }
+
+  .insta-modal-page img {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--beige-dark);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .insta-modal-save {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -421,6 +535,12 @@
       <p class="gh-note" id="gh-note">Enter a token to enable Publish. Download Instagram Image works either way.</p>
     </div>
 
+    <div class="quick-actions">
+      <button type="button" class="quick-btn" id="add-all-drinks-btn">+ Add All Drinks</button>
+      <button type="button" class="quick-btn quick-btn-danger" id="start-new-btn">Start New Menu</button>
+      <span class="quick-hint" id="quick-hint"></span>
+    </div>
+
     <div class="tabs" id="tabs"></div>
     <div id="tab-panels"></div>
 
@@ -437,7 +557,18 @@
   </div>
 
   <div class="instructions" id="instructions">
-    <p id="instructions-text"><strong>Publish to GitHub</strong> pushes the real priced menu straight to the live site (needs a GitHub token above). <strong>Download Instagram Image</strong> saves a price-free image (or two, if the menu is long) ready to post.</p>
+    <p id="instructions-text"><strong>Publish to GitHub</strong> pushes the real priced menu straight to the live site (needs a GitHub token above). <strong>Download Instagram Image</strong> renders a price-free image (or two, if the menu is long) and opens a Save window for it.</p>
+  </div>
+
+  <div class="insta-modal-overlay" id="insta-modal-overlay">
+    <div class="insta-modal">
+      <div class="insta-modal-header">
+        <h3>Save Your Image<span id="insta-modal-count"></span></h3>
+        <button type="button" class="insta-modal-close" id="insta-modal-close">✕</button>
+      </div>
+      <p class="insta-modal-hint">On a phone: press and hold an image below and choose "Save Image" / "Add to Photos". On a computer: click Save Image, or right-click an image and choose "Save Image As".</p>
+      <div id="insta-modal-body"></div>
+    </div>
   </div>
 
   <script src="menu-data.js"></script>
@@ -459,6 +590,7 @@
     const GITHUB_BRANCH = 'main';
     const GITHUB_FILE_PATH = 'menu-today.html';
     const TOKEN_STORAGE_KEY = 'hettys_admin_gh_token';
+    const MENU_STATE_KEY = 'hettys_admin_menu_state';
 
     const ghTokenInput = document.getElementById('gh-token');
     const ghRemember = document.getElementById('gh-remember');
@@ -637,6 +769,7 @@
         ];
       }
 
+      const results = [];
       for (let p = 0; p < pages.length; p++) {
         const page = pages[p];
         const pageEl = document.createElement('div');
@@ -662,23 +795,54 @@
         const canvas = await html2canvas(pageEl.querySelector('.insta-page'), { scale: 2, useCORS: true, backgroundColor: '#fdf8f3' });
         document.body.removeChild(pageEl);
 
-        await new Promise(function (resolve) {
-          canvas.toBlob(function (blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = pages.length > 1 ? ('menu-instagram-' + (p + 1) + '.png') : 'menu-instagram.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            resolve();
-          }, 'image/png');
+        const blob = await new Promise(function (resolve) { canvas.toBlob(resolve, 'image/png'); });
+        results.push({
+          blob: blob,
+          filename: pages.length > 1 ? ('menu-instagram-' + (p + 1) + '.png') : 'menu-instagram.png'
         });
       }
 
+      showInstaModal(results);
       return pages.length;
     }
+
+    // ── Save modal: shows each rendered image with a real Save link and lets
+    // mobile users press-and-hold to save, since some mobile browsers ignore
+    // silent/programmatic downloads (notably iOS Safari's <a download>). ──
+    let instaModalUrls = [];
+    function showInstaModal(results) {
+      instaModalUrls.forEach(function (u) { URL.revokeObjectURL(u); });
+      instaModalUrls = [];
+      const body = document.getElementById('insta-modal-body');
+      const countEl = document.getElementById('insta-modal-count');
+      countEl.textContent = results.length > 1 ? ' (' + results.length + ' images)' : '';
+      body.innerHTML = '';
+      results.forEach(function (r, i) {
+        const url = URL.createObjectURL(r.blob);
+        instaModalUrls.push(url);
+        const wrap = document.createElement('div');
+        wrap.className = 'insta-modal-page';
+        const imgEl = document.createElement('img');
+        imgEl.src = url;
+        imgEl.alt = 'Menu image ' + (i + 1);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = r.filename;
+        a.className = 'insta-modal-save';
+        a.textContent = results.length > 1 ? 'Save Image ' + (i + 1) : 'Save Image';
+        wrap.appendChild(imgEl);
+        wrap.appendChild(a);
+        body.appendChild(wrap);
+      });
+      document.getElementById('insta-modal-overlay').classList.add('show');
+    }
+
+    document.getElementById('insta-modal-close').addEventListener('click', function () {
+      document.getElementById('insta-modal-overlay').classList.remove('show');
+    });
+    document.getElementById('insta-modal-overlay').addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('show');
+    });
 
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, function (c) {
@@ -713,6 +877,7 @@
     // ── Build tabs + panels ──
     const tabsEl = document.getElementById('tabs');
     const panelsEl = document.getElementById('tab-panels');
+    const categoryGrids = {};
 
     CATEGORY_ORDER.forEach(function (cat, idx) {
       selection[cat] = { note: '', noteAfter: '', items: [] };
@@ -742,6 +907,7 @@
 
       const grid = document.createElement('div');
       grid.className = 'item-grid';
+      categoryGrids[cat] = grid;
       (MENU_DATA[cat] || []).forEach(function (item) {
         const card = document.createElement('div');
         card.className = 'item-card';
@@ -811,9 +977,87 @@
       return card;
     }
 
+    // ── Persist builder state across sessions so Hetty can pick up where she
+    // left off, add/remove from it, or explicitly start a blank menu. ──
+    function saveState() {
+      try {
+        localStorage.setItem(MENU_STATE_KEY, JSON.stringify({ selection: selection }));
+      } catch (e) { /* storage unavailable — not critical */ }
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem(MENU_STATE_KEY);
+      if (!raw) return;
+      let parsed;
+      try { parsed = JSON.parse(raw); } catch (e) { return; }
+      if (!parsed || !parsed.selection) return;
+
+      CATEGORY_ORDER.forEach(function (cat) {
+        const saved = parsed.selection[cat];
+        if (!saved) return;
+        selection[cat].note = saved.note || '';
+        selection[cat].noteAfter = saved.noteAfter || '';
+
+        const noteTa = document.querySelector('.cat-note-field textarea[data-cat="' + CSS.escape(cat) + '"][data-role="note"]');
+        if (noteTa) noteTa.value = selection[cat].note;
+        const noteAfterTa = document.querySelector('.cat-note-field textarea[data-cat="' + CSS.escape(cat) + '"][data-role="noteAfter"]');
+        if (noteAfterTa) noteAfterTa.value = selection[cat].noteAfter;
+
+        (saved.items || []).forEach(function (item) {
+          let card = findItemCard(cat, item.name, item.note || '');
+          if (!card) {
+            const grid = categoryGrids[cat];
+            if (!grid) return;
+            card = addCustomCard(cat, grid, item.name, item.price, item.note || '');
+          }
+          selection[cat].items.push({ name: item.name, price: item.price, note: item.note || '' });
+          card.classList.add('selected');
+        });
+      });
+
+      updateTabCounts();
+      renderPreview();
+
+      if (totalSelectedCount() > 0) {
+        document.getElementById('quick-hint').textContent = 'Loaded your last saved selections — edit as needed, or Start New Menu for a blank one.';
+      }
+    }
+
+    function findItemCard(cat, name, note) {
+      const cards = document.querySelectorAll('.item-card[data-cat="' + CSS.escape(cat) + '"][data-name="' + CSS.escape(name) + '"]');
+      for (let i = 0; i < cards.length; i++) {
+        if ((cards[i].dataset.note || '') === (note || '')) return cards[i];
+      }
+      return cards[0] || null;
+    }
+
+    function addAllDrinks() {
+      DRINK_GRID_CATEGORIES.forEach(function (cat) {
+        (MENU_DATA[cat] || []).forEach(function (item) {
+          const card = findItemCard(cat, item.name, item.note || '');
+          if (card && !card.classList.contains('selected')) {
+            toggleItem(cat, item.name, item.price, item.note || '', card, true);
+          }
+        });
+      });
+      document.getElementById('quick-hint').textContent = 'All drinks added.';
+    }
+
+    function startNewMenu() {
+      if (!confirm('Start a brand new menu? This clears all current selections here in the builder (it does not affect the menu that is already live until you publish or download something new).')) return;
+      CATEGORY_ORDER.forEach(function (cat) {
+        selection[cat] = { note: '', noteAfter: '', items: [] };
+      });
+      document.querySelectorAll('.item-card.selected').forEach(function (card) { card.classList.remove('selected'); });
+      document.querySelectorAll('.cat-note-field textarea').forEach(function (ta) { ta.value = ''; });
+      document.getElementById('quick-hint').textContent = '';
+      updateTabCounts();
+      renderPreview();
+    }
+
     function toggleItem(cat, name, price, note, cardEl, forceSelect) {
       const list = selection[cat].items;
-      const existingIdx = list.findIndex(function (i) { return i.name === name; });
+      const existingIdx = list.findIndex(function (i) { return i.name === name && (i.note || '') === (note || ''); });
       if (existingIdx >= 0 && !forceSelect) {
         list.splice(existingIdx, 1);
         cardEl.classList.remove('selected');
@@ -846,6 +1090,7 @@
     }
 
     function renderPreview() {
+      saveState();
       const total = totalSelectedCount();
       if (total === 0) {
         previewEl.innerHTML = '<p class="preview-empty">Nothing selected yet — click items above to add them.</p>';
@@ -864,7 +1109,7 @@
           html += '<div class="preview-row"><span>' + escapeHtml(item.name) +
             (item.note ? ' <em>(' + escapeHtml(item.note) + ')</em>' : '') + '</span>' +
             '<span>' + escapeHtml(item.price) +
-            '<button type="button" class="remove-btn" data-cat="' + cat + '" data-name="' + escapeHtml(item.name) + '">remove</button></span></div>';
+            '<button type="button" class="remove-btn" data-cat="' + cat + '" data-name="' + escapeHtml(item.name) + '" data-note="' + escapeHtml(item.note || '') + '">remove</button></span></div>';
         });
         if (grp.noteAfter) html += '<p class="preview-empty" style="margin:8px 0 0;">' + escapeHtml(grp.noteAfter) + '</p>';
         html += '</div>';
@@ -872,10 +1117,10 @@
       previewEl.innerHTML = html;
       previewEl.querySelectorAll('.remove-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          const cat = btn.dataset.cat, name = btn.dataset.name;
-          selection[cat].items = selection[cat].items.filter(function (i) { return i.name !== name; });
+          const cat = btn.dataset.cat, name = btn.dataset.name, note = btn.dataset.note || '';
+          selection[cat].items = selection[cat].items.filter(function (i) { return !(i.name === name && (i.note || '') === note); });
           document.querySelectorAll('.item-card[data-cat="' + CSS.escape(cat) + '"]').forEach(function (card) {
-            if (card.dataset.name === name) card.classList.remove('selected');
+            if (card.dataset.name === name && (card.dataset.note || '') === note) card.classList.remove('selected');
           });
           updateTabCounts();
           renderPreview();
@@ -918,7 +1163,8 @@
 
     function buildMenuHtml(dateFormatted, categories) {
       const sections = categories.map(renderCategory).join('\n');
-      return '<title>Menu of the Day — Hetty\'s African Kitchen</title>\n' +
+      return '<meta charset="UTF-8">\n' +
+        '<title>Menu of the Day — Hetty\'s African Kitchen</title>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n' +
         '<style>\n' +
         '  :root {\n' +
@@ -971,7 +1217,10 @@
         '  .signoff { font-family: \'Cormorant Garamond\', serif; font-style: italic; font-size: 1.25rem; color: var(--brown-mid); }\n' +
         '  .stamp { margin-top: 10px; font-family: \'Jost\', sans-serif; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kraft); }\n' +
         '  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }\n' +
+        '  .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 20; padding: 8px 16px; border: 1px solid var(--kraft); border-radius: 999px; background: var(--white); color: var(--brown-dark); font-family: \'Jost\', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 4px 14px rgba(122,74,42,0.14); }\n' +
+        '  .lang-toggle:hover { background: var(--beige-light); }\n' +
         '</style>\n\n' +
+        '<button class="lang-toggle" id="lang-toggle" type="button">PT</button>\n\n' +
         '<div class="bg-slideshow" id="bgSlideshow">\n' +
         '  <div class="bg-slide active" style="background-image: url(\'images/restaurant/rest0.jpeg\');"></div>\n' +
         '  <div class="bg-slide" style="background-image: url(\'images/restaurant/rest1.jpg\');"></div>\n' +
@@ -1006,7 +1255,10 @@
         '      }, 6000);\n' +
         '    }\n' +
         '  })();\n' +
-        '<' + '/script>\n';
+        '<' + '/script>\n\n' +
+        '<script src="translations.js"><' + '/script>\n' +
+        '<script src="i18n.js"><' + '/script>\n' +
+        '<script>HettysI18n.initLangToggle(\'lang-toggle\');<' + '/script>\n';
     }
 
     function getSelectedCategories() {
@@ -1068,7 +1320,7 @@
       submitStatus.className = 'submit-status';
       try {
         const pageCount = await downloadInstagramImages(categories, formatDate(dateInput.value));
-        submitStatus.textContent = pageCount === 1 ? 'Downloaded 1 image.' : 'Downloaded ' + pageCount + ' images.';
+        submitStatus.textContent = pageCount === 1 ? 'Image ready — tap Save in the window above.' : pageCount + ' images ready — tap Save in the window above.';
         submitStatus.className = 'submit-status ok';
       } catch (e) {
         submitStatus.textContent = 'Could not render the image: ' + e.message;
@@ -1078,7 +1330,11 @@
       downloadInsteadBtn.textContent = 'Download Instagram Image';
     });
 
+    document.getElementById('add-all-drinks-btn').addEventListener('click', addAllDrinks);
+    document.getElementById('start-new-btn').addEventListener('click', startNewMenu);
+
     updateGhUi();
+    restoreState();
   </script>
 </body>
 </html>

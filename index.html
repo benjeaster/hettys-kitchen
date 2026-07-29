@@ -48,6 +48,25 @@
     box-shadow: 0 2px 16px rgba(140,90,51,0.3);
   }
 
+  .lang-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 7px 14px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--beige-light);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+  }
+
+  .lang-toggle:hover { background: rgba(255,255,255,0.12); }
+
   .nav-tab {
     padding: 16px 32px;
     color: var(--beige-light);
@@ -890,6 +909,7 @@
   <button class="nav-tab active" onclick="showSection('restaurant')">Restaurant Menu</button>
   <button class="nav-tab" onclick="showSection('bulk')">Bulk Orders</button>
   <button class="nav-tab" onclick="showSection('events')">Event Bookings</button>
+  <button class="lang-toggle" id="lang-toggle" type="button">PT</button>
 </nav>
 
 
@@ -2004,6 +2024,10 @@
   })();
 
 </script>
+
+<script src="translations.js"></script>
+<script src="i18n.js"></script>
+<script>HettysI18n.initLangToggle('lang-toggle');</script>
 
 </body>
 </html>
