@@ -60,32 +60,32 @@
   }
 
   .lang-toggle {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 150;
     padding: 12px 22px;
-    border: 2px solid rgba(255,255,255,0.55);
+    border: 2px solid var(--kraft);
     border-radius: 999px;
-    background: rgba(255,255,255,0.06);
-    color: var(--beige-light);
+    background: var(--white);
+    color: var(--brown-dark);
     font-family: 'Jost', sans-serif;
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     cursor: pointer;
     white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(122,74,42,0.18);
   }
 
-  .lang-toggle:hover { background: rgba(255,255,255,0.16); }
+  .lang-toggle:hover { background: var(--beige-light); }
 
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     .lang-toggle {
-      position: static;
-      transform: none;
-      margin: 0 auto;
-      display: block;
-      width: max-content;
+      top: 10px;
+      right: 10px;
+      padding: 9px 16px;
+      font-size: 0.78rem;
     }
   }
 
@@ -933,11 +933,12 @@
 </header>
 
 <!-- ══ NAV ══ -->
+<button class="lang-toggle" id="lang-toggle" type="button">Português</button>
+
 <nav class="site-nav">
   <button class="nav-tab active" onclick="showSection('restaurant')">Restaurant Menu</button>
   <button class="nav-tab" onclick="showSection('bulk')">Bulk Orders</button>
   <button class="nav-tab" onclick="showSection('events')">Event Bookings</button>
-  <button class="lang-toggle" id="lang-toggle" type="button">PT</button>
 </nav>
 
 

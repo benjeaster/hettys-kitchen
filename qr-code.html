@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Scan for Today's Menu - Hetty's African Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige-light: #f5ede3;
+    --beige-dark: #d4b896;
+    --kraft: #c9a87c;
+    --brown-dark: #7a4a2a;
+    --brown-mid: #a0683a;
+    --cream: #fdf8f3;
+    --white: #ffffff;
+    --gold: #b8892a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--brown-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+  }
+
+  .qr-page {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .medallion {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--kraft);
+    box-shadow: 0 0 0 8px var(--white);
+  }
+
+  .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .wordmark {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.4rem;
+    color: var(--brown-dark);
+    line-height: 1;
+  }
+
+  .subline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brown-mid);
+    margin-top: 8px;
+  }
+
+  .rule {
+    width: 70px;
+    height: 2px;
+    background: var(--kraft);
+    margin: 28px auto;
+  }
+
+  .heading {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: var(--brown-dark);
+    margin: 0 0 32px;
+  }
+
+  .qr-frame {
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 8px;
+    padding: 24px;
+    display: inline-block;
+    box-shadow: 0 12px 40px rgba(122,74,42,0.14);
+  }
+
+  .qr-frame img {
+    width: 100%;
+    max-width: 340px;
+    display: block;
+  }
+
+  .caption {
+    margin-top: 22px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .footer-tagline {
+    margin-top: 64px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--brown-mid);
+  }
+</style>
+</head>
+<body>
+
+  <div class="qr-page">
+    <div class="medallion"><img src="images/hetty-logo.jpeg" alt="Hetty's African Kitchen"></div>
+    <div class="wordmark">Hetty's</div>
+    <div class="subline">African Kitchen</div>
+    <div class="rule"></div>
+    <h1 class="heading">Scan for Today's Menu</h1>
+    <div class="qr-frame">
+      <img src="images/qr/menu-qr.png" alt="QR code linking to today's menu">
+    </div>
+    <p class="caption">Point your camera at the code</p>
+    <p class="footer-tagline">Come, eat, enjoy and feel at home.</p>
+  </div>
+
+</body>
+</html>
