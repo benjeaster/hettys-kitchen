@@ -124,6 +124,7 @@ const MENU_DATA = {
     { name: "Small Turkey Wing", price: "€3" },
     { name: "Large Turkey Wing", price: "€5" },
     { name: "Beef", price: "€4" },
+    { name: "Chicken", price: "€4" },
     { name: "Fish", price: "€4" },
     { name: "Goat Meat", price: "€5" },
     { name: "Assorted Meat", price: "€5" },
