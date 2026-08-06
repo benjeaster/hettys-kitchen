@@ -1214,6 +1214,8 @@
             const nameClone = nameEl.cloneNode(true);
             const innerNote = nameClone.querySelector('.dish-note');
             if (innerNote) innerNote.remove();
+            const innerDesc = nameClone.querySelector('.dish-desc');
+            if (innerDesc) innerDesc.remove();
             const name = nameClone.textContent.trim();
             const price = priceEl ? priceEl.textContent.trim() : '';
             if (name) items.push({ name: name, price: price, note: noteText });
@@ -1394,11 +1396,21 @@
     }
 
     // ── Build the menu-today.html file content, client-side ──
+    function findDishDesc(name) {
+      for (const cat in MENU_DATA) {
+        const found = (MENU_DATA[cat] || []).find(function (i) { return i.name === name; });
+        if (found && found.desc) return found.desc;
+      }
+      return '';
+    }
+
     function renderDish(item, indent) {
       const name = escapeHtml(item.name);
+      const descText = findDishDesc(item.name);
+      const desc = descText ? '<span class="dish-desc">' + escapeHtml(descText) + '</span>' : '';
       const note = item.note ? '<span class="dish-note">' + escapeHtml(item.note) + '</span>' : '';
       const price = escapeHtml(item.price);
-      return indent + '<div class="dish"><span class="dish-name">' + name + note + '</span><span class="dish-price">' + price + '</span></div>\n';
+      return indent + '<div class="dish"><span class="dish-name">' + name + desc + note + '</span><span class="dish-price">' + price + '</span></div>\n';
     }
 
     function renderCategory(cat) {
@@ -1470,6 +1482,7 @@
         '  .dish:last-child { border-bottom: none; }\n' +
         '  .dish-name { font-size: 1.45rem; font-weight: 700; color: var(--brown-dark); flex: 1; text-wrap: balance; }\n' +
         '  .dish-note { display: block; font-style: italic; font-size: 1.1rem; color: var(--brown-mid); font-weight: 400; margin-top: 2px; }\n' +
+        '  .dish-desc { display: block; font-style: italic; font-size: 1.05rem; color: var(--brown-warm); font-weight: 400; margin-top: 2px; line-height: 1.3; }\n' +
         '  .dish-price { font-family: \'Jost\', sans-serif; font-weight: 600; font-size: 1.4rem; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }\n' +
         '  .drinks-grid { display: grid; grid-template-columns: 1fr; gap: 0; }\n' +
         '  @media (min-width: 820px) { .drinks-grid { grid-template-columns: 1fr 1fr; column-gap: 32px; } }\n' +

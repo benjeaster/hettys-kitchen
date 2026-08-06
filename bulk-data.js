@@ -8,7 +8,7 @@ const BULK_MENU_DATA = {
     { name: "Okra Soup", note: "Includes one swallow", desc: "Okra-based soup, light with a soft, silky texture", tiers: [{ label: "1L", price: 25 }] },
     { name: "Vegetable Soup", note: "Includes one swallow", desc: "Leafy greens simmered in a savoury peppered broth", tiers: [{ label: "1L", price: 25 }] },
     { name: "Eru (Vegetable)", note: "Includes one swallow", desc: "Traditional Cameroonian-style vegetable soup, rich and savoury", tiers: [{ label: "1L", price: 27 }] },
-    { name: "Nsala Soup", note: "Includes one swallow", desc: "Peppery white soup, light broth without palm oil", tiers: [{ label: "1L", price: 27 }] },
+    { name: "Nsala Soup", note: "Includes one swallow", desc: "White soup, light broth without palm oil", tiers: [{ label: "1L", price: 27 }] },
     { name: "Bitterleaf Soup", note: "Includes one swallow", desc: "Bitterleaf-based soup with a distinctive, savoury bite", tiers: [{ label: "1L", price: 27 }] },
     { name: "Banga Soup", note: "Includes one swallow", desc: "Palm nut soup with a deep, rich, spiced flavour", tiers: [{ label: "1L", price: 27 }] }
   ],
@@ -36,7 +36,7 @@ const BULK_MENU_DATA = {
     { name: "Ofada / Ayamase Sauce", desc: "Spicy green pepper sauce (Ayamase), a Nigerian favourite", tiers: [{ label: "1L", price: 25 }] }
   ],
   "Rice Dishes (Bulk)": [
-    { name: "Jollof Rice", desc: "Smoky tomato-pepper rice, a West African classic", tiers: [{ label: "Plate", price: 20 }, { label: "1L", price: 30 }, { label: "2L", price: 60 }, { label: "4L", price: 118 }] },
+    { name: "Jollof Rice", desc: "Smoky tomato rice, a West African classic", tiers: [{ label: "Plate", price: 20 }, { label: "1L", price: 30 }, { label: "2L", price: 60 }, { label: "4L", price: 118 }] },
     { name: "Fried Rice", desc: "Stir-fried rice with mixed vegetables and light seasoning", tiers: [{ label: "Plate", price: 22 }, { label: "1L", price: 33 }, { label: "2L", price: 66 }, { label: "4L", price: 130 }] },
     { name: "Coconut Rice", desc: "Rice simmered in coconut milk for a subtly sweet flavour", tiers: [{ label: "Plate", price: 22 }, { label: "1L", price: 33 }, { label: "2L", price: 66 }, { label: "4L", price: 130 }] },
     { name: "Village Rice", desc: "Rustic rice cooked with local spices and vegetables", tiers: [{ label: "Plate", price: 22 }, { label: "1L", price: 33 }, { label: "2L", price: 66 }, { label: "4L", price: 130 }] },

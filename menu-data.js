@@ -18,7 +18,7 @@ const MENU_DATA = {
     { name: "Deluxe Snack Box", price: "€7.00", note: "1 Samosa, 1 Spring Roll, 2 Crispy Shrimp, 3 Puff Puff", desc: "A generous mix of our best small chops to share" }
   ],
   "Rice Dishes": [
-    { name: "Jollof Rice", price: "€20", desc: "Smoky tomato-pepper rice, a West African classic" },
+    { name: "Jollof Rice", price: "€20", desc: "Smoky tomato rice, a West African classic" },
     { name: "Fried Rice", price: "€22", desc: "Stir-fried rice with mixed vegetables and light seasoning" },
     { name: "Coconut Rice", price: "€22", desc: "Rice simmered in coconut milk for a subtly sweet flavour" },
     { name: "Village Rice", price: "€22", desc: "Rustic rice cooked with local spices and vegetables" },
@@ -30,7 +30,7 @@ const MENU_DATA = {
     { name: "Okra Soup", price: "€20", desc: "Okra-based soup, light with a soft, silky texture" },
     { name: "Vegetable Soup", price: "€20", desc: "Leafy greens simmered in a savoury peppered broth" },
     { name: "Eru (Vegetable)", price: "€22", desc: "Traditional Cameroonian-style vegetable soup, rich and savoury" },
-    { name: "Nsala Soup", price: "€22", desc: "Peppery white soup, light broth without palm oil" },
+    { name: "Nsala Soup", price: "€22", desc: "White soup, light broth without palm oil" },
     { name: "Banga Soup", price: "€22", desc: "Palm nut soup with a deep, rich, spiced flavour" },
     { name: "Bitterleaf Soup", price: "€22", desc: "Bitterleaf-based soup with a distinctive, savoury bite" }
   ],
