@@ -596,7 +596,24 @@ const PT_TRANSLATIONS = {
   "White soup, light broth without palm oil": "Sopa branca, caldo leve sem óleo de palma",
   "Whole fish grilled and lightly spiced": "Peixe inteiro grelhado e ligeiramente temperado",
   "Whole fish grilled and lightly spiced, served with a side": "Peixe inteiro grelhado e ligeiramente temperado, servido com um acompanhamento",
-  "Yam slow-cooked in a rich, spiced porridge": "Inhame cozinhado lentamente numa papa rica e temperada"
+  "Yam slow-cooked in a rich, spiced porridge": "Inhame cozinhado lentamente numa papa rica e temperada",
+
+  // ── Private dining menu (ladies.html) ──
+  "Private Women's Dining Menu": "Menu Privado para Jantar de Senhoras",
+  "An authentic taste of Africa": "Um autêntico sabor de África",
+  "Private Event": "Evento Privado",
+  "African Drinks": "Bebidas Africanas",
+  "Hetty's African Kitchen · Private Dining": "Hetty's African Kitchen · Jantar Privado",
+  "Choose one protein to accompany your soup or rice": "Escolha uma proteína para acompanhar a sua sopa ou arroz",
+  "Passion Fruit Mojito": "Mojito de Maracujá",
+  "A refreshing blend of passion fruit, mint, lime and sparkling refreshment.": "Uma mistura refrescante de maracujá, hortelã, lima e água com gás.",
+  "A smooth, refreshing cocktail with a bright citrus finish.": "Um cocktail suave e refrescante, com um final cítrico vibrante.",
+  "Hetty's Signature Cocktail (With Alcohol)": "Cocktail de Assinatura da Hetty (Com Álcool)",
+  "A refreshing hibiscus-based signature cocktail, blended with citrus and a touch of alcohol for a vibrant, fruity finish.": "Um cocktail de assinatura refrescante à base de hibisco, combinado com citrinos e um toque de álcool, com um final frutado e vibrante.",
+  "Hetty's Signature Cocktail (Alcohol-Free)": "Cocktail de Assinatura da Hetty (Sem Álcool)",
+  "A refreshing hibiscus signature drink with citrus and fruity notes, beautifully balanced and alcohol-free.": "Uma bebida de assinatura refrescante à base de hibisco, com notas cítricas e frutadas, equilibrada e sem álcool.",
+  "Red Fruit Sangria": "Sangria de Frutos Vermelhos",
+  "A fruity Portuguese-style sangria with red berries and a splash of citrus.": "Uma sangria frutada ao estilo português, com frutos vermelhos e um toque de citrinos."
 };
 
 // Word-level fallback for compact price strings that mix a translatable

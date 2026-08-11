@@ -1,0 +1,161 @@
+<meta charset="UTF-8">
+<title>Private Women's Dining Menu - Hetty's African Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #e8d5c0;
+    --beige-light: #f5ede3;
+    --beige-dark: #d4b896;
+    --kraft: #c9a87c;
+    --brown-dark: #7a4a2a;
+    --brown-mid: #a0683a;
+    --brown-warm: #b07c52;
+    --cream: #fdf8f3;
+    --white: #ffffff;
+    --gold: #b8892a;
+    --shadow: rgba(122, 74, 42, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 30px; }
+  body { margin: 0; background: var(--cream); color: var(--brown-dark); font-family: 'Cormorant Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  .bg-slideshow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .bg-slide { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; transition: opacity 2s ease-in-out; }
+  .bg-slide.active { opacity: 0.16; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 72px; }
+  .hero { text-align: center; padding: 48px 16px 32px; }
+  .medallion { width: 104px; height: 104px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden; border: 3px solid var(--kraft); box-shadow: 0 0 0 7px var(--white), 0 8px 24px var(--shadow); }
+  .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wordmark { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 13vw, 4.2rem); line-height: 1; color: var(--brown-dark); text-wrap: balance; }
+  .subline { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--brown-mid); margin-top: 10px; }
+  .eyebrow { display: inline-block; margin-top: 26px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding: 7px 20px; border: 1px solid var(--kraft); border-radius: 999px; }
+  .heading { font-family: 'Jost', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 5vw, 2.1rem); letter-spacing: 0.02em; color: var(--brown-dark); margin: 16px 0 4px; text-wrap: balance; }
+  .date { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); }
+  section.group { margin-top: 40px; }
+  .group-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .group-line { flex: 1; height: 1px; background: var(--beige-dark); }
+  .group-title { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-dark); text-align: center; max-width: 100%; }
+  @media (max-width: 400px) { .group-title { font-size: 1.05rem; letter-spacing: 0.08em; } }
+  .group-note { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--brown-mid); margin: -4px 0 16px; }
+  .dish { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--beige-dark); }
+  .dish:last-child { border-bottom: none; }
+  .dish-name { font-size: 1.45rem; font-weight: 700; color: var(--brown-dark); flex: 1; text-wrap: balance; }
+  .dish-note { display: block; font-style: italic; font-size: 1.1rem; color: var(--brown-mid); font-weight: 400; margin-top: 2px; }
+  .dish-desc { display: block; font-style: italic; font-size: 1.05rem; color: var(--brown-warm); font-weight: 400; margin-top: 2px; line-height: 1.3; }
+  .dish-price { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 1.4rem; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .protein-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; margin-top: 18px; padding: 16px; background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; }
+  .protein-item { text-align: center; font-family: 'Jost', sans-serif; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown-dark); font-weight: 500; }
+  .protein-item .picon { font-size: 2.5rem; display: block; margin-bottom: 6px; }
+  footer { text-align: center; margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--beige-dark); }
+  .signoff { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.25rem; color: var(--brown-mid); }
+  .stamp { margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--kraft); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 20; padding: 12px 22px; border: 2px solid var(--kraft); border-radius: 999px; background: var(--white); color: var(--brown-dark); font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 4px 14px rgba(122,74,42,0.18); white-space: nowrap; }
+  .lang-toggle:hover { background: var(--beige-light); }
+  @media (max-width: 480px) { .lang-toggle { top: 10px; right: 10px; padding: 9px 16px; font-size: 0.82rem; } }
+</style>
+
+<button class="lang-toggle" id="lang-toggle" type="button">Português</button>
+
+<div class="bg-slideshow" id="bgSlideshow">
+  <div class="bg-slide active" style="background-image: url('images/restaurant/rest0.jpeg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest1.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest4.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest2.jpg');"></div>
+  <div class="bg-slide" style="background-image: url('images/restaurant/rest8.jpg');"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="medallion"><img src="images/hetty-logo.jpeg" alt="Hetty's African Kitchen"></div>
+    <div class="wordmark">Hetty's</div>
+    <div class="subline">African Kitchen</div>
+    <div class="eyebrow">Private Event</div>
+    <h1 class="heading">Private Women's Dining Menu</h1>
+    <div class="date">An authentic taste of Africa</div>
+  </div>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Starters &amp; Small Chops</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Snack Box<span class="dish-desc">A mix of our best small chops to share</span><span class="dish-note">1 Samosa, 1 Spring Roll, 3 Puff Puff</span></span><span class="dish-price">€4.00</span></div>
+    <div class="dish"><span class="dish-name">Deluxe Snack Box<span class="dish-desc">A generous mix of our best small chops to share</span><span class="dish-note">1 Samosa, 1 Spring Roll, 2 Crispy Shrimp, 3 Puff Puff</span></span><span class="dish-price">€7.00</span></div>
+    <div class="dish"><span class="dish-name">Crispy Shrimp (6 pieces)<span class="dish-desc">Battered, fried shrimp, crispy outside</span></span><span class="dish-price">€9.00</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Rice Dishes</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Jollof Rice<span class="dish-desc">Smoky tomato rice, a West African classic</span></span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Fried Rice<span class="dish-desc">Stir-fried rice with mixed vegetables and light seasoning</span></span><span class="dish-price">€22</span></div>
+    <div class="dish"><span class="dish-name">Coconut Rice<span class="dish-desc">Rice simmered in coconut milk for a subtly sweet flavour</span></span><span class="dish-price">€22</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Soups &amp; Swallow</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Egusi Soup<span class="dish-desc">Rich melon seed soup with leafy greens and spices</span></span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Vegetable Soup<span class="dish-desc">Leafy greens simmered in a savoury peppered broth</span></span><span class="dish-price">€20</span></div>
+    <div class="dish"><span class="dish-name">Okra Soup<span class="dish-desc">Okra-based soup, light with a soft, silky texture</span></span><span class="dish-price">€20</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Proteins</h2><div class="group-line"></div></div>
+    <p class="group-note">Choose one protein to accompany your soup or rice</p>
+    <div class="protein-row">
+      <div class="protein-item"><span class="picon">🐄</span>Beef</div>
+      <div class="protein-item"><span class="picon">🍗</span>Chicken</div>
+      <div class="protein-item"><span class="picon">🦃</span>Small Turkey Wing</div>
+      <div class="protein-item"><span class="picon">🐟</span>Fish</div>
+      <div class="protein-item"><span class="picon">🐐</span>Goat Meat</div>
+      <div class="protein-item"><span class="picon">🍖</span>Assorted Meat</div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Sides</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Fried Plantain<span class="dish-desc">Sweet ripe plantain, fried until golden</span></span><span class="dish-price">€5</span></div>
+    <div class="dish"><span class="dish-name">Coleslaw<span class="dish-desc">Fresh, creamy shredded cabbage and carrot salad</span></span><span class="dish-price">€5</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Desserts</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Banana Bread &amp; Coconut Ice Cream<span class="dish-desc">Moist banana bread paired with coconut ice cream</span></span><span class="dish-price">€8</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">Cocktails</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Passion Fruit Mojito<span class="dish-desc">A refreshing blend of passion fruit, mint, lime and sparkling refreshment.</span></span><span class="dish-price">€9</span></div>
+    <div class="dish"><span class="dish-name">Daiquiri<span class="dish-desc">A smooth, refreshing cocktail with a bright citrus finish.</span></span><span class="dish-price">€9</span></div>
+    <div class="dish"><span class="dish-name">Hetty's Signature Cocktail (With Alcohol)<span class="dish-desc">A refreshing hibiscus-based signature cocktail, blended with citrus and a touch of alcohol for a vibrant, fruity finish.</span></span><span class="dish-price">€10</span></div>
+    <div class="dish"><span class="dish-name">Hetty's Signature Cocktail (Alcohol-Free)<span class="dish-desc">A refreshing hibiscus signature drink with citrus and fruity notes, beautifully balanced and alcohol-free.</span></span><span class="dish-price">€6</span></div>
+    <div class="dish"><span class="dish-name">Red Fruit Sangria<span class="dish-desc">A fruity Portuguese-style sangria with red berries and a splash of citrus.</span></span><span class="dish-price">€7</span></div>
+  </section>
+
+  <section class="group">
+    <div class="group-header"><div class="group-line"></div><h2 class="group-title">African Drinks</h2><div class="group-line"></div></div>
+    <div class="dish"><span class="dish-name">Zobo<span class="dish-desc">Refreshing hibiscus flower drink</span></span><span class="dish-price">€4.00</span></div>
+    <div class="dish"><span class="dish-name">Kunu<span class="dish-desc">Traditional spiced millet drink</span></span><span class="dish-price">€4.00</span></div>
+  </section>
+
+  <footer>
+    <div class="signoff">Come, eat, enjoy and feel at home.</div>
+    <div class="stamp">Hetty's African Kitchen · Private Dining</div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    const slides = document.querySelectorAll('#bgSlideshow .bg-slide');
+    let current = 0;
+    if (slides.length > 1) {
+      setInterval(function () {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 6000);
+    }
+  })();
+</script>
+
+<script src="translations.js"></script>
+<script src="i18n.js"></script>
+<script>HettysI18n.initLangToggle('lang-toggle');</script>
