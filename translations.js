@@ -613,6 +613,8 @@ const PT_TRANSLATIONS = {
   "A refreshing hibiscus signature drink with citrus and fruity notes, beautifully balanced and alcohol-free.": "Uma bebida de assinatura refrescante à base de hibisco, com notas cítricas e frutadas, equilibrada e sem álcool.",
   "Red Fruit Sangria": "Sangria de Frutos Vermelhos",
   "A fruity Portuguese-style sangria with red berries and a splash of citrus.": "Uma sangria frutada ao estilo português, com frutos vermelhos e um toque de citrinos.",
+  "Piña Colada": "Piña Colada",
+  "A creamy, tropical blend of rum, coconut and pineapple.": "Uma mistura cremosa e tropical de rum, coco e ananás.",
   "Brownie & Ice Cream": "Brownie & Gelado",
   "Warm chocolate brownie with a scoop of ice cream": "Brownie de chocolate quente com uma bola de gelado"
 };
