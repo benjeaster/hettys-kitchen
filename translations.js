@@ -599,10 +599,9 @@ const PT_TRANSLATIONS = {
   "Yam slow-cooked in a rich, spiced porridge": "Inhame cozinhado lentamente numa papa rica e temperada",
 
   // ── Private dining menu (ladies.html) ──
-  "Private Women's Dining Menu": "Menu Privado para Jantar de Senhoras",
   "An authentic taste of Africa": "Um autêntico sabor de África",
   "Private Event": "Evento Privado",
-  "African Drinks": "Bebidas Africanas",
+  "Cocktails": "Cocktails",
   "Hetty's African Kitchen · Private Dining": "Hetty's African Kitchen · Jantar Privado",
   "Choose one protein to accompany your soup or rice": "Escolha uma proteína para acompanhar a sua sopa ou arroz",
   "Passion Fruit Mojito": "Mojito de Maracujá",
@@ -613,7 +612,9 @@ const PT_TRANSLATIONS = {
   "Hetty's Signature Cocktail (Alcohol-Free)": "Cocktail de Assinatura da Hetty (Sem Álcool)",
   "A refreshing hibiscus signature drink with citrus and fruity notes, beautifully balanced and alcohol-free.": "Uma bebida de assinatura refrescante à base de hibisco, com notas cítricas e frutadas, equilibrada e sem álcool.",
   "Red Fruit Sangria": "Sangria de Frutos Vermelhos",
-  "A fruity Portuguese-style sangria with red berries and a splash of citrus.": "Uma sangria frutada ao estilo português, com frutos vermelhos e um toque de citrinos."
+  "A fruity Portuguese-style sangria with red berries and a splash of citrus.": "Uma sangria frutada ao estilo português, com frutos vermelhos e um toque de citrinos.",
+  "Brownie & Ice Cream": "Brownie & Gelado",
+  "Warm chocolate brownie with a scoop of ice cream": "Brownie de chocolate quente com uma bola de gelado"
 };
 
 // Word-level fallback for compact price strings that mix a translatable
